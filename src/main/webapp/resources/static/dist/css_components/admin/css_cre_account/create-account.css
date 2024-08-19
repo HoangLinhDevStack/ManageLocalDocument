@@ -1,0 +1,98 @@
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #fccb90;
+
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+.gradient-custom-2:hover {
+    border: #ffc107 3px solid;
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}
+
+.form-outline {
+    position: relative;
+}
+
+/* css logic hide valid */
+.form-outline .form-error {
+    display: none;
+    color: #ef4d4d;
+}
+
+.form-outline .form-error.invalid {
+    display: block;
+}
+
+
+.form-outline .form-show {
+    position: absolute;
+    right: 0;
+    top: 2.3rem;
+    float: left;
+    font-size: 30px;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out, font-size 0.2s ease-in-out;
+}
+
+.form-outline .form-show:hover {
+    font-size: 28px;
+    color: #ef4d4d;
+    transition: color 0.2s ease-in-out, font-size 0.2s ease-in-out;
+}
+
+.form-outline .form-show i {
+    margin-right: 1rem;
+}
+
+#final-id:hover {
+    cursor: text;
+}
+
+/*form button and then appear notify*/
+.modal {
+    top: 10rem!important;
+}
+
+.modal .modal-footer {
+    justify-content: center;
+}
+
+#modalNoBtn {
+    margin-right: 50px;
+}
+
+#modalYesBtn {
+    margin-left: 50px;
+    padding-right: 35px;
+    padding-left: 35px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+#right-side {
+    display: flex;
+    flex-direction: column;
+}
+
+/*-------------------------------
+Header
+---------------------------------*/
+
+#right-side .header .dropdown-menu {
+    left: -100px;
+}
