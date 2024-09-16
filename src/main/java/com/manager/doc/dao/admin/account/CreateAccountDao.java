@@ -4,6 +4,6 @@ import com.manager.doc.dto.user.account.UserAccountDTO;
 
 public interface CreateAccountDao {
 
-    void saveUser(UserAccountDTO userAccountDTO);
+    void SaveUser(UserAccountDTO userAccountDTO);
 
 }

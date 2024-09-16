@@ -21,7 +21,8 @@ public class MgDocDBSourceConfig {
 
     @Bean // set up connecting db
     public DataSource datasource() {
-        String url = "jdbc:mysql://127.0.0.1:3306/qltailieu_db?useSSL=false";
+        String nameDB = "db_mg_doc(binh)";
+        String url = "jdbc:mysql://127.0.0.1:3306/" + nameDB + "?useSSL=false";
         String userName = "root";
         String passWord = "123456";
 

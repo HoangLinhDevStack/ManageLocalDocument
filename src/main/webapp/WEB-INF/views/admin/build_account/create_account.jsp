@@ -167,6 +167,22 @@
                                         </p>
                                     </div>
 
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="password">Vai trò</label>
+
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Chọn vai trò người dùng</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+
+                                        <p class="form-error mt-2">
+                                            <i class="bi bi-emoji-expressionless-fill"></i>
+                                            <span class="error-message"></span> <%--error say --%>
+                                        </p>
+                                    </div>
+
                                     <div class="form-model text-center pt-1 mb-3">
 
                                         <!-- Button trigger modal -->
@@ -221,27 +237,32 @@
                         </div>
                         <div class="col-lg-6 d-flex gradient-custom-2">
                             <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                                <h1 class="mb-4"><%=request.getAttribute("accountUserTitle")%>
-                                </h1>
-                                <h4 class="mt-1">
-                                    Quy tắc đặt 2 mã số đầu
-                                    <%=request.getAttribute("twoCharacterFirst")%>
-                                </h4>
+<%--                                <h1 class="mb-4"><%=request.getAttribute("accountUserTitle")%>--%>
+<%--                                </h1>--%>
+<%--                                <h4 class="mt-1">--%>
+<%--                                    Quy tắc đặt 2 mã số đầu--%>
+<%--                                    <%=request.getAttribute("twoCharacterFirst")%>--%>
+<%--                                </h4>--%>
 
-                                <h4 class="mt-1">
-                                    Quy tắc đặt đặt mã số giữa
-                                    <%=request.getAttribute("middleCharacter")%>
-                                </h4>
+<%--                                <h4 class="mt-1">--%>
+<%--                                    Quy tắc đặt đặt mã số giữa--%>
+<%--                                    <%=request.getAttribute("middleCharacter")%>--%>
+<%--                                </h4>--%>
 
-                                <h4 class="mt-1">
-                                    Quy tắc đặt đặt mã số cuối
-                                    <%=request.getAttribute("systemCharacter")%>
-                                </h4>
+<%--                                <h4 class="mt-1">--%>
+<%--                                    Quy tắc đặt đặt mã số cuối--%>
+<%--                                    <%=request.getAttribute("systemCharacter")%>--%>
+<%--                                </h4>--%>
 
-                                <h4 class="mt-1">
-                                    DOB: Viết tắt của date of birth (Ngày tháng năm sinh)
-                                </h4>
+<%--                                <h4 class="mt-1">--%>
+<%--                                    DOB: Viết tắt của date of birth (Ngày tháng năm sinh)--%>
+<%--                                </h4>--%>
+
+
+<%--    <img src="${pageContext.request.contextPath}/resources/static/img/combine/beautiful-mountains-landscape_pink.jpg" alt="">--%>
                             </div>
+
+
                         </div>
                     </div>
 

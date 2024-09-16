@@ -15,9 +15,9 @@ public class CreateAccountDaoImpl implements CreateAccountDao {
 
 
     @Override
-    public void saveUser(UserAccountDTO userAccountDTO) {
+    public void SaveUser(UserAccountDTO userAccountDTO) {
 
-        String sql = "insert into `useraccount_infor` (IDUserAccount, Passwords, Roles) value(?,?,?)";
+        String sql = "insert into `user_account` (IDUserAcc, Password) value(?,?)";
 
         jdbcTemplate.update(sql);
 
