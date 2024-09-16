@@ -19,6 +19,8 @@ public class MgDocJDBCTemplateConfig {
     @Bean
     public JdbcTemplate jdbcTemplate() {
 
+        System.out.println(dbSourceConfig);
+
         return new JdbcTemplate(dbSourceConfig);
     }
 

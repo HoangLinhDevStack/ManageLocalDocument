@@ -32,8 +32,8 @@ public class MgDocSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder authentication) throws Exception {
         authentication.jdbcAuthentication().dataSource(dataSource).passwordEncoder(getPasswordEncoder())
-                .usersByUsernameQuery("SELECT IDADAccount, Passwords, 'true' FROM adaccount_infor WHERE IDADAccount = ?") // enabled this account to access login
-                .authoritiesByUsernameQuery("SELECT IDADAccount, Roles FROM adaccount_infor WHERE IDADAccount = ?"); // check authorized
+                .usersByUsernameQuery("SELECT IDAdminAcc, Password, Enabled FROM admin_account WHERE IDAdminAcc = ?") // enabled this account to access login
+                .authoritiesByUsernameQuery("SELECT IDAdminRole, KeyRoles FROM admin_roles WHERE IDAdminRole = ?"); // check authorized
 
     }
 
@@ -42,7 +42,7 @@ public class MgDocSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/ManagerBook/admin").authenticated()
                 .antMatchers("/ManagerBook/admin/login", "/ManagerBook/admin/process-login").authenticated()
-                .antMatchers("/ManagerBook/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/ManagerBook/admin/**").hasAuthority("Supper")
                 .and()
                 .formLogin().loginPage("/ManagerBook/admin/login")
                 .loginProcessingUrl("/ManagerBook/admin/process-login") // take user and password
