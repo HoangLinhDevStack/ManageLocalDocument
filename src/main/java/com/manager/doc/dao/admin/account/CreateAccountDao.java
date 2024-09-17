@@ -6,4 +6,6 @@ public interface CreateAccountDao {
 
     void SaveUser(UserAccountDTO userAccountDTO);
 
+    int SelectAdmin();
+
 }

@@ -3,25 +3,28 @@ package com.manager.doc.configuration.configdb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 @Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "com.manager.doc")
+@ComponentScan(basePackages = "com.manager.doc")
 public class MgDocJDBCTemplateConfig {
 
     @Autowired
-    @Qualifier("datasource")
-    private DataSource dbSourceConfig;
+    private DataSource datasource;
 
 
     @Bean
     public JdbcTemplate jdbcTemplate() {
 
-        System.out.println(dbSourceConfig);
-
-        return new JdbcTemplate(dbSourceConfig);
+        return new JdbcTemplate(datasource);
     }
 
 }

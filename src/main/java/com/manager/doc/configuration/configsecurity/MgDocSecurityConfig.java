@@ -33,7 +33,7 @@ public class MgDocSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder authentication) throws Exception {
         authentication.jdbcAuthentication().dataSource(dataSource).passwordEncoder(getPasswordEncoder())
                 .usersByUsernameQuery("SELECT IDAdminAcc, Password, Enabled FROM admin_account WHERE IDAdminAcc = ?") // enabled this account to access login
-                .authoritiesByUsernameQuery("SELECT IDAdminRole, KeyRoles FROM admin_roles WHERE IDAdminRole = ?"); // check authorized
+                .authoritiesByUsernameQuery("SELECT KeyRoles FROM admin_roles WHERE IDAdminRole = ?").and(); // check authorized
 
     }
 
