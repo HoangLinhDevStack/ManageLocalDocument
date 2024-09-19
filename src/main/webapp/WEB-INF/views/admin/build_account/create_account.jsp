@@ -99,50 +99,26 @@
 
 
                     <div class="row g-0">
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
                             <div class="card-body p-md-5 mx-md-4">
 
 
-                                <form:form action="" method="post" modelAttribute="userAccountDTO"
+                                <form:form action="" method="post" modelAttribute="userAccount"
                                            id="form-created-acc">
                                     <p>Điền đầy đủ thông tin giữa các trường</p>
 
-                                    <div class="d-flex">
-                                        <div class="form-outline mb-1">
-                                            <label class="form-label" for="fist-id">Hai mã số đầu</label>
-                                            <input type="number" id="fist-id" class="form-control"
-                                                   value="<%=(int)request.getAttribute("characterNumberFirst")%>"
-                                                   disabled/>
-                                        </div>
 
-                                        <div class="form-outline mb-1 margin-left-18-right-18">
-                                            <label class="form-label" for="dob-id">Mã theo DOB</label>
-                                            <input type="date" id="dob-id" class="form-control"
-                                                   placeholder="Chose DOB"/>
-                                            <p class="form-error mt-1">
-                                                <i class="bi bi-emoji-expressionless-fill"></i>
-                                                <span class="error-message"></span> <%--error say --%>
-                                            </p>
-                                        </div>
-
-                                        <div class="form-outline mb-1">
-                                            <label class="form-label" for="last-id">Mã tự sinh</label>
-                                            <input type="number" id="last-id" class="form-control"
-                                                   value="0001" disabled/>
-                                        </div>
-                                    </div>
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="final-id">Mã người dùng</label>
-                                        <form:input type="number" id="final-id" class="form-control"
-                                                    placeholder="Nhập mã ID theo quy định" path="IDUserAccount"
-                                                    disabled="true"/>
+                                        <form:input type="text" id="final-id" class="form-control"
+                                                    placeholder="Nhập tên người dùng" path="idUserAccount"/>
                                     </div>
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="password">Mật khẩu</label>
                                         <div class="form-show">
-                                                <%--                                            <i class="bi bi-eye"></i>--%>
+<%--                                                                                            <i class="bi bi-eye"></i>--%>
                                             <i class="bi bi-eye-slash"></i>
                                         </div>
                                         <input type="password" id="password"
@@ -160,43 +136,57 @@
                                             <i class="bi bi-eye-slash"></i>
                                         </div>
                                         <form:input type="password" id="confirm-password"
-                                                    class="form-control" path="passwords"/>
+                                                    class="form-control" path="password"/>
                                         <p class="form-error mt-2">
                                             <i class="bi bi-emoji-expressionless-fill"></i>
                                             <span class="error-message"></span> <%--error say --%>
                                         </p>
                                     </div>
 
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="password">Vai trò</label>
+                                    <div class="d-flex">
 
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected disabled>Chọn vai trò người dùng</option>
-                                            <c:forEach var="role" items="${roles}">
-                                                <option> ${role} </option>
-                                            </c:forEach>
-                                        </select>
+                                        <div class="form-outline mb-1">
+                                            <label class="form-label" for="dob-id">Ngày tháng năm sinh</label>
+                                            <input type="date" id="dob-id" class="form-control"
+                                                   placeholder="Chose DOB"/>
+                                            <p class="form-error mt-1">
+                                                <i class="bi bi-emoji-expressionless-fill"></i>
+                                                <span class="error-message"></span> <%--error say --%>
+                                            </p>
+                                        </div>
 
-                                        <p class="form-error mt-2">
-                                            <i class="bi bi-emoji-expressionless-fill"></i>
-                                            <span class="error-message"></span> <%--error say --%>
-                                        </p>
-                                    </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="password">Vai trò</label>
 
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="password">Vai trò</label>
+                                            <select class="form-select" aria-label="Default select example">
+                                                <option selected disabled>Chọn vai trò người dùng</option>
+                                                    <%--                                            <c:forEach var="role" items="${roles}">--%>
+                                                    <%--                                                <option> ${role} </option>--%>
+                                                    <%--                                            </c:forEach>--%>
+                                            </select>
 
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected disabled>Chọn khoa người dùng</option>
-                                            <c:forEach var="role" items="${roles}">
-                                                <option> ${role} </option>
-                                            </c:forEach>
-                                        </select>
+                                            <p class="form-error mt-2">
+                                                <i class="bi bi-emoji-expressionless-fill"></i>
+                                                <span class="error-message"></span> <%--error say --%>
+                                            </p>
+                                        </div>
 
-                                        <p class="form-error mt-2">
-                                            <i class="bi bi-emoji-expressionless-fill"></i>
-                                            <span class="error-message"></span> <%--error say --%>
-                                        </p>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="password">Vai trò</label>
+
+                                            <select class="form-select" aria-label="Default select example">
+                                                <option selected disabled>Chọn khoa người dùng</option>
+                                                    <%--                                            <c:forEach var="role" items="${roles}">--%>
+                                                    <%--                                                <option> ${role} </option>--%>
+                                                    <%--                                            </c:forEach>--%>
+                                            </select>
+
+                                            <p class="form-error mt-2">
+                                                <i class="bi bi-emoji-expressionless-fill"></i>
+                                                <span class="error-message"></span> <%--error say --%>
+                                            </p>
+                                        </div>
+
                                     </div>
 
                                     <div class="form-model text-center pt-1 mb-3">
@@ -239,6 +229,7 @@
 
 
 
+
                                     </div>
 
                                 </form:form>
@@ -250,7 +241,7 @@
 
                             </div>
                         </div>
-                        <div class="col-lg-6 d-flex gradient-custom-2">
+                        <div class="col-lg-4 d-flex gradient-custom-2">
                             <div class="text-white px-3 py-4 p-md-5 mx-md-4">
 <%--                                <h1 class="mb-4"><%=request.getAttribute("accountUserTitle")%>--%>
 <%--                                </h1>--%>
@@ -274,7 +265,7 @@
 <%--                                </h4>--%>
 
 
-<%--    <img src="${pageContext.request.contextPath}/resources/static/img/combine/beautiful-mountains-landscape_pink.jpg" alt="">--%>
+<%--                            <img src="${pageContext.request.contextPath}/resources/static/img/combine/beautiful-mountains-landscape_pink.jpg" alt="">--%>
                             </div>
 
 

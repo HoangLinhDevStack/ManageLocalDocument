@@ -38,7 +38,7 @@ public class AdminManagerBookController {
 
 
     @GetMapping("/create-account") // space create account admin page
-    public String adminCreateAccount(@ModelAttribute("userAccountDTO") UserAccount userAccountDTO,
+    public String adminCreateAccount(@ModelAttribute("userAccount") UserAccount userAccount,
                                      Model model) {
 
 //        model.addAllAttributes()
