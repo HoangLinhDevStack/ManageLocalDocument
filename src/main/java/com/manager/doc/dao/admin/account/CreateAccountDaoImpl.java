@@ -1,8 +1,7 @@
 package com.manager.doc.dao.admin.account;
 
-import com.manager.doc.dto.user.account.UserAccountDTO;
+import com.manager.doc.dto.user.account.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,7 +14,7 @@ public class CreateAccountDaoImpl implements CreateAccountDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void SaveUser(UserAccountDTO userAccountDTO) {
+    public void SaveUser(UserAccount userAccount) {
 
         String sql = "insert into `user_account` (IDUserAcc, Password) value(?,?)";
 

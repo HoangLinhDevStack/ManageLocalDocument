@@ -1,20 +1,15 @@
 package com.manager.doc.controller;
 
 
-import com.manager.doc.dto.user.account.UserAccountDTO;
+import com.manager.doc.dto.user.account.UserAccount;
 import com.manager.doc.properties.admin.AdminCreateAccountUserProperties;
 import com.manager.doc.service.serviceauth.MgDocAppAuthenticate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -43,14 +38,10 @@ public class AdminManagerBookController {
 
 
     @GetMapping("/create-account") // space create account admin page
-    public String adminCreateAccount(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO,
+    public String adminCreateAccount(@ModelAttribute("userAccountDTO") UserAccount userAccountDTO,
                                      Model model) {
 
-        model.addAttribute("accountUserTitle", adminCreateAccountUserProperties.getTitle());
-        model.addAttribute("twoCharacterFirst", adminCreateAccountUserProperties.getTwoCharacter());
-        model.addAttribute("middleCharacter", adminCreateAccountUserProperties.getMiddleCharacter());
-        model.addAttribute("systemCharacter", adminCreateAccountUserProperties.getSystemCharacter());
-        model.addAttribute("characterNumberFirst", adminCreateAccountUserProperties.getCharacterNumberFirst());
+//        model.addAllAttributes()
 
         return "admin/build_account/create_account";
     }

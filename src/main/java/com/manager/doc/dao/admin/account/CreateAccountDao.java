@@ -1,10 +1,10 @@
 package com.manager.doc.dao.admin.account;
 
-import com.manager.doc.dto.user.account.UserAccountDTO;
+import com.manager.doc.dto.user.account.UserAccount;
 
 public interface CreateAccountDao {
 
-    void SaveUser(UserAccountDTO userAccountDTO);
+    void SaveUser(UserAccount userAccount);
 
     int SelectAdmin();
 

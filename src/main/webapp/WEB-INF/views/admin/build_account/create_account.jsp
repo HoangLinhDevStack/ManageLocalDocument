@@ -171,10 +171,26 @@
                                         <label class="form-label" for="password">Vai trò</label>
 
                                         <select class="form-select" aria-label="Default select example">
-                                            <option selected>Chọn vai trò người dùng</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <option selected disabled>Chọn vai trò người dùng</option>
+                                            <c:forEach var="role" items="${roles}">
+                                                <option> ${role} </option>
+                                            </c:forEach>
+                                        </select>
+
+                                        <p class="form-error mt-2">
+                                            <i class="bi bi-emoji-expressionless-fill"></i>
+                                            <span class="error-message"></span> <%--error say --%>
+                                        </p>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="password">Vai trò</label>
+
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected disabled>Chọn khoa người dùng</option>
+                                            <c:forEach var="role" items="${roles}">
+                                                <option> ${role} </option>
+                                            </c:forEach>
                                         </select>
 
                                         <p class="form-error mt-2">
@@ -229,8 +245,7 @@
 
                                 <div class="d-flex align-items-center justify-content-center pb-4">
                                     <p class="mb-0 me-2">Check tài khoản người dùng</p>
-                                    <button type="button" class="btn btn-outline-danger">Kiểm tra
-                                    </button>
+                                    <button type="button" class="btn btn-outline-danger">Kiểm tra</button>
                                 </div>
 
                             </div>
