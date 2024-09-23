@@ -1,13 +1,11 @@
 package com.manager.doc.dao.admin.account;
 
-import com.manager.doc.dto.user.account.UserAccount;
+import com.manager.doc.model.user.account.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@EnableJpaRepositories(basePackages = "com.manager.doc")
 public class CreateAccountDaoImpl implements CreateAccountDao {
 
     @Autowired

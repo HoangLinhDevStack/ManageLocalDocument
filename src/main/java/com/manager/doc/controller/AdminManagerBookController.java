@@ -1,7 +1,7 @@
 package com.manager.doc.controller;
 
 
-import com.manager.doc.dto.user.account.UserAccount;
+import com.manager.doc.model.user.account.UserAccount;
 import com.manager.doc.properties.admin.AdminCreateAccountUserProperties;
 import com.manager.doc.service.serviceauth.MgDocAppAuthenticate;
 import org.springframework.beans.factory.annotation.Autowired;

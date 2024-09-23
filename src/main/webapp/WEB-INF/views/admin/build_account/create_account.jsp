@@ -110,7 +110,7 @@
 
 
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="final-id">Mã người dùng</label>
+                                        <label class="form-label" for="final-id">Tên người dùng</label>
                                         <form:input type="text" id="final-id" class="form-control"
                                                     placeholder="Nhập tên người dùng" path="idUserAccount"/>
                                     </div>
@@ -143,7 +143,7 @@
                                         </p>
                                     </div>
 
-                                    <div class="d-flex">
+                                    <div class="d-flex justify-content-between">
 
                                         <div class="form-outline mb-1">
                                             <label class="form-label" for="dob-id">Ngày tháng năm sinh</label>
@@ -226,9 +226,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
 
                                     </div>
 

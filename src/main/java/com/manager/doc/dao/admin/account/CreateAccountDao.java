@@ -1,6 +1,6 @@
 package com.manager.doc.dao.admin.account;
 
-import com.manager.doc.dto.user.account.UserAccount;
+import com.manager.doc.model.user.account.UserAccount;
 
 public interface CreateAccountDao {
 
