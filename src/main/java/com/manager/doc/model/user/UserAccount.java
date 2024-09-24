@@ -1,4 +1,4 @@
-package com.manager.doc.model.user.account;
+package com.manager.doc.model.user;
 
 import org.hibernate.type.descriptor.sql.TinyIntTypeDescriptor;
 
