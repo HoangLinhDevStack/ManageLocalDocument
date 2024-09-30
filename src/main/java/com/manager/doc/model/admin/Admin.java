@@ -14,6 +14,7 @@ import java.util.Set;
 public class Admin {
     private final int idAdmin;
     private final String name;
+    private String nickname;
     private Date dateOfBirth;
     private byte[] picture;
     private String description;
@@ -26,31 +27,9 @@ public class Admin {
     private OfficeWork officeWork;
     private DepartmentWork departmentWork;
 
+
     public Admin(int idAdmin,
-                 String name,
-                 Date dateOfBirth,
-                 byte[] picture,
-                 String description,
-                 Set<Document> documents,
-                 Form form,
-                 OfficeWork officeWork,
-                 DepartmentWork departmentWork) {
-        this.idAdmin = idAdmin;
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.picture = picture;
-        this.description = description;
-        this.documents = documents;
-        this.form = form;
-        this.officeWork = officeWork;
-        this.departmentWork = departmentWork;
-        this.processAuth = new HashSet<>();
-        this.educations = new HashSet<>();
-        this.addresses = new HashSet<>();
-        this.skills = new HashSet<>();
-    }
-
-    public Admin(int idAdmin, String name) {
+                 String name) {
         this.idAdmin = idAdmin;
         this.name = name;
         this.processAuth = new HashSet<>();
@@ -59,6 +38,9 @@ public class Admin {
         this.skills = new HashSet<>();
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
@@ -94,6 +76,10 @@ public class Admin {
 
     public String getName() {
         return name;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     public Date getDateOfBirth() {
