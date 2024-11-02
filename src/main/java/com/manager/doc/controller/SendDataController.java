@@ -20,7 +20,6 @@ public class SendDataController {
     @RequestMapping("/Test")
     public String SendData(Model model) {
 
-        model.addAttribute("checkSelect", accountDao.SelectAdmin());
 
         return "TestSendData";
     }

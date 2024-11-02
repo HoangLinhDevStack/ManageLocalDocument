@@ -233,15 +233,6 @@ function Validate(options) {
 
         }
 
-        // let getInputIDUserByEventInputTypeDate = document.getElementById('dob-id')
-        // let getFormFinalId = getForm.querySelector(options.finalID)
-        // getInputIDUserByEventInputTypeDate.oninput = function () {
-        //     let getArrDateAccount =  this.value.split('-').reverse()
-        //     getArrDateAccount.unshift(34)
-        //     getArrDateAccount.push('0001' + 1)
-        //     getFormFinalId.value = Number(getArrDateAccount.join(''))
-        // }
-
     }
 
 }

@@ -1,5 +1,5 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 
 <html lang="en">
@@ -112,7 +112,7 @@
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="final-id">Tên người dùng</label>
                                         <form:input type="text" id="final-id" class="form-control"
-                                                    placeholder="Nhập tên người dùng" path="idUserAccount"/>
+                                                    placeholder="Nhập tên người dùng" path="username"/>
                                     </div>
 
                                     <div class="form-outline mb-4">

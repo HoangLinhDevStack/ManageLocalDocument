@@ -20,16 +20,6 @@ public class CreateAccountDaoImpl implements CreateAccountDao {
 
     }
 
-    @Override
-    public int SelectAdmin() {
-
-        System.out.println(jdbcTemplate);
-
-        String sql = "SELECT IDAdminAcc FROM admin_account WHERE IDAdminAcc = 343041975";
-        Integer result = jdbcTemplate.queryForObject(sql, Integer.class);
-        System.out.println(result + " Select admin success");
-        return result != null ? result : 0;
-    }
 
 
 }

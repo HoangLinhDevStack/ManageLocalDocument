@@ -64,7 +64,7 @@
 
                 <p>Nhập mã quản trị</p>
                 <label>
-                    <input type="number" placeholder="Mã quản trị" name="username" required="">
+                    <input type="text" placeholder="Mã quản trị" name="username" required="">
                 </label>
 
                 <p>Nhập mật khẩu</p>
