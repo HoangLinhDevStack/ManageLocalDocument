@@ -1,9 +1,7 @@
 package com.manager.doc.model.user;
 
-
-
 public class UserAccount {
-    private final int idUserAcc;
+    private final Integer idUserAcc;
     private final String username;
     private String password;
     private final User user;
@@ -30,7 +28,7 @@ public class UserAccount {
         this.role = role;
     }
 
-    public int getIdUserAcc() {
+    public Integer getIdUserAcc() {
         return idUserAcc;
     }
 
