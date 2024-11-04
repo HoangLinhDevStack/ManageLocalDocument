@@ -1,6 +1,7 @@
 package com.manager.doc.controller.admincontroller;
 
 
+import com.manager.doc.dto.user.account.UserAccountDTO;
 import com.manager.doc.service.serviceauth.MgDocAppAuthenticate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminManagerBookController {
 
-    @Autowired
-    private MgDocAppAuthenticate mgDocAppAuthenticate;
+    @Autowired // * process issues authenticate
+    private MgDocAppAuthenticate mgDocAppAuthenticate; // service authenticate folder #[[com.manager.doc.service.serviceauth]]
 
     @RequestMapping // space working admin page
     public String adminRedirect() {
@@ -34,7 +35,9 @@ public class AdminManagerBookController {
 
 
     @GetMapping("/create-account")
-    public String adminCreateAccount(Model model) {
+    public String adminCreateAccount(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
+
+
 
         return "admin/build_account/create_account";
     }

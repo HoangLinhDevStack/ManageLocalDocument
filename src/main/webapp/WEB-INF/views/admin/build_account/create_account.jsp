@@ -103,16 +103,25 @@
                             <div class="card-body p-md-5 mx-md-4">
 
 
-                                <form:form action="" method="post" modelAttribute="userAccount"
+                                <form:form action="" method="post" modelAttribute="userAccountDTO"
                                            id="form-created-acc">
                                     <p>Điền đầy đủ thông tin giữa các trường</p>
 
 
 
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="final-id">Tên người dùng</label>
-                                        <form:input type="text" id="final-id" class="form-control"
+                                        <label class="form-label" for="username">Tên người dùng</label>
+                                        <div class="form-show">
+                                                <%--<i class="bi bi-eye"></i>--%>
+                                            <i class="bi bi-eye-slash"></i>
+                                        </div>
+                                        <form:input type="text" id="username" class="form-control"
                                                     placeholder="Nhập tên người dùng" path="username"/>
+                                        <p class="form-error mt-2">
+                                            <i class="bi bi-emoji-expressionless-fill"></i>
+                                            <span class="error-message"></span> <%--error say --%>
+                                        </p>
+
                                     </div>
 
                                     <div class="form-outline mb-4">

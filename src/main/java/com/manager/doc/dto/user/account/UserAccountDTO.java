@@ -15,8 +15,8 @@ public class UserAccountDTO {
         return idUserAcc;
     }
 
-    public void setIdUserAcc(Integer idUserAcc) {
-        this.idUserAcc = idUserAcc;
+    public void setIdUserAcc() {
+        this.idUserAcc = null;
     }
 
     public String getUsername() {

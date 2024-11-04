@@ -1,3 +1,4 @@
+
 Validate({
 
     // get class and id from tag html
@@ -7,8 +8,6 @@ Validate({
     formShow: '.form-show',
     formModel: '.form-model',
 
-    // value form input
-    finalID: '#final-id',
 
     // error say
     formError: '.form-error',
@@ -23,6 +22,7 @@ Validate({
 
 
     rulesForm:[
+        Validate.isUserName('#username'),
         Validate.isPassword('#password'),
         Validate.isConfirmPassword("#confirm-password"),
         Validate.isDate('#dob-id')

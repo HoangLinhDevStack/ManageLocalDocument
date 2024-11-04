@@ -2,9 +2,8 @@ package com.manager.doc.dao.admin.account;
 
 import com.manager.doc.model.user.UserAccount;
 
-public interface CreateAccountDao {
+public interface CreateUserAccountDao {
 
-    void SaveUser(UserAccount userAccount);
-
+    void save(UserAccount userAccount);
 
 }

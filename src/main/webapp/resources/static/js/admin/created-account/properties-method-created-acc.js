@@ -1,3 +1,14 @@
+Validate.isUserName = function (selector) {
+    return {
+        selector: selector,
+        test: [
+            Action.requiredDefault = (value) => {
+                return value ? undefined: 'Trường này cần chứa giá trị đầu vào'
+            }
+        ]
+    }
+}
+
 Validate.isPassword = function (selector) {
     return {
         selector: selector,

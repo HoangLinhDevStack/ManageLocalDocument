@@ -6,15 +6,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CreateAccountDaoImpl implements CreateAccountDao {
+public class CreateUserAccountDaoImpl implements CreateUserAccountDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void SaveUser(UserAccount userAccount) {
+    public void save(UserAccount userAccount) {
 
-        String sql = "insert into `user_account` (IDUserAcc, Password) value(?,?)";
+        String sql = "insert into `user_account` (Username, Password, IDUser) value(?,?,?)";
 
         jdbcTemplate.update(sql);
 
