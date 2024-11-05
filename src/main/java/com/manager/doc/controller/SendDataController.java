@@ -1,7 +1,8 @@
 package com.manager.doc.controller;
 
-import com.manager.doc.dao.admin.account.CreateAccountDao;
-import com.manager.doc.dao.admin.account.CreateAccountDaoImpl;
+import com.manager.doc.dao.admin.account.CreateUserAccountDao;
+import com.manager.doc.dao.admin.account.CreateUserAccountDaoImpl;
+import com.manager.doc.dao.admin.account.CreateUserAccountDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,7 +16,7 @@ import javax.sql.DataSource;
 public class SendDataController {
 
     @Autowired
-    private CreateAccountDaoImpl accountDao;
+    private CreateUserAccountDaoImpl accountDao;
 
     @RequestMapping("/Test")
     public String SendData(Model model) {

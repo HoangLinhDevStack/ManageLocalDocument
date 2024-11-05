@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminManagerBookController {
+public class AdminHomePageController {
 
     @Autowired // * process issues authenticate
     private MgDocAppAuthenticate mgDocAppAuthenticate; // service authenticate folder #[[com.manager.doc.service.serviceauth]]
@@ -34,12 +34,6 @@ public class AdminManagerBookController {
     }
 
 
-    @GetMapping("/create-account")
-    public String adminCreateAccount(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
 
-
-
-        return "admin/build_account/create_account";
-    }
 
 }
