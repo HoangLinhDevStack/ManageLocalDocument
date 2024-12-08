@@ -1,4 +1,4 @@
-package com.manager.doc.controller.admincontroller;
+package com.manager.doc.controller.admincontroller.sup;
 
 import com.manager.doc.dto.user.account.UserAccountDTO;
 import org.springframework.stereotype.Controller;
@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("admin/create-account")
-public class AdminCreateUserAccountController {
+@RequestMapping("admin/supper/create-account")
+public class AdminSuperCreateUserAccountController {
 
     @GetMapping
     public String adminCreateAccountForm(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
-
 
         return "admin/build_account/create_account";
     }

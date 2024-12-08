@@ -41,23 +41,41 @@ public class MgDocSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
+                // Allow access to the login page and login processing without authentication
+                .antMatchers("/ManagerBook/admin/login", "/ManagerBook/admin/process-login").permitAll()
+
+                // Restrict access to specific sections based on roles
+                .antMatchers("/ManagerBook/admin/super/**").hasAuthority("Super")
+                .antMatchers("/ManagerBook/admin/manager/**").hasAuthority("Manager")
+                .antMatchers("/ManagerBook/admin/dev/**").hasAuthority("Dev")
+
+                // Allow access to the main admin dashboard for authenticated users
                 .antMatchers("/ManagerBook/admin").authenticated()
-                .antMatchers("/ManagerBook/admin/login", "/ManagerBook/admin/process-login").authenticated()
-                .antMatchers("/ManagerBook/admin/**").hasAuthority("Supper")
+
+                // Any other admin URLs require authentication
+                .antMatchers("/ManagerBook/admin/**").authenticated()
+
                 .and()
-                .formLogin().loginPage("/ManagerBook/admin/login")
-                .loginProcessingUrl("/ManagerBook/admin/process-login") // take user and password
-                .defaultSuccessUrl("/ManagerBook/admin", true)
-                .failureUrl("/ManagerBook/admin/login?error=true")
+                .formLogin()
+                .loginPage("/ManagerBook/admin/login")
+                .loginProcessingUrl("/ManagerBook/admin/process-login") // Handles login POST requests
+                .defaultSuccessUrl("/ManagerBook/admin", true) // Redirect to admin dashboard on success
+                .failureUrl("/ManagerBook/admin/login?error=true") // Redirect on login failure
                 .permitAll()
+
                 .and()
-                .logout().logoutUrl("/ManagerBook/admin/logout").logoutSuccessUrl("/ManagerBook/admin/login?logout")
+                .logout()
+                .logoutUrl("/ManagerBook/admin/logout")
+                .logoutSuccessUrl("/ManagerBook/admin/login?logout") // Redirect to login page after logout
                 .permitAll()
+
                 .and()
                 .exceptionHandling()
-                .accessDeniedHandler(new CustomAccessDeniedHandler());
+                .accessDeniedHandler(new CustomAccessDeniedHandler()); // Custom handler for access denied exceptions
     }
+
 
 }
 

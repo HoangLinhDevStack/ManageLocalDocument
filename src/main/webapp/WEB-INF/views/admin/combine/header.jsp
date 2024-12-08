@@ -15,7 +15,7 @@
                     <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/ManagerBook/admin">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/ManagerBook/admin/create-account">Tạo tài khoản</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/ManagerBook/admin/supper/create-account">Tạo tài khoản</a>
                 </li>
 
             </ul>

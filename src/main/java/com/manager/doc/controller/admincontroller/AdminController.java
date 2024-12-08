@@ -4,6 +4,9 @@ package com.manager.doc.controller.admincontroller;
 import com.manager.doc.dto.user.account.UserAccountDTO;
 import com.manager.doc.service.serviceauth.MgDocAppAuthenticate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminHomePageController {
+public class AdminController {
 
     @Autowired // * process issues authenticate
     private MgDocAppAuthenticate mgDocAppAuthenticate; // service authenticate folder #[[com.manager.doc.service.serviceauth]]
@@ -24,16 +27,14 @@ public class AdminHomePageController {
         return "admin/homepage";
     }
 
-    @GetMapping("/login") // login admin account
+    @GetMapping("/login") //! Write down logic for roles admin
     public String adminLogin() {
-        String loginPage = "admin/Login_out/login";
+        String loginPage = "admin/login_out/login";
         String setAdminAuthority = "Supper";
         String homePageAdminRedirect = "ManagerBook/admin";
 
+
         return mgDocAppAuthenticate.redirectAuthenticateAlreadyLogin(setAdminAuthority, loginPage, homePageAdminRedirect);
     }
-
-
-
 
 }
