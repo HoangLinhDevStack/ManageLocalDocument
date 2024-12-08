@@ -1,4 +1,4 @@
-package com.manager.doc.dao.admin.account;
+package com.manager.doc.dao.admin.account.create;
 
 import com.manager.doc.model.user.UserAccount;
 
