@@ -4,6 +4,6 @@ import com.manager.doc.model.user.UserAccount;
 
 public interface CreateUserAccountDao {
 
-    void save(UserAccount userAccount);
+    int save(UserAccount userAccount);
 
 }
