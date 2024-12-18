@@ -1,4 +1,4 @@
-package com.manager.doc.dao.admin.account.list;
+package com.manager.doc.dao.user.account.list;
 
 import com.manager.doc.model.user.UserAccount;
 

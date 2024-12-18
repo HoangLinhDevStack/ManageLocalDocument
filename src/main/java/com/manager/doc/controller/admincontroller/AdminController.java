@@ -20,6 +20,7 @@ public class AdminController {
 
     @Autowired // * process issues authenticate
     private MgDocAppAuthenticate mgDocAppAuthenticate; // service authenticate folder #[[com.manager.doc.service.serviceauth]]
+    private GrantedAuthority grantedAuthority;
 
     @RequestMapping // space working admin page
     public String adminRedirect() {
@@ -30,7 +31,7 @@ public class AdminController {
     @GetMapping("/login") //! Write down logic for roles admin
     public String adminLogin() {
         String loginPage = "admin/login_out/login";
-        String setAdminAuthority = "Supper";
+        String setAdminAuthority = grantedAuthority.getAuthority();
         String homePageAdminRedirect = "ManagerBook/admin";
 
 

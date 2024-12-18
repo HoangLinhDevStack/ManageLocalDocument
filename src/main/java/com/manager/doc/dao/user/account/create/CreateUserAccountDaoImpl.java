@@ -1,4 +1,4 @@
-package com.manager.doc.dao.admin.account.create;
+package com.manager.doc.dao.user.account.create;
 
 import com.manager.doc.model.user.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;

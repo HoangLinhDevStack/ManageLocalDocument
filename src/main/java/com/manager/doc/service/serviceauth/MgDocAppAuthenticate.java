@@ -8,6 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class MgDocAppAuthenticate {
 
+    private final String DIRECT_ADMIN_SUPER = "ManagerBook/admin/super";
+    private final String DIRECT_ADMIN_MANAGER = "ManagerBook/admin/manager";
+    private final String DIRECT_USER_AUTHOR = "ManagerBook/user/author";
+    private final String DIRECT_USER_MANAGER = "ManagerBook/user/manager";
+    private final String DIRECT_USER_STUDENT = "ManagerBook/user/student";
+
+
 
     //Method user already login in login page and if user again search link login page,
     // it automatically redirected your desire file jsp
@@ -25,6 +32,10 @@ public class MgDocAppAuthenticate {
             }
         }
         return login;
+    }
+
+    public String redirectForAdmin() {
+        return "";
     }
 
 }

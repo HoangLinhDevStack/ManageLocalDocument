@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("admin/supper/delete-account")
-public class AdminSupperDeleteUserAccountController {
+@RequestMapping("admin/super/delete-account")
+public class AdminSupperDeleteAccountController {
     @GetMapping
     public String adminDeleteAccountForm(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
         return "";

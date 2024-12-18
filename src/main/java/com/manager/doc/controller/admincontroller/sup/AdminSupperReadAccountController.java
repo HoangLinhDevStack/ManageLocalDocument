@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("admin/supper/list-account")
-public class AdminSupperReadUserAccountController {
+@RequestMapping("admin/super/list-account")
+public class AdminSupperReadAccountController {
 
     @GetMapping
     public String adminReadAccountForm(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {

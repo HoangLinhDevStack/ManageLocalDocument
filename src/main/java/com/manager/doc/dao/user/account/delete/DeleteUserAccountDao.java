@@ -1,4 +1,4 @@
-package com.manager.doc.dao.admin.account.delete;
+package com.manager.doc.dao.user.account.delete;
 
 import com.manager.doc.model.user.UserAccount;
 

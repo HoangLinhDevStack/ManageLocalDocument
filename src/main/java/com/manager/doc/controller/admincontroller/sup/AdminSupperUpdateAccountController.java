@@ -8,17 +8,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("admin/supper/create-account")
-public class AdminSuperCreateUserAccountController {
-
+@RequestMapping("admin/super/update-account")
+public class AdminSupperUpdateAccountController {
     @GetMapping
-    public String adminCreateAccountForm(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
-
-        return "admin/build_account/create_account";
+    public String adminUpdateAccountForm(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
+        return "";
     }
 
     @PostMapping
-    public String adminCreateAccount() {
-        return "admin/homepage";
+    public String adminUpdateAccount(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
+        return "";
     }
 }

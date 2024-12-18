@@ -1,4 +1,4 @@
-package com.manager.doc.dao.admin.account.update;
+package com.manager.doc.dao.user.account.update;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
