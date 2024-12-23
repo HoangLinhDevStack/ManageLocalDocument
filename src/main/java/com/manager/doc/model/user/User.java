@@ -10,8 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class User {
-    private final int idUser;
-    private final String name;
+    private Integer id;
+    private String name;
     private String nickName;
     private Date dateOfBirth;
     private byte[] picture;
@@ -25,13 +25,14 @@ public class User {
     private Form form;
     private Set<Document> documents;
 
-    public User(int idUser,
-                String name) {
-        this.idUser = idUser;
-        this.name = name;
+    public User() {
         this.educations = new HashSet<>();
         this.addresses = new HashSet<>();
         this.skills = new HashSet<>();
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setNickName(String nickName) {
@@ -68,10 +69,6 @@ public class User {
 
     public void setDocuments(Set<Document> documents) {
         this.documents = documents;
-    }
-
-    public int getIdUser() {
-        return idUser;
     }
 
     public String getName() {

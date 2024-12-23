@@ -4,14 +4,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DocumentStore {
-    private final int idDocumentStore;
+    private Integer id;
     private String nameStore;
     private String description;
     private final Set<Document> documents;
 
-    public DocumentStore(int idDocumentStore) {
-        this.idDocumentStore = idDocumentStore;
+    public DocumentStore() {
         this.documents = new HashSet<>();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setNameStore(String nameStore) {
@@ -20,10 +27,6 @@ public class DocumentStore {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getIdDocumentStore() {
-        return idDocumentStore;
     }
 
     public String getNameStore() {

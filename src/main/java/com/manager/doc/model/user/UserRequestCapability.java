@@ -3,11 +3,13 @@ package com.manager.doc.model.user;
 import com.manager.doc.enumeration.user.RolesUser;
 
 public class UserRequestCapability {
-    private final int idUserRequestCapability;
+    private int idUserRequestCapability;
     private RolesUser keyCapability;
     private String description;
 
-    public UserRequestCapability(int idUserRequestCapability) {
+    public UserRequestCapability() {}
+
+    public void setIdUserRequestCapability(int idUserRequestCapability) {
         this.idUserRequestCapability = idUserRequestCapability;
     }
 

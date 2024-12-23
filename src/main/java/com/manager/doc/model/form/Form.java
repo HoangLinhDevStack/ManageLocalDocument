@@ -3,10 +3,11 @@ package com.manager.doc.model.form;
 import com.manager.doc.model.admin.Admin;
 import com.manager.doc.model.user.User;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Form {
-    private final int idForm;
+    private Integer id;
     private String name;
     private String type;
     private String language;
@@ -15,12 +16,17 @@ public class Form {
     private final Set<User> users;
     private final Set<Admin> admins;
 
-    public Form(int idForm,
-                Set<User> users,
-                Set<Admin> admins) {
-        this.idForm = idForm;
-        this.users = users;
-        this.admins = admins;
+    public Form() {
+        this.users = new HashSet<>();
+        this.admins = new HashSet<>();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -41,10 +47,6 @@ public class Form {
 
     public void setFileData(byte[] fileData) {
         this.fileData = fileData;
-    }
-
-    public int getIdForm() {
-        return idForm;
     }
 
     public String getName() {

@@ -2,9 +2,12 @@ package com.manager.doc.service.admin.account;
 
 import com.manager.doc.dao.user.account.create.CreateUserAccountDao;
 import com.manager.doc.dto.user.account.UserAccountDTO;
+import com.manager.doc.model.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 
 @Service
 public class AdminCreateUserAccountService {
@@ -15,6 +18,11 @@ public class AdminCreateUserAccountService {
 
 
     public void createUserAccount(UserAccountDTO userAccountDTO) {
-
+        UserAccount userAccount = new UserAccount(
+                1,
+                userAccountDTO.getUsername(),
+                new User(12, "1231")
+        );
+        createUserAccountDao.save(userAccount);
     }
 }

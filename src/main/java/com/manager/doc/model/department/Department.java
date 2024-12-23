@@ -4,17 +4,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Department {
-    private final int idDepartment;
-    private final String name;
+    private Integer id;
+    private String name;
     private String manager;
     private int numberOfMember;
     private final Set<DepartmentWork> work;
 
-    public Department(int idDepartment,
-                      String name) {
-        this.idDepartment = idDepartment;
-        this.name = name;
+    public Department() {
         this.work = new HashSet<>();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setManager(String manager) {
@@ -23,10 +32,6 @@ public class Department {
 
     public void setNumberOfMember(int numberOfMember) {
         this.numberOfMember = numberOfMember;
-    }
-
-    public int getIdDepartment() {
-        return idDepartment;
     }
 
     public String getName() {

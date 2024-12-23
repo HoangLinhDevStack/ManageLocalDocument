@@ -1,20 +1,26 @@
 package com.manager.doc.model.admin;
 
 public class AdminAccount {
-    private final int idAdminAcc;
-    private final String username;
+    private Integer id;
+    private String username;
     private String password;
     private byte enable;
     private final Admin admin;
     private AdminRoles role;
 
-    public AdminAccount(int idAdminAcc,
-                        String username,
-                        Admin admin) {
-        this.idAdminAcc = idAdminAcc;
-        this.username = username;
-        this.admin = admin;
+    public AdminAccount() {
+        this.admin = new Admin();
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) { this.username = username; }
 
     public void setPassword(String password) {
         this.password = password;
@@ -26,10 +32,6 @@ public class AdminAccount {
 
     public void setRole(AdminRoles role) {
         this.role = role;
-    }
-
-    public int getIdAdminAcc() {
-        return idAdminAcc;
     }
 
     public String getUsername() {

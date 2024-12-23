@@ -3,19 +3,24 @@ package com.manager.doc.model.user;
 import com.manager.doc.enumeration.user.RolesUser;
 
 public class UserRoles {
-    private final int idUserRole;
-    private final RolesUser keyRoles;
+    private int id;
+    private RolesUser keyRoles;
 
-    public UserRoles(int idUserRole, RolesUser keyRoles) {
-        this.idUserRole = idUserRole;
-        this.keyRoles = keyRoles;
+    public UserRoles() {}
+
+    public int getId() {
+        return id;
     }
 
-    public int getIdUserRole() {
-        return idUserRole;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public RolesUser getKeyRoles() {
         return keyRoles;
+    }
+
+    public void setKeyRoles(RolesUser keyRoles) {
+        this.keyRoles = keyRoles;
     }
 }

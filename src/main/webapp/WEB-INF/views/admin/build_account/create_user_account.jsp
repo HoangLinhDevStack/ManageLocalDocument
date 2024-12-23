@@ -107,21 +107,29 @@
                                            id="form-created-acc">
                                     <p>Điền đầy đủ thông tin giữa các trường</p>
 
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="name">Tên người dùng</label>
 
+<%--                                        <form:input type="text" id="name" class="form-control"--%>
+<%--                                                    placeholder="Nhập tên người dùng" path="user.nickName"/>--%>
+                                        <p class="form-error mt-2">
+                                            <i class="bi bi-emoji-expressionless-fill"></i>
+                                            <span class="error-message"></span> <%--error say --%>
+                                        </p>
+                                    </div>
 
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="username">Tên người dùng</label>
+                                        <label class="form-label" for="username">Tài khoản người dùng</label>
                                         <div class="form-show">
                                                 <%--<i class="bi bi-eye"></i>--%>
                                             <i class="bi bi-eye-slash"></i>
                                         </div>
                                         <form:input type="text" id="username" class="form-control"
-                                                    placeholder="Nhập tên người dùng" path="username"/>
+                                                    placeholder="Tạo tài khoản người dùng" path="username"/>
                                         <p class="form-error mt-2">
                                             <i class="bi bi-emoji-expressionless-fill"></i>
                                             <span class="error-message"></span> <%--error say --%>
                                         </p>
-
                                     </div>
 
                                     <div class="form-outline mb-4">
@@ -181,7 +189,7 @@
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <label class="form-label" for="password">Vai trò</label>
+                                            <label class="form-label" for="password">Chọn khoa</label>
 
                                             <select class="form-select" aria-label="Default select example">
                                                 <option selected disabled>Chọn khoa người dùng</option>
@@ -249,26 +257,7 @@
                         </div>
                         <div class="col-lg-4 d-flex gradient-custom-2">
                             <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-<%--                                <h1 class="mb-4"><%=request.getAttribute("accountUserTitle")%>--%>
-<%--                                </h1>--%>
-<%--                                <h4 class="mt-1">--%>
-<%--                                    Quy tắc đặt 2 mã số đầu--%>
-<%--                                    <%=request.getAttribute("twoCharacterFirst")%>--%>
-<%--                                </h4>--%>
 
-<%--                                <h4 class="mt-1">--%>
-<%--                                    Quy tắc đặt đặt mã số giữa--%>
-<%--                                    <%=request.getAttribute("middleCharacter")%>--%>
-<%--                                </h4>--%>
-
-<%--                                <h4 class="mt-1">--%>
-<%--                                    Quy tắc đặt đặt mã số cuối--%>
-<%--                                    <%=request.getAttribute("systemCharacter")%>--%>
-<%--                                </h4>--%>
-
-<%--                                <h4 class="mt-1">--%>
-<%--                                    DOB: Viết tắt của date of birth (Ngày tháng năm sinh)--%>
-<%--                                </h4>--%>
 
 
 <%--                            <img src="${pageContext.request.contextPath}/resources/static/img/combine/beautiful-mountains-landscape_pink.jpg" alt="">--%>

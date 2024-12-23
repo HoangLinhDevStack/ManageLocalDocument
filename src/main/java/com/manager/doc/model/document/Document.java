@@ -4,10 +4,11 @@ import com.manager.doc.enumeration.document.StatusDocument;
 import com.manager.doc.model.admin.Admin;
 import com.manager.doc.model.user.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Document {
-    private final int idDocument;
+    private Integer id;
     private String title;
     private String author;
     private StatusDocument status;
@@ -17,10 +18,16 @@ public class Document {
     private Admin admin;
     private User user;
 
-    public Document(int idDocument,
-                    List<Genres> genres) {
-        this.idDocument = idDocument;
-        this.genres = genres;
+    public Document() {
+        this.genres = new ArrayList<>();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {
@@ -49,10 +56,6 @@ public class Document {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public int getIdDocument() {
-        return idDocument;
     }
 
     public String getTitle() {

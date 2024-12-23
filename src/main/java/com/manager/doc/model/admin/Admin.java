@@ -12,8 +12,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Admin {
-    private final int idAdmin;
-    private final String name;
+    private Integer id;
+    private String name;
     private String nickname;
     private Date dateOfBirth;
     private byte[] picture;
@@ -28,15 +28,22 @@ public class Admin {
     private DepartmentWork departmentWork;
 
 
-    public Admin(int idAdmin,
-                 String name) {
-        this.idAdmin = idAdmin;
-        this.name = name;
+    public Admin() {
         this.processAuth = new HashSet<>();
         this.educations = new HashSet<>();
         this.addresses = new HashSet<>();
         this.skills = new HashSet<>();
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) { this.name = name; }
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
@@ -68,10 +75,6 @@ public class Admin {
 
     public void setDepartmentWork(DepartmentWork departmentWork) {
         this.departmentWork = departmentWork;
-    }
-
-    public int getIdAdmin() {
-        return idAdmin;
     }
 
     public String getName() {

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FetchDepartment {
+
+
+
     List<Department> getDepartments() {
         return new ArrayList<>();
     }

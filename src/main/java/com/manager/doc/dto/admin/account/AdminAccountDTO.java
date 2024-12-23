@@ -3,20 +3,14 @@ package com.manager.doc.dto.admin.account;
 import java.util.Date;
 
 public class AdminAccountDTO {
-    private int idAdminAccount;
+    private String userName;
     private int adminPassword;
     private int numberAccuracy;
     private String roles;
     private Date historyLogin;
     private String descriptions;
 
-    public int getIdAdminAccount() {
-        return idAdminAccount;
-    }
 
-    public void setIdAdminAccount(int idAdminAccount) {
-        this.idAdminAccount = idAdminAccount;
-    }
 
     public int getAdminPassword() {
         return adminPassword;

@@ -1,16 +1,21 @@
 package com.manager.doc.model.office;
 
 public class OfficeWork {
-    private final int idOfficeWork;
-    private final String position;
+    private Integer id;
+    private String position;
 
-    public OfficeWork(int idOfficeWork, String position) {
-        this.idOfficeWork = idOfficeWork;
-        this.position = position;
+    public OfficeWork() {}
+
+    public Integer getId() {
+        return id;
     }
 
-    public int getIdOfficeWork() {
-        return idOfficeWork;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String getPosition() {

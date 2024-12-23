@@ -2,8 +2,10 @@ package com.manager.doc.controller.admincontroller;
 
 
 import com.manager.doc.dto.user.account.UserAccountDTO;
-import com.manager.doc.service.serviceauth.MgDocAppAuthenticate;
+import com.manager.doc.service.serviceauth.AdminAuthenticate;
+import com.manager.doc.service.serviceauth.Authenticate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,23 +21,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @Autowired // * process issues authenticate
-    private MgDocAppAuthenticate mgDocAppAuthenticate; // service authenticate folder #[[com.manager.doc.service.serviceauth]]
+    @Qualifier("adminAuthenticate")
+    private Authenticate adminAuthenticate; // service authenticate folder #[[com.manager.doc.service.serviceauth]]
     private GrantedAuthority grantedAuthority;
 
-    @RequestMapping // space working admin page
+    @RequestMapping // ** Space working admin page
     public String adminRedirect() {
 
         return "admin/homepage";
     }
 
-    @GetMapping("/login") //! Write down logic for roles admin
+    @GetMapping("/login")
     public String adminLogin() {
-        String loginPage = "admin/login_out/login";
-        String setAdminAuthority = grantedAuthority.getAuthority();
-        String homePageAdminRedirect = "ManagerBook/admin";
 
+        return "admin/login_out/login";
+    }
 
-        return mgDocAppAuthenticate.redirectAuthenticateAlreadyLogin(setAdminAuthority, loginPage, homePageAdminRedirect);
+    @PostMapping("/login")
+    public String adminLoginPost() {
+        String adminAuthority = grantedAuthority.getAuthority();
+
+        return adminAuthenticate.redirectAuthenticateAlreadyLogin(adminAuthority);
     }
 
 }

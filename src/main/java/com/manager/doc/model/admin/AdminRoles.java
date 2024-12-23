@@ -3,16 +3,21 @@ package com.manager.doc.model.admin;
 import com.manager.doc.enumeration.admin.RolesAdmin;
 
 public class AdminRoles {
-    private final int idAdminRole;
-    private final RolesAdmin keyRoles;
+    private Integer id;
+    private RolesAdmin keyRoles;
 
-    public AdminRoles(int idAdminRole, RolesAdmin keyRoles) {
-        this.idAdminRole = idAdminRole;
-        this.keyRoles = keyRoles;
+    public AdminRoles() {}
+
+    public Integer getId() {
+        return id;
     }
 
-    public int getIdAdminRole() {
-        return idAdminRole;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setKeyRoles(RolesAdmin keyRoles) {
+        this.keyRoles = keyRoles;
     }
 
     public RolesAdmin getKeyRoles() {

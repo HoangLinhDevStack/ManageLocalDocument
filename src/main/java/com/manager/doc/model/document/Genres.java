@@ -1,27 +1,32 @@
 package com.manager.doc.model.document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Genres {
-    private final int idGenres;
-    private final String genresName;
+    private int id;
+    private String genresName;
     private String description;
     private final List<Document> documents;
 
-    public Genres(int idGenres,
-                  String genresName,
-                  List<Document> documents) {
-        this.idGenres = idGenres;
+    public Genres() {
+        this.documents = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setGenresName(String genresName) {
         this.genresName = genresName;
-        this.documents = documents;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getIdGenres() {
-        return idGenres;
     }
 
     public String getGenresName() {

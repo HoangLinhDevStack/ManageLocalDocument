@@ -1,27 +1,25 @@
 package com.manager.doc.dto.user.account;
 
+import com.manager.doc.model.sex.Sex;
+import com.manager.doc.model.user.User;
 import com.manager.doc.model.user.UserRoles;
 
 public class UserAccountDTO {
-    private Integer idUserAcc;
+// ** UserAccount table
     private String username;
     private String password;
     private byte enable;
     private UserRoles role;
 
+// ** User table
+    private String name;
+    private User user;
+    private Integer idSex;
+
+
     public UserAccountDTO() {}
 
-    public Integer getIdUserAcc() {
-        return idUserAcc;
-    }
-
-    public void setIdUserAcc() {
-        this.idUserAcc = null;
-    }
-
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() { return username; }
 
     public void setUsername(String username) {
         this.username = username;
@@ -49,5 +47,17 @@ public class UserAccountDTO {
 
     public void setRole(UserRoles role) {
         this.role = role;
+    }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
