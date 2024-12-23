@@ -22,6 +22,7 @@ Validate({
 
 
     rulesForm:[
+        Validate.isName('#name'),
         Validate.isUserName('#username'),
         Validate.isPassword('#password'),
         Validate.isConfirmPassword("#confirm-password"),

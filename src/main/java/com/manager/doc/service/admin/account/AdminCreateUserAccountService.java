@@ -18,11 +18,7 @@ public class AdminCreateUserAccountService {
 
 
     public void createUserAccount(UserAccountDTO userAccountDTO) {
-        UserAccount userAccount = new UserAccount(
-                1,
-                userAccountDTO.getUsername(),
-                new User(12, "1231")
-        );
-        createUserAccountDao.save(userAccount);
+
+//        createUserAccountDao.save();
     }
 }

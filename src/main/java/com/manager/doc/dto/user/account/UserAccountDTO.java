@@ -14,12 +14,13 @@ public class UserAccountDTO {
 // ** User table
     private String name;
     private User user;
-    private Integer idSex;
-
+    private Sex sex;
 
     public UserAccountDTO() {}
 
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -49,9 +50,13 @@ public class UserAccountDTO {
         this.role = role;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public User getUser() {
         return user;
@@ -59,5 +64,13 @@ public class UserAccountDTO {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 }

@@ -109,9 +109,8 @@
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="name">Tên người dùng</label>
-
-<%--                                        <form:input type="text" id="name" class="form-control"--%>
-<%--                                                    placeholder="Nhập tên người dùng" path="user.nickName"/>--%>
+                                        <form:input type="text" id="name" class="form-control"
+                                                    placeholder="Nhập tên người dùng" path="user.name"/>
                                         <p class="form-error mt-2">
                                             <i class="bi bi-emoji-expressionless-fill"></i>
                                             <span class="error-message"></span> <%--error say --%>
@@ -120,10 +119,6 @@
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="username">Tài khoản người dùng</label>
-                                        <div class="form-show">
-                                                <%--<i class="bi bi-eye"></i>--%>
-                                            <i class="bi bi-eye-slash"></i>
-                                        </div>
                                         <form:input type="text" id="username" class="form-control"
                                                     placeholder="Tạo tài khoản người dùng" path="username"/>
                                         <p class="form-error mt-2">
@@ -139,7 +134,7 @@
                                             <i class="bi bi-eye-slash"></i>
                                         </div>
                                         <input type="password" id="password"
-                                               class="form-control"/>
+                                               class="form-control" placeholder="Nhập mật khẩu"/>
                                         <p class="form-error mt-2">
                                             <i class="bi bi-emoji-expressionless-fill"></i>
                                             <span class="error-message"></span> <%--error say --%>
@@ -152,8 +147,8 @@
                                                 <%--                                            <i class="bi bi-eye"></i>--%>
                                             <i class="bi bi-eye-slash"></i>
                                         </div>
-                                        <form:input type="password" id="confirm-password"
-                                                    class="form-control" path="password"/>
+                                        <form:input type="password" id="confirm-password" class="form-control"
+                                                    placeholder="Xác nhận mật khẩu" path="password"/>
                                         <p class="form-error mt-2">
                                             <i class="bi bi-emoji-expressionless-fill"></i>
                                             <span class="error-message"></span> <%--error say --%>
@@ -189,10 +184,10 @@
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <label class="form-label" for="password">Chọn khoa</label>
+                                            <label class="form-label" for="password">Chọn giới tính</label>
 
                                             <select class="form-select" aria-label="Default select example">
-                                                <option selected disabled>Chọn khoa người dùng</option>
+                                                <option selected disabled>Chọn giới tính</option>
                                                     <%--                                            <c:forEach var="role" items="${roles}">--%>
                                                     <%--                                                <option> ${role} </option>--%>
                                                     <%--                                            </c:forEach>--%>
