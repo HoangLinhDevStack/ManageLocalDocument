@@ -4,6 +4,7 @@ import com.manager.doc.model.department.DepartmentWork;
 import com.manager.doc.model.document.Document;
 import com.manager.doc.model.form.Form;
 import com.manager.doc.model.office.OfficeWork;
+import com.manager.doc.model.sex.Sex;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ public class User {
     private String nickName;
     private Date dateOfBirth;
     private byte[] picture;
+    private Sex sex;
     private String description;
     private final Set<UserEducation> educations;
     private final Set<UserAddress> addresses;
@@ -29,6 +31,22 @@ public class User {
         this.educations = new HashSet<>();
         this.addresses = new HashSet<>();
         this.skills = new HashSet<>();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 
     public void setName(String name) {

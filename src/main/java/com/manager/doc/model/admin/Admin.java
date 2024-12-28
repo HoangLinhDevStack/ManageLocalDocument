@@ -5,6 +5,7 @@ import com.manager.doc.model.department.DepartmentWork;
 import com.manager.doc.model.document.Document;
 import com.manager.doc.model.form.Form;
 import com.manager.doc.model.office.OfficeWork;
+import com.manager.doc.model.sex.Sex;
 import com.manager.doc.model.user.UserRequestCapability;
 
 import java.sql.Date;
@@ -17,6 +18,7 @@ public class Admin {
     private String nickname;
     private Date dateOfBirth;
     private byte[] picture;
+    private Sex sex;
     private String description;
     private final Set<UserRequestCapability> processAuth;
     private final Set<AdminEducation> educations;
@@ -33,6 +35,14 @@ public class Admin {
         this.educations = new HashSet<>();
         this.addresses = new HashSet<>();
         this.skills = new HashSet<>();
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 
     public Integer getId() {

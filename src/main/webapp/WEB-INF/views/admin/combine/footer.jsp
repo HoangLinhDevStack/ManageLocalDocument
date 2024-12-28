@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="container my-5">
+<div class="container-fluid" style="padding: 0">
 
-    <footer class="bg-light text-center text-white">
+    <footer class="foot bg-light text-center text-white">
         <!-- Grid container -->
         <div class="container p-4 pb-0">
             <!-- Section: Social media -->

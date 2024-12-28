@@ -1,6 +1,8 @@
 package com.manager.doc.controller.admincontroller.sup;
 
 import com.manager.doc.dto.user.account.UserAccountDTO;
+import com.manager.doc.service.admin.account.AdminCreateUserAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("admin/super/create-account")
 public class AdminSuperCreateAccountController {
+
+    @Autowired
+    private AdminCreateUserAccountService adminCreateUserAccountService;
 
     @GetMapping
     public String adminChoiceFormAccount() {

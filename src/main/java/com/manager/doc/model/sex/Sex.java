@@ -9,12 +9,8 @@ import java.util.Set;
 public class Sex {
     private Integer id;
     private String sex;
-    private final Set<Admin> adminSex;
-    private final Set<User> userSex;
 
     public Sex() {
-        this.adminSex = new HashSet<>();
-        this.userSex = new HashSet<>();
     }
 
     public Integer getId() {
@@ -33,11 +29,4 @@ public class Sex {
         return sex;
     }
 
-    public Set<Admin> getAdminSex() {
-        return adminSex;
-    }
-
-    public Set<User> getUserSex() {
-        return userSex;
-    }
 }

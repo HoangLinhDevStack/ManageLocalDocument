@@ -8,11 +8,9 @@ public class UserAccountDTO {
 // ** UserAccount table
     private String username;
     private String password;
-    private byte enable;
     private UserRoles role;
 
 // ** User table
-    private String name;
     private User user;
     private Sex sex;
 
@@ -34,28 +32,12 @@ public class UserAccountDTO {
         this.password = password;
     }
 
-    public byte getEnable() {
-        return enable;
-    }
-
-    public void setEnable(byte enable) {
-        this.enable = enable;
-    }
-
     public UserRoles getRole() {
         return role;
     }
 
     public void setRole(UserRoles role) {
         this.role = role;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public User getUser() {

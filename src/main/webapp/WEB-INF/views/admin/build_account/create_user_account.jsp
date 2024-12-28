@@ -22,9 +22,9 @@
 <body>
 
 
-<div class="container-fluid padding-0">
+<div class="container-fluid flex-fill padding-0">
 
-    <div class="d-flex height-100percent">
+    <div class="d-flex height-100percent ">
 
         <!--
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,7 +130,7 @@
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="password">Mật khẩu</label>
                                         <div class="form-show">
-<%--                                                                                            <i class="bi bi-eye"></i>--%>
+                                                <%--                                                                                            <i class="bi bi-eye"></i>--%>
                                             <i class="bi bi-eye-slash"></i>
                                         </div>
                                         <input type="password" id="password"
@@ -212,7 +212,7 @@
 
                                         <!-- Modal -->
                                         <div class="modal fade" id="exampleModal" tabindex="-1"
-                                             aria-labelledby="exampleModalLabel" >
+                                             aria-labelledby="exampleModalLabel">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -229,11 +229,12 @@
                                                                 class="model-no btn btn-secondary"
                                                                 data-bs-dismiss="modal">Không (Đóng)
                                                         </button>
-<%--                                                        <button type="button" id="modalYesBtn"--%>
-<%--                                                                class="model-yes btn btn-primary">Có (Đồng ý)--%>
-                                                            <input id="submit" class="btn btn-primary btn-block fa-lg gradient-custom-2"
-                                                                   type="submit" value="Có (Đồng ý)" />
-<%--                                                        </button>--%>
+                                                            <%--                                                        <button type="button" id="modalYesBtn"--%>
+                                                            <%--                                                                class="model-yes btn btn-primary">Có (Đồng ý)--%>
+                                                        <input id="submit"
+                                                               class="btn btn-primary btn-block fa-lg gradient-custom-2"
+                                                               type="submit" value="Có (Đồng ý)"/>
+                                                            <%--                                                        </button>--%>
                                                     </div>
                                                 </div>
                                             </div>
@@ -254,8 +255,7 @@
                             <div class="text-white px-3 py-4 p-md-5 mx-md-4">
 
 
-
-<%--                            <img src="${pageContext.request.contextPath}/resources/static/img/combine/beautiful-mountains-landscape_pink.jpg" alt="">--%>
+                                <%--                            <img src="${pageContext.request.contextPath}/resources/static/img/combine/beautiful-mountains-landscape_pink.jpg" alt="">--%>
                             </div>
 
 
@@ -275,26 +275,25 @@
             -->
 
 
-            <!--
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                                                                footer left side end
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            -->
-
-            <%@include file="../combine/footer.jsp" %>
-
-
-            <!--
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                                                                footer left side end
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            -->
-
         </div>
 
     </div>
 
 </div>
+<!--
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                    footer left side end
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+
+<%@include file="../combine/footer.jsp" %>
+
+
+<!--
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                    footer left side end
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
