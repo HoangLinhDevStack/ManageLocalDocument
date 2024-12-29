@@ -8,12 +8,23 @@
     <title>Title</title>
 </head>
 <body>
-    <form:form modelAttribute="checkSelect">
-        <c:if test="${checkSelect != null}">
-            <h1>
-                query success
-            </h1>
+<%--    <form:form modelAttribute="SexData">--%>
+        <c:if test="${SexData != null}">
+            <ul>
+                <c:forEach items="${SexData}" var="entry">
+                    <li>${entry.key}: ${entry.value}</li>
+                </c:forEach>
+            </ul>
         </c:if>
-    </form:form>
+
+    <c:if test="${rolesAdmin != null}">
+        <ul>
+            <c:forEach items="${rolesAdmin}" var="entry">
+                <li>${entry.key}: ${entry.value}</li>
+            </c:forEach>
+        </ul>
+    </c:if>
+
+<%--    </form:form>--%>
 </body>
 </html>

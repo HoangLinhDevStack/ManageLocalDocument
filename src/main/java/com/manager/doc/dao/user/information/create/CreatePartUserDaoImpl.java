@@ -16,6 +16,6 @@ public class CreatePartUserDaoImpl implements CreateUserDao {
 
         String sql = "insert into `user` (Name, IDSex) value(?,?)";
 
-        return jdbcTemplate.update(sql, user.getName(), user.get);
+        return jdbcTemplate.update(sql, user.getName(), user.getSex().getId());
     }
 }

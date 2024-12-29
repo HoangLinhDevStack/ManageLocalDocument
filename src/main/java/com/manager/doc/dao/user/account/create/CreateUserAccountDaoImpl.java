@@ -14,12 +14,13 @@ public class CreateUserAccountDaoImpl implements CreateUserAccountDao {
     @Override
     public int save(UserAccount userAccount) {
 
-        String sql = "insert into `user_account` (Username, Password, IDUserRole) value(?,?,?)";
+        String sql = "insert into `user_account` (Username, Password, IDUserRole, IDAdmin) value(?,?,?,?)";
 
          return jdbcTemplate.update(sql,
                  userAccount.getUsername(),
                  userAccount.getPassword(),
-                 userAccount.getRole().getId()
+                 userAccount.getRole().getId(),
+                 userAccount.getUser().getId()
          );
 
     }

@@ -68,33 +68,6 @@
             <div class="container mt-1">
                 <h2 class="text-center">Tạo tài khoản cho người dùng</h2>
 
-                <%--                <form:form action="" method="post" modelAttribute="userAccountDTO">--%>
-                <%--                    <div class="form-group">--%>
-                <%--                        <label for="IDADAccount">IDADAccount (Mã định danh tài khoản) </label>--%>
-                <%--                        <form:input type="text" class="form-control" id="IDADAccount" placeholder="Enter your IDAD Account" path="IDUserAccount" />--%>
-                <%--                    </div>--%>
-                <%--                    <div class="form-group">--%>
-                <%--                        <label for="password">Password (Mật khẩu)</label>--%>
-                <%--                        <form:input type="password" class="form-control" id="password" placeholder="Enter your password"  path="passwords" />--%>
-                <%--                    </div>--%>
-                <%--                    <div class="form-group">--%>
-                <%--                        <label for="confirmPassword">Confirm Password (Xác nhận mật khẩu)</label>--%>
-                <%--                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password"--%>
-                <%--                               required>--%>
-                <%--                    </div>--%>
-                <%--                    <div class="form-group">--%>
-                <%--                        <label for="roles">Roles (Vai trò)</label>--%>
-                <%--                        <select class="form-control" id="roles" required>--%>
-                <%--                            <option value="" disabled selected>Select your role</option>--%>
-                <%--                            <option value="admin">ADMIN</option>--%>
-                <%--                            <option value="user">User</option>--%>
-                <%--                            <!-- <option value="guest">Guest</option> -->--%>
-                <%--                        </select>--%>
-                <%--                    </div>--%>
-                <%--                    <button type="submit" class="btn btn-primary">Tạo tài khoản</button>--%>
-                <%--                </form:form>--%>
-
-
                 <section class="gradient-form" style="background-color: #eee;">
 
 
@@ -168,13 +141,19 @@
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <label class="form-label" for="password">Vai trò</label>
+                                            <label class="form-label" for="password">Vai trò người dùng</label>
 
                                             <select class="form-select" aria-label="Default select example">
                                                 <option selected disabled>Chọn vai trò người dùng</option>
                                                     <%--                                            <c:forEach var="role" items="${roles}">--%>
                                                     <%--                                                <option> ${role} </option>--%>
                                                     <%--                                            </c:forEach>--%>
+
+                                                <c:if test="${sexData != null}">
+                                                    <c:forEach items="${sexData}" var="entry">
+                                                        <option value="${entry.key}">${entry.value}</option>
+                                                    </c:forEach>
+                                                </c:if>
                                             </select>
 
                                             <p class="form-error mt-2">
@@ -184,13 +163,15 @@
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <label class="form-label" for="password">Chọn giới tính</label>
+                                            <label class="form-label" for="gender">Chọn giới tính</label>
 
-                                            <select class="form-select" aria-label="Default select example">
+                                            <select class="form-select" id="gender" aria-label="Default select example">
                                                 <option selected disabled>Chọn giới tính</option>
-                                                    <%--                                            <c:forEach var="role" items="${roles}">--%>
-                                                    <%--                                                <option> ${role} </option>--%>
-                                                    <%--                                            </c:forEach>--%>
+                                                <c:if test="${sexData != null}">
+                                                    <c:forEach items="${sexData}" var="entry">
+                                                        <option value="${entry.key}">${entry.value}</option>
+                                                    </c:forEach>
+                                                </c:if>
                                             </select>
 
                                             <p class="form-error mt-2">

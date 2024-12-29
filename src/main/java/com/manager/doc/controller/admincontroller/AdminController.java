@@ -6,8 +6,10 @@ import com.manager.doc.service.serviceauth.AdminAuthenticate;
 import com.manager.doc.service.serviceauth.Authenticate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ public class AdminController {
     @Autowired // * process issues authenticate
     @Qualifier("adminAuthenticate")
     private Authenticate adminAuthenticate; // service authenticate folder #[[com.manager.doc.service.serviceauth]]
+
     private GrantedAuthority grantedAuthority;
 
     @RequestMapping // ** Space working admin page

@@ -24,8 +24,6 @@
       <scope>test</scope>
     </dependency>
 
-
-
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -33,14 +31,12 @@
       <version>${spring.version}</version>
     </dependency>
 
-
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
       <version>${spring.version}</version>
     </dependency>
-
 
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
     <dependency>
@@ -83,13 +79,11 @@
       <version>${spring.security.version}</version>
     </dependency>
 
-
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-taglibs</artifactId>
       <version>${spring.security.version}</version>
     </dependency>
-
 
     <!-- Spring Data JPA -->
     <dependency>
@@ -119,7 +113,6 @@
       <version>8.0.33</version>
     </dependency>
 
-
     <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -142,14 +135,12 @@
       <version>1.2</version>
     </dependency>
 
-
     <!-- https://mvnrepository.com/artifact/taglibs/standard -->
     <dependency>
       <groupId>taglibs</groupId>
       <artifactId>standard</artifactId>
       <version>1.1.2</version>
     </dependency>
-
 
     <!-- https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
     <dependency>
@@ -158,8 +149,6 @@
       <version>1.2.5</version>
       <scope>runtime</scope>
     </dependency>
-
-
 
     <dependency>
       <groupId>org.glassfish.web</groupId>
@@ -195,9 +184,6 @@
       <version>5.0.0</version>
     </dependency>
 
-
-
-
     <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -215,14 +201,12 @@
       <scope>test</scope>
     </dependency>
 
-
     <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>2.0.7</version>
     </dependency>
-
 
     <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina -->
     <dependency>
@@ -238,8 +222,11 @@
       <version>1.2.17</version>
     </dependency>
 
-
-
+    <dependency>
+      <groupId>com.github.jsqlparser</groupId>
+      <artifactId>jsqlparser</artifactId>
+      <version>5.0</version>
+    </dependency>
 
   </dependencies>
   <build>
