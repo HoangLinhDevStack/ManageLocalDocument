@@ -2,6 +2,7 @@ package com.manager.doc.controller;
 
 import com.manager.doc.service.admin.inf.AdminInformationService;
 import com.manager.doc.service.sex.FetchSex;
+import net.sf.jsqlparser.JSQLParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +20,13 @@ public class SendDataController {
     private AdminInformationService adminInfService;
 
     @RequestMapping("/Test")
-    public String SendData(Model model) {
+    public String SendData(Model model) throws JSQLParserException {
 
         Map<Integer, String> sexData = fetchSex.choiceSex();
-        Map<Integer, String> rolesAdmin = adminInfService.fetchAdminRole();
+        Map<Integer, String> rolesUser = adminInfService.fetchUserRole();
 
         model.addAttribute("SexData", sexData);
-        model.addAttribute("rolesAdmin", rolesAdmin);
+        model.addAttribute("rolesUser", rolesUser);
 
         return "TestSendData";
     }

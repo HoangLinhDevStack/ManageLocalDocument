@@ -17,9 +17,9 @@
             </ul>
         </c:if>
 
-    <c:if test="${rolesAdmin != null}">
+    <c:if test="${rolesUser != null}">
         <ul>
-            <c:forEach items="${rolesAdmin}" var="entry">
+            <c:forEach items="${rolesUser}" var="entry">
                 <li>${entry.key}: ${entry.value}</li>
             </c:forEach>
         </ul>
