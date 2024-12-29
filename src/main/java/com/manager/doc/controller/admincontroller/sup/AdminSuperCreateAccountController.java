@@ -5,6 +5,7 @@ import com.manager.doc.dto.user.account.UserAccountDTO;
 import com.manager.doc.service.admin.account.AdminCreateUserAccountService;
 import com.manager.doc.service.admin.inf.AdminInformationService;
 import com.manager.doc.service.sex.FetchSex;
+import com.manager.doc.service.user.inf.UserInformationService;
 import net.sf.jsqlparser.JSQLParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,8 @@ public class AdminSuperCreateAccountController {
     @Autowired
     private FetchSex fetchSex;
 
+    @Autowired
+    private UserInformationService userInformationService;
 
     @GetMapping
     public String adminChoiceFormAccount() {
@@ -33,8 +36,10 @@ public class AdminSuperCreateAccountController {
     public String adminCreateUserAccountForm(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO, Model model) throws JSQLParserException {
 
         Map<Integer, String> sexData = fetchSex.choiceSex();
-//        Map<Integer, String> roleUsers = userRoleDao.fetchUserRole();
+        Map<Integer, String> roleUsers = userInformationService.fetchUserRole();
+
         model.addAttribute("sexData", sexData);
+        model.addAttribute("roleUser", roleUsers);
         System.out.println(fetchSex.choiceSex());
 
         return "admin/build_account/create_user_account";

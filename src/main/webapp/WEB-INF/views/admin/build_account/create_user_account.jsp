@@ -145,12 +145,8 @@
 
                                             <select class="form-select" aria-label="Default select example">
                                                 <option selected disabled>Chọn vai trò người dùng</option>
-                                                    <%--                                            <c:forEach var="role" items="${roles}">--%>
-                                                    <%--                                                <option> ${role} </option>--%>
-                                                    <%--                                            </c:forEach>--%>
-
-                                                <c:if test="${sexData != null}">
-                                                    <c:forEach items="${sexData}" var="entry">
+                                                <c:if test="${roleUser != null}">
+                                                    <c:forEach items="${roleUser}" var="entry">
                                                         <option value="${entry.key}">${entry.value}</option>
                                                     </c:forEach>
                                                 </c:if>
