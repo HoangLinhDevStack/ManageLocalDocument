@@ -15,7 +15,7 @@ public class UserInformationService {
     @Qualifier("userRoleDaoImpl")
     private UserRoleDao userRoleDao;
 
-    public Map<Integer, String> fetchUserRole() throws JSQLParserException {
+    public Map<Integer, String> fetchUserRole() throws JSQLParserException { // * Fetch role user by id and value
 
         return userRoleDao.fetchUserRole();
     }

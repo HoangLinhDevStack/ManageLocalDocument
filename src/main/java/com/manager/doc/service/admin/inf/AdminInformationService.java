@@ -10,13 +10,5 @@ import java.util.Map;
 
 @Service
 public class AdminInformationService {
-    @Autowired
-    @Qualifier("userRoleDaoImpl")
-    private UserRoleDao userRoleDao;
-
-    public Map<Integer, String> fetchUserRole() throws JSQLParserException {
-
-        return userRoleDao.fetchUserRole();
-    }
 
 }

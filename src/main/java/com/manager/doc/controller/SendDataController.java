@@ -22,11 +22,11 @@ public class SendDataController {
     @RequestMapping("/Test")
     public String SendData(Model model) throws JSQLParserException {
 
-        Map<Integer, String> sexData = fetchSex.choiceSex();
-        Map<Integer, String> rolesUser = adminInfService.fetchUserRole();
-
-        model.addAttribute("SexData", sexData);
-        model.addAttribute("rolesUser", rolesUser);
+//        Map<Integer, String> sexData = fetchSex.choiceSex();
+//        Map<Integer, String> rolesUser = adminInfService.fetchUserRole();
+//
+//        model.addAttribute("SexData", sexData);
+//        model.addAttribute("rolesUser", rolesUser);
 
         return "TestSendData";
     }

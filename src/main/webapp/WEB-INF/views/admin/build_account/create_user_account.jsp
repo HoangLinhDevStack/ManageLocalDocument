@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 
-<html lang="en">
+<html lang="vi">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
