@@ -26,7 +26,8 @@ Validate({
         Validate.isUserName('#username'),
         Validate.isPassword('#password'),
         Validate.isConfirmPassword("#confirm-password"),
-        Validate.isDate('#dob-id')
+        Validate.isSelectRole('#roles'),
+        Validate.isSelectGender('#gender')
     ],
 
     onSubmit: function (data) {

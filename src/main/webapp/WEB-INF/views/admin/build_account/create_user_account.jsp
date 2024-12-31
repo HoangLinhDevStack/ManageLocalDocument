@@ -134,17 +134,13 @@
                                             <label class="form-label" for="dob-id">Ngày tháng năm sinh</label>
                                             <input type="date" id="dob-id" class="form-control"
                                                    placeholder="Chose DOB"/>
-                                            <p class="form-error mt-1">
-                                                <i class="bi bi-emoji-expressionless-fill"></i>
-                                                <span class="error-message"></span> <%--error say --%>
-                                            </p>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <label class="form-label" for="password">Vai trò người dùng</label>
+                                            <label class="form-label" for="roles">Vai trò người dùng</label>
 
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected disabled>Chọn vai trò người dùng</option>
+                                            <select id="roles" name="select" class="form-select" aria-label="Default select example">
+                                                <option value="" selected disabled>Chọn vai trò người dùng</option>
                                                 <c:if test="${roleUser != null}">
                                                     <c:forEach items="${roleUser}" var="entry">
                                                         <option value="${entry.key}">${entry.value}</option>
@@ -161,8 +157,8 @@
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="gender">Chọn giới tính</label>
 
-                                            <select class="form-select" id="gender" aria-label="Default select example">
-                                                <option selected disabled>Chọn giới tính</option>
+                                            <select id="gender" name="select" class="form-select" aria-label="Default select example">
+                                                <option value="" selected disabled>Chọn giới tính</option>
                                                 <c:if test="${sexData != null}">
                                                     <c:forEach items="${sexData}" var="entry">
                                                         <option value="${entry.key}">${entry.value}</option>

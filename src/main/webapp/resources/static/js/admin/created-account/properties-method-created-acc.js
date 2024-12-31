@@ -52,12 +52,22 @@ Validate.isConfirmPassword = function (selector) {
     }
 }
 
-Validate.isDate = function (selector) {
+Validate.isSelectRole = function (selector) {
     return {
         selector: selector,
         test: [
             Action.requiredDefault = (value) => {
-                return value ? undefined : 'Chưa có giá trị'
+                return value.trim() !== '' ? undefined: 'Vai trò ?'
+            }
+        ]
+    }
+}
+Validate.isSelectGender = function (selector) {
+    return {
+        selector: selector,
+        test: [
+            Action.requiredDefault = (value) => {
+                return value.trim() !== '' ? undefined: 'Giới tính ?'
             }
         ]
     }
