@@ -4,12 +4,21 @@ public class UserAccount {
     private Integer id;
     private String username;
     private String password;
-    private final User user;
     private byte enable;
     private UserRoles role;
 
-    public UserAccount() {
-        this.user = new User();
+    public UserAccount() {}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
@@ -32,9 +41,6 @@ public class UserAccount {
         return password;
     }
 
-    public User getUser() {
-        return user;
-    }
 
     public byte getEnable() {
         return enable;

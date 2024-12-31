@@ -1,4 +1,4 @@
-package com.manager.doc.dao.user.information.fetch;
+package com.manager.doc.dao.user.information.fetch.roles;
 
 import net.sf.jsqlparser.JSQLParserException;
 

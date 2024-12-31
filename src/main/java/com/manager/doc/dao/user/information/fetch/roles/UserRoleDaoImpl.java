@@ -1,4 +1,4 @@
-package com.manager.doc.dao.user.information.fetch;
+package com.manager.doc.dao.user.information.fetch.roles;
 
 import com.manager.doc.dao.interact.InteractDao;
 import net.sf.jsqlparser.JSQLParserException;
@@ -6,7 +6,6 @@ import net.sf.jsqlparser.JSQLParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

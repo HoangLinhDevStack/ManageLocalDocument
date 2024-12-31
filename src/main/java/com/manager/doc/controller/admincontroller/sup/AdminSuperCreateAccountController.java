@@ -1,9 +1,7 @@
 package com.manager.doc.controller.admincontroller.sup;
 
-import com.manager.doc.dao.user.information.fetch.UserRoleDao;
 import com.manager.doc.dto.user.account.UserAccountDTO;
 import com.manager.doc.service.admin.account.AdminCreateUserAccountService;
-import com.manager.doc.service.admin.inf.AdminInformationService;
 import com.manager.doc.service.sex.FetchSex;
 import com.manager.doc.service.user.inf.UserInformationService;
 import net.sf.jsqlparser.JSQLParserException;

@@ -18,6 +18,7 @@ public class User {
     private byte[] picture;
     private Sex sex;
     private String description;
+    private final UserAccount userAccount;
     private final Set<UserEducation> educations;
     private final Set<UserAddress> addresses;
     private final Set<UserSkill> skills;
@@ -28,9 +29,14 @@ public class User {
     private Set<Document> documents;
 
     public User() {
+        this.userAccount = new UserAccount();
         this.educations = new HashSet<>();
         this.addresses = new HashSet<>();
         this.skills = new HashSet<>();
+    }
+
+    public UserAccount getUserAccount() {
+        return userAccount;
     }
 
     public Integer getId() {

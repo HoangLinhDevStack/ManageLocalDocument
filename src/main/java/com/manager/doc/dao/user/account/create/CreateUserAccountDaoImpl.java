@@ -1,6 +1,6 @@
 package com.manager.doc.dao.user.account.create;
 
-import com.manager.doc.model.user.UserAccount;
+import com.manager.doc.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,19 +12,27 @@ public class CreateUserAccountDaoImpl implements CreateUserAccountDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public int save(UserAccount userAccount) {
+    public int save(User user) {
 
         String sql = "insert into `user_account` (Username, Password, IDUserRole, IDAdmin) value(?,?,?,?)";
 
-         return jdbcTemplate.update(sql,
-                 userAccount.getUsername(),
-                 userAccount.getPassword(),
-                 userAccount.getRole().getId(),
-                 userAccount.getUser().getId()
-         );
-
+        Object[] objects = {
+                user.getUserAccount().getUsername(),
+                user.getUserAccount().getPassword(),
+                user.getUserAccount().getRole().getId(),
+                user.getId()
+        };
+         return jdbcTemplate.update(sql, objects);
     }
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+

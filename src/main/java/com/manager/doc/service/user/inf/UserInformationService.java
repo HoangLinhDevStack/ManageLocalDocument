@@ -1,6 +1,6 @@
 package com.manager.doc.service.user.inf;
 
-import com.manager.doc.dao.user.information.fetch.UserRoleDao;
+import com.manager.doc.dao.user.information.fetch.roles.UserRoleDao;
 import net.sf.jsqlparser.JSQLParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
