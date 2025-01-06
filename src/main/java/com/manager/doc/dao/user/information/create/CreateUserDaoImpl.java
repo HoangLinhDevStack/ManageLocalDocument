@@ -4,7 +4,7 @@ import com.manager.doc.model.user.User;
 
 public class CreateUserDaoImpl implements CreateUserDao{
     @Override
-    public int save(User user) {
+    public Integer save(User user) {
 
         String sql = "";
 

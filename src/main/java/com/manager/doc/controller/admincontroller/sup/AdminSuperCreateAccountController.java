@@ -38,7 +38,7 @@ public class AdminSuperCreateAccountController {
 
         model.addAttribute("sexData", sexData);
         model.addAttribute("roleUser", roleUsers);
-        System.out.println(fetchSex.choiceSex());
+        System.out.println(roleUsers);
 
         return "admin/build_account/create_user_account";
     }
@@ -46,12 +46,15 @@ public class AdminSuperCreateAccountController {
     @GetMapping("/admin")
     public String adminCreateAdminAccountForm() {
 
-        return "admin/build_account/";
+        return "admin/build_account";
     }
 
-    @PostMapping("/user")
-    public String adminCreateUserAccount() {
-        return "admin/homepage";
+    @PostMapping("/user-list")
+    public String adminCreateUserAccount(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
+
+        adminCreateUserAccountService.createUserAccount(userAccountDTO);
+
+        return "admin/build_account/read_user_account";
     }
 
     @PostMapping("/admin")

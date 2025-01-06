@@ -3,14 +3,12 @@ package com.manager.doc.model.user;
 import com.manager.doc.enumeration.user.RolesUser;
 
 public class UserRoles {
-    private int id;
+    private Integer id;
     private RolesUser keyRoles;
 
     public UserRoles() {}
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
     public void setId(int id) {
         this.id = id;

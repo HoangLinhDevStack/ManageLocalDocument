@@ -2,6 +2,7 @@ package com.manager.doc.service.admin.account;
 
 import com.manager.doc.dao.user.account.create.CreateUserAccountDao;
 import com.manager.doc.dao.user.information.create.CreateUserDao;
+import com.manager.doc.dao.user.information.fetch.id.UserIDDao;
 import com.manager.doc.dto.user.account.UserAccountDTO;
 import com.manager.doc.model.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,18 @@ public class AdminCreateUserAccountService {
     public void createUserAccount(UserAccountDTO userAccountDTO) {
 
         User user = new User(); // * Create user information
-        user.setName(userAccountDTO.getUsername());
-        user.setSex(userAccountDTO.getSex());
+        user.setName(userAccountDTO.getUser().getName());
+        user.getSex().setId(userAccountDTO.getSex().getId());
 
         // * set value for user account
         user.getUserAccount().setUsername(userAccountDTO.getUsername());
         user.getUserAccount().setPassword(userAccountDTO.getPassword());
+        user.getUserAccount().getRole().setId(userAccountDTO.getRole().getId());
 
-        createPartUserDao.save(user);
+        // * get id user from db
+        Integer userId = createPartUserDao.save(user);
+        user.setId(userId); // * set for object
+
         createUserAccountDao.save(user);
     }
 }

@@ -25,6 +25,12 @@
         </ul>
     </c:if>
 
+
+
 <%--    </form:form>--%>
+
+<form:select path="Sex">
+    <form:options items="${sexData}" />
+</form:select>
 </body>
 </html>

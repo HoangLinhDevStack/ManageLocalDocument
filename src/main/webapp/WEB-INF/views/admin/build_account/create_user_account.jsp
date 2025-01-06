@@ -76,12 +76,13 @@
                             <div class="card-body p-md-5 mx-md-4">
 
 
-                                <form:form action="" method="post" modelAttribute="userAccountDTO"
+                                <form:form action="/user-list" method="post" modelAttribute="userAccountDTO"
                                            id="form-created-acc">
                                     <p>Điền đầy đủ thông tin giữa các trường</p>
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="name">Tên người dùng</label>
+                                        <%-- this name of user --%>
                                         <form:input type="text" id="name" class="form-control"
                                                     placeholder="Nhập tên người dùng" path="user.name"/>
                                         <p class="form-error mt-2">
@@ -92,6 +93,7 @@
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="username">Tài khoản người dùng</label>
+                                        <%-- this username account --%>
                                         <form:input type="text" id="username" class="form-control"
                                                     placeholder="Tạo tài khoản người dùng" path="username"/>
                                         <p class="form-error mt-2">
@@ -138,15 +140,16 @@
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="roles">Vai trò người dùng</label>
-
-                                            <select id="roles" name="select" class="form-select" aria-label="Default select example">
-                                                <option value="" selected disabled>Chọn vai trò người dùng</option>
+                                            <%-- This get value roles user --%>
+                                            <form:select id="roles" class="form-select"
+                                                         aria-label="Default select example" path="role">
+                                                <option value="" >Chọn vai trò người dùng</option>
                                                 <c:if test="${roleUser != null}">
                                                     <c:forEach items="${roleUser}" var="entry">
-                                                        <option value="${entry.key}">${entry.value}</option>
+                                                        <form:option value="${entry.key}">${entry.value}</form:option>
                                                     </c:forEach>
                                                 </c:if>
-                                            </select>
+                                            </form:select>
 
                                             <p class="form-error mt-2">
                                                 <i class="bi bi-emoji-expressionless-fill"></i>
@@ -156,15 +159,16 @@
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="gender">Chọn giới tính</label>
-
-                                            <select id="gender" name="select" class="form-select" aria-label="Default select example">
-                                                <option value="" selected disabled>Chọn giới tính</option>
+                                                <%-- This get value gender --%>
+                                            <form:select id="gender" class="form-select"
+                                                         aria-label="Default select example" path="sex.id">
+                                                <option value="" >Chọn giới tính</option>
                                                 <c:if test="${sexData != null}">
                                                     <c:forEach items="${sexData}" var="entry">
-                                                        <option value="${entry.key}">${entry.value}</option>
+                                                        <form:option value="${entry.key}">${entry.value}</form:option>
                                                     </c:forEach>
                                                 </c:if>
-                                            </select>
+                                            </form:select>
 
                                             <p class="form-error mt-2">
                                                 <i class="bi bi-emoji-expressionless-fill"></i>
