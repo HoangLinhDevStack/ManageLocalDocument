@@ -32,9 +32,7 @@ public class UserAccountDTO {
         this.password = password;
     }
 
-    public UserRoles getRole() {
-        return role;
-    }
+    public UserRoles getRole() { return role; }
 
     public void setRole(UserRoles role) {
         this.role = role;

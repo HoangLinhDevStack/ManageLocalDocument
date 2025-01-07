@@ -142,7 +142,7 @@
                                             <label class="form-label" for="roles">Vai trò người dùng</label>
                                             <%-- This get value roles user --%>
                                             <form:select id="roles" class="form-select"
-                                                         aria-label="Default select example" path="role">
+                                                         aria-label="Default select example" path="role.id">
                                                 <option value="" >Chọn vai trò người dùng</option>
                                                 <c:if test="${roleUser != null}">
                                                     <c:forEach items="${roleUser}" var="entry">
