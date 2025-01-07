@@ -192,8 +192,8 @@ function Validate(options) {
                             removeCapslockNotifyWhileInput(getClassCapslock)
                         }
                     }
-                    removeVietnameseTones(event)
-                    nonWhiteSpaceInput(formElement) // remove space in real-time
+                    // removeVietnameseTones(event)
+                    // nonWhiteSpaceInput(formElement) // remove space in real-time
                 }
 
                 formElement.onblur = () => { // event user click outside input form

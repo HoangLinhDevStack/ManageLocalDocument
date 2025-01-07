@@ -21,7 +21,7 @@ public class CreatePartUserDaoImpl implements CreateUserDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public Integer save(User user) {
+    public Integer save(final User user) {
 
         final String sql = "insert into `user` (Name, IDSex) value(?,?)";
 
@@ -33,9 +33,9 @@ public class CreatePartUserDaoImpl implements CreateUserDao {
                     public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                         // * Tells the driver you want the auto-generated key after the insert.
                         PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                        preparedStatement.setString(1,"Name");
-                        preparedStatement.setString(2, "IDSex");
-                        return null;
+                        preparedStatement.setString(1, user.getName());
+                        preparedStatement.setInt(2, user.getSex().getId());
+                        return preparedStatement;
                     }
                 },
                 keyHolder // * captures the generated primary key after the insert.

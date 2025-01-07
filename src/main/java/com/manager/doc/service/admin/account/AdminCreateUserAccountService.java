@@ -7,6 +7,7 @@ import com.manager.doc.dto.user.account.UserAccountDTO;
 import com.manager.doc.model.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,17 +24,21 @@ public class AdminCreateUserAccountService {
     @Qualifier("createPartUserDaoImpl")
     private CreateUserDao createPartUserDao;
 
+    @Autowired
+    @Qualifier("getPasswordEncoder")
+    private PasswordEncoder encoder;
+
     @Transactional
     public void createUserAccount(UserAccountDTO userAccountDTO) {
 
         User user = new User(); // * Create user information
         user.setName(userAccountDTO.getUser().getName());
-        user.getSex().setId(userAccountDTO.getSex().getId());
+        user.setSex(userAccountDTO.getSex());
 
         // * set value for user account
         user.getUserAccount().setUsername(userAccountDTO.getUsername());
-        user.getUserAccount().setPassword(userAccountDTO.getPassword());
-        user.getUserAccount().getRole().setId(userAccountDTO.getRole().getId());
+        user.getUserAccount().setPassword(encoder.encode(userAccountDTO.getPassword()));
+        user.getUserAccount().setRole(userAccountDTO.getRole());
 
         // * get id user from db
         Integer userId = createPartUserDao.save(user);

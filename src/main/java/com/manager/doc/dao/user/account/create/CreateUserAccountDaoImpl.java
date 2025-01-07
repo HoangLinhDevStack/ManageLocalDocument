@@ -14,7 +14,7 @@ public class CreateUserAccountDaoImpl implements CreateUserAccountDao {
     @Override
     public int save(User user) {
 
-        String sql = "insert into `user_account` (Username, Password, IDUserRole, IDAdmin) value(?,?,?,?)";
+        String sql = "insert into `user_account` (Username, Password, IDUserRole, IDUser) value(?,?,?,?)";
 
         Object[] objects = {
                 user.getUserAccount().getUsername(),
