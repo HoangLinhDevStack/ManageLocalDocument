@@ -17,7 +17,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebMvc
-@EnableTransactionManagement
 @ComponentScan(basePackages = "com.manager.doc")
 public class ManagerDocAppConfig {
 
@@ -29,11 +28,6 @@ public class ManagerDocAppConfig {
         viewResolver.setSuffix(".jsp");
 
         return viewResolver;
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
     }
 
 }
