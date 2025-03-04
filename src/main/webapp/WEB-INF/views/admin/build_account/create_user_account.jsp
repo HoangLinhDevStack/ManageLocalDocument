@@ -3,11 +3,11 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" pageEncoding="UTF-8"%>
 
-<html lang="vi">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/side-bar.css">
     <link rel="stylesheet"
@@ -74,7 +74,7 @@
 
                     <div class="row g-0">
                         <div class="col-lg-8">
-                            <div class="card-body p-md-5 mx-md-4">
+                            <div class="card-body p-md-5 mx-md-4" >
 
                                 <!--
                                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +87,8 @@
                                     <form:form action="${pageContext.request.contextPath}/ManagerBook/admin/super/create-account/user-list"
                                                method="post"
                                                modelAttribute="userAccountDTO"
-                                               id="form-created-acc">
+                                               id="form-created-acc"
+                                               accept-charset="UTF-8">
 
                                         <%@include file="form/form-create.jsp" %>
 

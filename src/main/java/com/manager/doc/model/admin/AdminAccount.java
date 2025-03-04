@@ -5,12 +5,9 @@ public class AdminAccount {
     private String username;
     private String password;
     private byte enable;
-    private final Admin admin;
     private AdminRoles role;
 
-    public AdminAccount() {
-        this.admin = new Admin();
-    }
+    public AdminAccount() {}
 
     public Integer getId() {
         return id;
@@ -44,10 +41,6 @@ public class AdminAccount {
 
     public byte getEnable() {
         return enable;
-    }
-
-    public Admin getAdmin() {
-        return admin;
     }
 
     public AdminRoles getRole() {

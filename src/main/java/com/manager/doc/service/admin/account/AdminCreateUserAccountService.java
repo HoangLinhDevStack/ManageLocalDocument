@@ -2,19 +2,21 @@ package com.manager.doc.service.admin.account;
 
 import com.manager.doc.dao.user.account.create.CreateUserAccountDao;
 import com.manager.doc.dao.user.information.create.CreateUserDao;
-import com.manager.doc.dao.user.information.fetch.id.UserIDDao;
 import com.manager.doc.dto.user.account.UserAccountDTO;
 import com.manager.doc.model.user.*;
+import com.manager.doc.service.format.FormatTextUTF_8;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-
 @Service
 public class AdminCreateUserAccountService {
+
+    @Autowired
+    @Qualifier("format_to_UTF_8")
+    private FormatTextUTF_8 formatConfig;
 
     @Autowired
     @Qualifier("createUserAccountDaoImpl")
@@ -31,8 +33,10 @@ public class AdminCreateUserAccountService {
     @Transactional
     public void createUserAccount(UserAccountDTO userAccountDTO) {
 
+        System.out.println("Service layer: " + userAccountDTO.getUser().getName());
+
         User user = new User(); // * Create user information
-        user.setName(userAccountDTO.getUser().getName());
+        user.setName(formatConfig.decodeValue(userAccountDTO.getUser().getName())); // * decoding text to criteria form UTF-8
         user.setSex(userAccountDTO.getSex());
 
         // * set value for user account

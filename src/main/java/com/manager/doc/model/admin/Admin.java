@@ -20,6 +20,7 @@ public class Admin {
     private byte[] picture;
     private Sex sex;
     private String description;
+    private final AdminAccount adminAccount;
     private final Set<UserRequestCapability> processAuth;
     private final Set<AdminEducation> educations;
     private final Set<AdminAddress> addresses;
@@ -31,6 +32,7 @@ public class Admin {
 
 
     public Admin() {
+        this.adminAccount = new AdminAccount();
         this.processAuth = new HashSet<>();
         this.educations = new HashSet<>();
         this.addresses = new HashSet<>();
@@ -106,6 +108,8 @@ public class Admin {
     public String getDescription() {
         return description;
     }
+
+    public AdminAccount getAdminAccount() { return adminAccount; }
 
     public Set<UserRequestCapability> getProcessAuth() {
         return processAuth;

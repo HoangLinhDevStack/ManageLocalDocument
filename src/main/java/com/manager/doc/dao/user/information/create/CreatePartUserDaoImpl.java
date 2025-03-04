@@ -23,6 +23,8 @@ public class CreatePartUserDaoImpl implements CreateUserDao {
     @Override
     public Integer save(final User user) {
 
+        System.out.println("Dao layer: " + user.getName());
+
         final String sql = "insert into `user` (Name, IDSex) value(?,?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();

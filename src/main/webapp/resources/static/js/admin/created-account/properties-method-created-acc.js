@@ -3,6 +3,7 @@ Validate.isName = function (selector) {
         selector: selector,
         test: [
             Action.requiredDefault = (value) => {
+            console.log(value)
                 return value ? undefined: 'Trường này cần chứa giá trị đầu vào'
             }
         ]

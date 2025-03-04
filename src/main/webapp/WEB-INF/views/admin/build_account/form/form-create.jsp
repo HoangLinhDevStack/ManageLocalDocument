@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" pageEncoding="UTF-8"%>
 
 <p>Điền đầy đủ thông tin giữa các trường</p>
 
@@ -8,7 +8,12 @@
     <label class="form-label" for="name">Tên người dùng</label>
     <%-- this name of user --%>
     <form:input type="text" id="name" class="form-control"
-                placeholder="Nhập tên người dùng" path="user.name"/>
+                placeholder="Nhập tên người dùng"
+                lang="vi"
+                htmlEscape="true"
+                dynamicAttributes="{lang: vi}"
+
+                path="user.name"/>
     <p class="form-error mt-2">
         <i class="bi bi-emoji-expressionless-fill"></i>
         <span class="error-message"></span> <%--error say --%>

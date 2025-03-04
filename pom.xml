@@ -12,7 +12,10 @@
   <properties>
     <spring.version>5.3.18</spring.version>
     <spring.security.version>5.3.12.RELEASE</spring.security.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+
 
 
   <dependencies>
@@ -23,6 +26,7 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
 
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
     <dependency>
@@ -228,9 +232,28 @@
       <version>4.6</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>icu4j</artifactId>
+      <version>72.1</version>
+    </dependency>
+
+
+
   </dependencies>
   <build>
     <finalName>QLy_Mg_Doc_Binh</finalName>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
 
   </build>
 </project>

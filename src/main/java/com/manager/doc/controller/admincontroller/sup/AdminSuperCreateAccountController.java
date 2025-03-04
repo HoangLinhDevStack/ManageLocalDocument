@@ -1,5 +1,6 @@
 package com.manager.doc.controller.admincontroller.sup;
 
+import com.ibm.icu.text.Normalizer2;
 import com.manager.doc.dto.user.account.UserAccountDTO;
 import com.manager.doc.service.admin.account.AdminCreateUserAccountService;
 import com.manager.doc.service.sex.FetchSex;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @Controller
-@RequestMapping("admin/super/create-account")
+@RequestMapping(value = "admin/super/create-account", produces = "application/x-www-form-urlencoded;charset:UTF-8")
 public class AdminSuperCreateAccountController {
 
     @Autowired
@@ -49,8 +50,10 @@ public class AdminSuperCreateAccountController {
         return "admin/build_account";
     }
 
-    @PostMapping("/user-list")
+    @PostMapping(value = "/user-list", produces = "application/x-www-form-urlencoded;charset:UTF-8")
     public String adminCreateUserAccount(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
+
+        System.out.println("Controller layer: " + userAccountDTO.getUser().getName());
 
         adminCreateUserAccountService.createUserAccount(userAccountDTO);
 
