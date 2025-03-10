@@ -86,7 +86,7 @@
 
                                     <form:form action="${pageContext.request.contextPath}/ManagerBook/admin/super/create-account/user-list"
                                                method="post"
-                                               modelAttribute="userAccountDTO"
+                                               modelAttribute="createUserAccountDTO"
                                                id="form-created-acc"
                                                accept-charset="UTF-8">
 
@@ -114,7 +114,7 @@
 
                                     <form:form action="${pageContext.request.contextPath}/ManagerBook/admin/manager/create-account/user-list"
                                                method="post"
-                                               modelAttribute="userAccountDTO"
+                                               modelAttribute="createUserAccountDTO"
                                                id="form-created-acc">
 
                                         <%@include file="form/form-create.jsp" %>

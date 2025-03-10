@@ -20,21 +20,36 @@
 
 
 
-<form:form modelAttribute="user" method="POST" acceptCharset="UTF-8">
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Tên</th>
+        <th>Giới tính</th>
+        <th>Địa chỉ</th>
+        <th>Kỹ năng</th>
+        <th>Trường học</th>
+    </tr>
 
-<%--    Điền form tại đây--%>
-<%--    <form:input path="name"/>--%>
+    <c:forEach items="${userMultipleAccount}" var="item">
+        <tr>
+            <!-- Thông tin cơ bản -->
+            <td>${item.user.id}</td>
+            <td>${item.user.name}</td>
+            <td>${item.user.sex.sex}</td>
 
-    <label>
+            <!-- Địa chỉ -->
+            <td>
+                    ${item.streetName}, ${item.city}, ${item.province}
+            </td>
 
-        Điền form tại đây
-        <form:input type="text"  path="name"/>
-    </label>
+            <!-- Kỹ năng -->
+            <td>${item.skill}</td>
 
-
-    <input type="submit" name="submit">
-
-</form:form>
+            <!-- Trường học -->
+            <td>${item.school}</td>
+        </tr>
+    </c:forEach>
+</table>
 
 <%--<jsp:include flush="false"  page="TestSendData.jsp"/>--%>
 </body>

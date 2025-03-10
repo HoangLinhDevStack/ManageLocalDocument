@@ -1,7 +1,6 @@
 package com.manager.doc.controller.admincontroller.sup;
 
-import com.ibm.icu.text.Normalizer2;
-import com.manager.doc.dto.user.account.UserAccountDTO;
+import com.manager.doc.dto.user.CreateUserAccountDTO;
 import com.manager.doc.service.admin.account.AdminCreateUserAccountService;
 import com.manager.doc.service.sex.FetchSex;
 import com.manager.doc.service.user.inf.UserInformationService;
@@ -32,7 +31,7 @@ public class AdminSuperCreateAccountController {
     }
 
     @GetMapping("/user")
-    public String adminCreateUserAccountForm(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO, Model model) throws JSQLParserException {
+    public String adminCreateUserAccountForm(@ModelAttribute("createUserAccountDTO") CreateUserAccountDTO createUserAccountDTO, Model model) throws JSQLParserException {
 
         Map<Integer, String> sexData = fetchSex.choiceSex();
         Map<Integer, String> roleUsers = userInformationService.fetchUserRole();
@@ -51,11 +50,11 @@ public class AdminSuperCreateAccountController {
     }
 
     @PostMapping(value = "/user-list", produces = "application/x-www-form-urlencoded;charset:UTF-8")
-    public String adminCreateUserAccount(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
+    public String adminCreateUserAccount(@ModelAttribute("CreateUserAccountDTO") CreateUserAccountDTO createUserAccountDTO) {
 
-        System.out.println("Controller layer: " + userAccountDTO.getUser().getName());
+        System.out.println("Controller layer: " + createUserAccountDTO.getUser().getName());
 
-        adminCreateUserAccountService.createUserAccount(userAccountDTO);
+        adminCreateUserAccountService.createUserAccount(createUserAccountDTO);
 
         return "admin/build_account/read_user_account";
     }

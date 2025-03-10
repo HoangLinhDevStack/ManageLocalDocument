@@ -1,18 +1,31 @@
 package com.manager.doc.controller;
 
+import com.manager.doc.dao.department.DepartmentDao;
+import com.manager.doc.dto.user.UserWithInformationDTO;
 import com.manager.doc.model.user.User;
+import com.manager.doc.model.user.UserAccount;
+import com.manager.doc.service.admin.account.AdminReadUserAccountService;
 import com.manager.doc.service.admin.inf.AdminInformationService;
+import com.manager.doc.service.department.FetchDepartment;
+import com.manager.doc.service.office.FetchOffice;
 import com.manager.doc.service.sex.FetchSex;
 import com.manager.doc.service.format.FormatTextUTF_8;
+import com.manager.doc.service.user.inf.UserInformationService;
 import net.sf.jsqlparser.JSQLParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class SendDataController {
@@ -27,8 +40,27 @@ public class SendDataController {
     @Autowired
     private AdminInformationService adminInfService;
 
+    @Autowired
+    private UserInformationService userInformationService;
+
+    @Autowired
+    private FetchDepartment fetchDepartment;
+
+    @Autowired
+    private FetchOffice fetchOffice;
+
+    @Autowired
+    private AdminReadUserAccountService adminReadUserAccountService;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
+    private AdminInformationService adminInformationService;
+
     @GetMapping("/Test")
     public String SendData(Model model) throws JSQLParserException {
+        
 
         model.addAttribute("user", new User());
 //        Map<Integer, String> sexData = fetchSex.choiceSex();
@@ -107,6 +139,44 @@ public class SendDataController {
         System.out.println("Default Charset: " + java.nio.charset.Charset.defaultCharset());
 
         return "TestSendData";
+    }
+
+    @GetMapping("/read")
+    public String getRead(Model model) throws JSQLParserException {
+
+
+//        System.out.println(adminReadUserAccountService.getUsersAccount());
+//
+        for (UserAccount userAccounts : adminReadUserAccountService.getUsersAccount()) {
+            System.out.println(userAccounts.getUsername());
+            System.out.println(userAccounts.getEnable());
+            System.out.println(userAccounts.getPassword());
+        }
+
+        List<UserAccount> accounts = adminReadUserAccountService.getUsersAccount();
+        System.out.println("Fetched Users: " + accounts);
+
+
+        model.addAttribute("roleUser", userInformationService.fetchUserRole());
+        model.addAttribute("DepartmentKeyAndValue", fetchDepartment.choiceDepartment());
+        model.addAttribute("OfficeKeyAndValue", fetchOffice.choiceOffices());
+        model.addAttribute("userAccount", adminReadUserAccountService.getUsersAccount());
+        model.addAttribute("userMultipleAccount", adminInformationService.getMultipleInfUser());
+
+
+        return "admin/build_account/read_user_account";
+
+//        return "TestSendData";
+    }
+
+    @GetMapping(value ="/inf", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<UserWithInformationDTO> getFullInfUser() {
+//        return adminInformationService.getFullUserAndAccount();
+
+//        return ResponseEntity.ok(adminInformationService.getFullUserAndAccount()).getBody();
+//        return ResponseEntity.ok(adminInformationService.getMultipleInfUser()).getBody();
+        return ResponseEntity.ok(adminInformationService.getFullPrivateInformationUser()).getBody();
     }
 
 

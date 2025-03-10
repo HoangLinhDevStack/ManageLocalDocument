@@ -1,10 +1,10 @@
-package com.manager.doc.dto.user.account;
+package com.manager.doc.dto.user;
 
 import com.manager.doc.model.sex.Sex;
 import com.manager.doc.model.user.User;
 import com.manager.doc.model.user.UserRoles;
 
-public class UserAccountDTO {
+public class CreateUserAccountDTO {
 // ** UserAccount table
     private String username;
     private String password;
@@ -14,7 +14,7 @@ public class UserAccountDTO {
     private User user;
     private Sex sex;
 
-    public UserAccountDTO() {}
+    public CreateUserAccountDTO() {}
 
     public String getUsername() {
         return username;

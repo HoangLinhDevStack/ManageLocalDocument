@@ -1,22 +1,26 @@
 package com.manager.doc.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.manager.doc.model.department.DepartmentWork;
 import com.manager.doc.model.document.Document;
 import com.manager.doc.model.form.Form;
 import com.manager.doc.model.office.OfficeWork;
 import com.manager.doc.model.sex.Sex;
 
+
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class User {
+public class User implements Serializable {
     private Integer id;
     private String name;
     private String nickName;
     private Date dateOfBirth;
     private byte[] picture;
     private Sex sex;
+    private String nation;
     private String description;
     private final UserAccount userAccount;
     private final Set<UserEducation> educations;
@@ -53,6 +57,14 @@ public class User {
 
     public void setSex(Sex sex) {
         this.sex = sex;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
     }
 
     public void setName(String name) {
@@ -146,4 +158,6 @@ public class User {
     public Set<Document> getDocuments() {
         return documents;
     }
+
+
 }

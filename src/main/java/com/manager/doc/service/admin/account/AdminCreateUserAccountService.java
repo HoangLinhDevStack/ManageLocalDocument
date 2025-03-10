@@ -2,7 +2,7 @@ package com.manager.doc.service.admin.account;
 
 import com.manager.doc.dao.user.account.create.CreateUserAccountDao;
 import com.manager.doc.dao.user.information.create.CreateUserDao;
-import com.manager.doc.dto.user.account.UserAccountDTO;
+import com.manager.doc.dto.user.CreateUserAccountDTO;
 import com.manager.doc.model.user.*;
 import com.manager.doc.service.format.FormatTextUTF_8;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +31,18 @@ public class AdminCreateUserAccountService {
     private PasswordEncoder encoder;
 
     @Transactional
-    public void createUserAccount(UserAccountDTO userAccountDTO) {
+    public void createUserAccount(CreateUserAccountDTO createUserAccountDTO) {
 
-        System.out.println("Service layer: " + userAccountDTO.getUser().getName());
+        System.out.println("Service layer: " + createUserAccountDTO.getUser().getName());
 
         User user = new User(); // * Create user information
-        user.setName(formatConfig.decodeValue(userAccountDTO.getUser().getName())); // * decoding text to criteria form UTF-8
-        user.setSex(userAccountDTO.getSex());
+        user.setName(formatConfig.decodeValue(createUserAccountDTO.getUser().getName())); // * decoding text to criteria form UTF-8
+        user.setSex(createUserAccountDTO.getSex());
 
         // * set value for user account
-        user.getUserAccount().setUsername(userAccountDTO.getUsername());
-        user.getUserAccount().setPassword(encoder.encode(userAccountDTO.getPassword()));
-        user.getUserAccount().setRole(userAccountDTO.getRole());
+        user.getUserAccount().setUsername(createUserAccountDTO.getUsername());
+        user.getUserAccount().setPassword(encoder.encode(createUserAccountDTO.getPassword()));
+        user.getUserAccount().setRole(createUserAccountDTO.getRole());
 
         // * get id user from db
         Integer userId = createPartUserDao.save(user);

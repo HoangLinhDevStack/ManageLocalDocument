@@ -1,4 +1,4 @@
-package com.manager.doc.dto.admin.account;
+package com.manager.doc.dto.admin;
 
 import java.util.Date;
 

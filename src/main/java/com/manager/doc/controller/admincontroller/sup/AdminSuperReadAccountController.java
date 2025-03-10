@@ -1,6 +1,6 @@
 package com.manager.doc.controller.admincontroller.sup;
 
-import com.manager.doc.dto.user.account.UserAccountDTO;
+import com.manager.doc.dto.user.CreateUserAccountDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("admin/super/list-account")
-public class AdminSupperReadAccountController {
+public class AdminSuperReadAccountController {
 
     @GetMapping
-    public String adminReadAccountForm(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
-        return "";
+    public String adminReadAccountForm(@ModelAttribute("userAccountDTO") CreateUserAccountDTO createUserAccountDTO) {
+        return "admin/build_account/read_user_account";
     }
 
     @PostMapping
-    public String adminReadAccount(@ModelAttribute("userAccountDTO") UserAccountDTO userAccountDTO) {
+    public String adminReadAccount(@ModelAttribute("userAccountDTO") CreateUserAccountDTO createUserAccountDTO) {
         return "";
     }
 
