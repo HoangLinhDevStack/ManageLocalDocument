@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminAuthenticate implements Authenticate {
 
-    private final String DIRECT_ADMIN_SUPER = "ManagerBook/admin/super";
-    private final String DIRECT_ADMIN_MANAGER = "ManagerBook/admin/manager";
-    private final String DIRECT_ADMIN_DEV = "ManagerBook/admin/dev";
-    private final String ADMIN_LOGIN_PAGE = "admin/login_out/login";
+    private static final String DIRECT_ADMIN_SUPER = "ManagerBook/admin/super";
+    private static final String DIRECT_ADMIN_MANAGER = "ManagerBook/admin/manager";
+    private static final String DIRECT_ADMIN_DEV = "ManagerBook/admin/dev";
+    private static final String ADMIN_LOGIN_PAGE = "admin/login_out/login";
 
 
 

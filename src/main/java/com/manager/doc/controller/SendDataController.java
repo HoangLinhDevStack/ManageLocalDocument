@@ -1,9 +1,8 @@
 package com.manager.doc.controller;
 
-import com.manager.doc.dao.department.DepartmentDao;
-import com.manager.doc.dto.user.UserWithInformationDTO;
 import com.manager.doc.model.user.User;
 import com.manager.doc.model.user.UserAccount;
+import com.manager.doc.model.user.UserEducation;
 import com.manager.doc.service.admin.account.AdminReadUserAccountService;
 import com.manager.doc.service.admin.inf.AdminInformationService;
 import com.manager.doc.service.department.FetchDepartment;
@@ -16,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -171,12 +168,13 @@ public class SendDataController {
 
     @GetMapping(value ="/inf", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<UserWithInformationDTO> getFullInfUser() {
+    public List<User> getFullInfUser() {
 //        return adminInformationService.getFullUserAndAccount();
 
 //        return ResponseEntity.ok(adminInformationService.getFullUserAndAccount()).getBody();
-//        return ResponseEntity.ok(adminInformationService.getMultipleInfUser()).getBody();
-        return ResponseEntity.ok(adminInformationService.getFullPrivateInformationUser()).getBody();
+        return ResponseEntity.ok(adminInformationService.getAllUserInformation()).getBody();
+//        return ResponseEntity.ok(adminInformationService.getFullPrivateInformationUser()).getBody();
+//        return ResponseEntity.ok(adminInformationService.getUserEducationById(1)).getBody();
     }
 
 

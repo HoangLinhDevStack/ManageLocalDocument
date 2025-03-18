@@ -1,20 +1,11 @@
 package com.manager.doc.model.user;
 
 public class UserAddress {
-    private Integer id;
     private String streetName;
     private String city;
     private String province;
 
     public UserAddress() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getStreetName() {
