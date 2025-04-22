@@ -8,10 +8,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/side-bar.css">
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/right-side.css">
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/resources/static/dist/css_components/admin/css_read_user/list-form.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/right-side.css">
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_components/admin/css_read_user/list-form.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -66,6 +65,21 @@
 
 
             <div class="container mt-5 mb-5">
+                <!-- Success message alert -->
+                <c:if test="${not empty successMessage}">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        ${successMessage}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </c:if>
+                
+                <!-- Error message alert -->
+                <c:if test="${not empty errorMessage}">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ${errorMessage}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </c:if>
 
                 <h1 class=""> Các tài khoản người dùng </h1>
 
@@ -238,7 +252,7 @@
                                     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                     -->
 
-                                <c:forEach items="${userMultipleAccount}" var="item">
+                                <c:forEach items="${allUserInformation}" var="item">
 
 
                                     <div class="candidate-list-box bookmark-post card mt-4">
@@ -257,30 +271,64 @@
                                                     <div class="candidate-list-content mt-3 mt-lg-0">
                                                         <h5 class="fs-19 mb-0">
 
-
-                                                            <c:if test="${not empty item.user.name}">
-                                                                <a class="primary-link" href="#">${item.user.name}</a> <%-- name --%>
+                                                            <c:if test="${not empty item.name}">
+                                                                <a class="primary-link" href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/user/${item.id}">${item.name}</a> <%-- name --%>
                                                             </c:if>
-                                                            <c:if test="${empty item.user.name}">
+                                                            <c:if test="${empty item.name}">
                                                                 <a class="primary-link" href="#">(Chưa cập nhật)</a>
                                                             </c:if>
-
-
 
                                                             <span class="badge bg-success ms-1">
                                                                 <i class="mdi mdi-star align-middle"></i>
                                                                 4.5 //
                                                             </span>
 
-
                                                         </h5>
-                                                        <p class="text-muted mb-2">Doctorate</p>
+                                                        <p class="text-muted mb-2">
+
+                                                            Vị trí ban chuyên ngành:
+                                                                                <%-- --%>
+                                                                <c:if test="${not empty item.departmentWork.position}">
+                                                                    ${item.departmentWork.position} <%-- position --%>
+                                                                </c:if>
+                                                            <c:if test="${empty item.departmentWork.position}">
+                                                                Chưa cập nhật
+                                                            </c:if>
+
+                                                        </p>
+
+                                                        <p class="text-muted mb-2">
+
+                                                            Vị trí phòng ban :
+
+                                                            <c:if test="${not empty item.officeWork.position}">
+                                                                ${item.officeWork.position} <%-- position --%>
+                                                            </c:if>
+                                                            <c:if test="${empty item.officeWork.position}">
+                                                                Chưa cập nhật
+                                                            </c:if>
+
+                                                        </p>
                                                         <%--                                                                            Position  --%>
                                                         <ul class="list-inline mb-0 text-muted">
                                                             <li class="list-inline-item">
-                                                                <i class="mdi mdi-map-marker"></i>
-                                                                Oakridge Lane Richardson
-                                                                <%--                                                                // Active --%>
+
+
+                                                                <c:if test="${item.userAccount.enable == 1}">
+                                                                    <p class="primary-link text-primary" href="#">
+                                                                        <i class="mdi mdi-map-marker"></i>
+                                                                        Tài khoản đã kích hoạt
+                                                                    </p> <%-- name --%>
+                                                                </c:if>
+                                                                <c:if test="${item.userAccount.enable == 0}">
+                                                                    <p class="primary-link text-danger" href="#">
+                                                                        <i class="mdi mdi-map-marker"></i>
+                                                                        Chưa kích hoạt tài khoản
+                                                                    </p>
+                                                                </c:if>
+
+
+                                                            <%--                                                                // Active --%>
                                                             </li>
                                                             <li class="list-inline-item"><i class="mdi mdi-wallet"></i>
                                                                 $650 / hours
@@ -291,8 +339,14 @@
 
                                                 <div class="col-auto">
                                                     <div class="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
-                                                        <span class="role badge bg-soft-secondary fs-14 mt-1">Manager</span>
                                                         <%--                                                        // ROLE--%>
+                                                        <c:if test="${not empty item.userAccount.role.keyRoles}">
+                                                            <span class="role badge bg-soft-secondary fs-14 mt-1">${item.userAccount.role.keyRoles}</span>
+                                                        </c:if>
+                                                        <c:if test="${empty item.userAccount.role.keyRoles}">
+                                                            <span class="role badge bg-soft-secondary fs-14 mt-1">Chưa cập nhật</span>
+                                                        </c:if>
+
                                                     </div>
                                                 </div>
 
@@ -303,7 +357,7 @@
                                                         <%--                                                        // DELETE ACCOUNT--%>
                                                     </a>
 
-                                                    <a>
+                                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/user/${item.id}">
                                                         <i class="bi bi-wrench"></i>
                                                         <%--                                                        // UPDATE ACCOUNT--%>
                                                     </a>
@@ -321,11 +375,8 @@
                                                         Cài đặt
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                                        <li><a class="dropdown-item" href="#">kích hoạt tài khoản</a>
-                                                        </li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Something else here</a>
-                                                        </li>
+                                                        <li><a class="dropdown-item" href="#">kích hoạt tài khoản</a></li>
+                                                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/user-account-password/${item.id}">Đặt lại mật khẩu</a></li>
                                                     </ul>
                                                 </div>
 
@@ -434,6 +485,8 @@
                                                                     footer left side end
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -->
+
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>

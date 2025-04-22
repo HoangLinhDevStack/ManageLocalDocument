@@ -2,8 +2,8 @@ package com.manager.doc.controller;
 
 import com.manager.doc.model.user.User;
 import com.manager.doc.model.user.UserAccount;
-import com.manager.doc.model.user.UserEducation;
 import com.manager.doc.service.admin.account.AdminReadUserAccountService;
+import com.manager.doc.service.admin.account.AdminUpdateUserAccountService;
 import com.manager.doc.service.admin.inf.AdminInformationService;
 import com.manager.doc.service.department.FetchDepartment;
 import com.manager.doc.service.office.FetchOffice;
@@ -54,6 +54,9 @@ public class SendDataController {
 
     @Autowired
     private AdminInformationService adminInformationService;
+
+    @Autowired
+    private AdminUpdateUserAccountService adminUpdateUserAccountService;
 
     @GetMapping("/Test")
     public String SendData(Model model) throws JSQLParserException {
@@ -144,11 +147,11 @@ public class SendDataController {
 
 //        System.out.println(adminReadUserAccountService.getUsersAccount());
 //
-        for (UserAccount userAccounts : adminReadUserAccountService.getUsersAccount()) {
-            System.out.println(userAccounts.getUsername());
-            System.out.println(userAccounts.getEnable());
-            System.out.println(userAccounts.getPassword());
-        }
+//        for (UserAccount userAccounts : adminReadUserAccountService.getUsersAccount()) {
+//            System.out.println(userAccounts.getUsername());
+//            System.out.println(userAccounts.getEnable());
+//            System.out.println(userAccounts.getPassword());
+//        }
 
         List<UserAccount> accounts = adminReadUserAccountService.getUsersAccount();
         System.out.println("Fetched Users: " + accounts);
@@ -157,8 +160,9 @@ public class SendDataController {
         model.addAttribute("roleUser", userInformationService.fetchUserRole());
         model.addAttribute("DepartmentKeyAndValue", fetchDepartment.choiceDepartment());
         model.addAttribute("OfficeKeyAndValue", fetchOffice.choiceOffices());
-        model.addAttribute("userAccount", adminReadUserAccountService.getUsersAccount());
-        model.addAttribute("userMultipleAccount", adminInformationService.getMultipleInfUser());
+        model.addAttribute("userAccount", accounts);
+        model.addAttribute("allUserInformation", adminInformationService.getAllUserInformation());
+        model.addAttribute("departmentWork", fetchDepartment.fetchFullDepartmentWork());
 
 
         return "admin/build_account/read_user_account";
@@ -168,13 +172,19 @@ public class SendDataController {
 
     @GetMapping(value ="/inf", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<User> getFullInfUser() {
+    public User getFullInfUser() {
 //        return adminInformationService.getFullUserAndAccount();
 
 //        return ResponseEntity.ok(adminInformationService.getFullUserAndAccount()).getBody();
-        return ResponseEntity.ok(adminInformationService.getAllUserInformation()).getBody();
+//        return ResponseEntity.ok(adminInformationService.getAllDepartmentWork()).getBody();
 //        return ResponseEntity.ok(adminInformationService.getFullPrivateInformationUser()).getBody();
+//        return ResponseEntity.ok(adminInformationService.getMultipleInfUser()).getBody();
 //        return ResponseEntity.ok(adminInformationService.getUserEducationById(1)).getBody();
+//        return ResponseEntity.ok(fetchDepartment.getDepartmentByID(1)).getBody();
+//        return ResponseEntity.ok(fetchDepartment.departmentSet()).getBody();
+//        return ResponseEntity.ok(fetchDepartment.fetchFullDepartmentWork()).getBody();
+        return ResponseEntity.ok(adminUpdateUserAccountService.findUserAccountFullInformation(1)).getBody();
+
     }
 
 

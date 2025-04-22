@@ -1,6 +1,9 @@
 package com.manager.doc.service.admin.inf;
 
+import com.manager.doc.dao.department.DepartmentDao;
 import com.manager.doc.dao.user.information.fetch.full.FetchFullUserDao;
+import com.manager.doc.model.department.Department;
+import com.manager.doc.model.department.DepartmentWork;
 import com.manager.doc.model.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AdminInformationService {
@@ -15,6 +19,10 @@ public class AdminInformationService {
     @Autowired
     @Qualifier("fetchFullUserDaoImpl")
     private FetchFullUserDao fetchFullUserDao;
+
+    @Autowired
+    @Qualifier("departmentDaoImpl")
+    private DepartmentDao fetchDepartmentDao;
 
     protected UserAccount getUserAccountByID(Integer IDUser) {
 
@@ -50,6 +58,7 @@ public class AdminInformationService {
     }
 
     public List<User> getMultipleInfUser() {
+
         return multipleUserInformation();
     } // * multiple inf
 
@@ -63,7 +72,7 @@ public class AdminInformationService {
 
             user.getUserAccount().setId(newUserAccount.getId());
             user.getUserAccount().setUsername(newUserAccount.getUsername());
-            user.getUserAccount().setPassword(newUserAccount.getPassword());
+//            user.getUserAccount().setPassword(newUserAccount.getPassword());
             user.getUserAccount().setEnable(newUserAccount.getEnable());
             user.getUserAccount().setRole(newUserAccount.getRole());
 
@@ -71,6 +80,16 @@ public class AdminInformationService {
         }
 
         return newUsers;
+    }
+
+    public Set<Department> getAllDepartments() {
+
+        return fetchDepartmentDao.getFullDepartment();
+    }
+
+    public Set<DepartmentWork> getAllDepartmentWork() {
+
+        return fetchDepartmentDao.getFullDepartmentWork();
     }
 
 

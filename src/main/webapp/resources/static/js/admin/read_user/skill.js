@@ -1,0 +1,69 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle skills
+    document.getElementById('addSkillBtn').addEventListener('click', addSkill);
+    document.getElementById('restoreSkillBtn').addEventListener('click', restoreSkills);
+
+    document.getElementById('skillsContainer').addEventListener('click', function(event) {
+        if (event.target.closest('.remove-skill')) {
+            removeSkill(event.target.closest('.remove-skill'));
+        }
+    });
+});
+
+
+function addSkill() {
+    const container = document.getElementById('skillsContainer');
+    const newIndex = container.children.length;
+
+    const inputGroup = document.createElement('div');
+    inputGroup.className = 'input-group mb-2';
+
+    inputGroup.innerHTML = `
+        <input type="text" class="form-control" name="skills" placeholder="Skill">
+        <button type="button" class="btn btn-danger remove-skill">
+            <i class="bi bi-x"></i>
+        </button>
+    `;
+
+    container.appendChild(inputGroup);
+}
+
+function removeSkill(button) {
+    const container = document.getElementById('skillsContainer');
+    const inputGroup = button.closest('.input-group');
+
+    // Remove the input group
+    inputGroup.remove();
+
+    // No need to reindex with string array approach
+}
+
+function restoreSkills() {
+    const container = document.getElementById('skillsContainer');
+    const fragment = document.createDocumentFragment();
+
+    container.innerHTML = '';  // Clear the current container
+
+    skills.forEach(skill => {
+        const inputGroup = document.createElement('div');
+        inputGroup.className = 'input-group mb-2';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'form-control';
+        input.name = 'skills';
+        input.value = skill.descriptions.valueOf();
+        input.placeholder = 'Skill';
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-danger remove-skill';
+        button.innerHTML = '<i class="bi bi-x"></i>';
+
+        inputGroup.appendChild(input);
+        inputGroup.appendChild(button);
+        fragment.appendChild(inputGroup);
+    });
+
+    container.appendChild(fragment);
+}

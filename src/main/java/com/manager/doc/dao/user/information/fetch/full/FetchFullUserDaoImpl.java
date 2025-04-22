@@ -53,25 +53,6 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
 
     }
 
-
-    // * Method scan map row user and inf private user
-    private static void scanPrivateUserInformation(User user, ResultSet rs, int rowNum) throws SQLException {
-
-        // * fetch and get user_account and role of account
-        UserRoles userRole = new UserRoles();
-        userRole.setId(rs.getInt("IDUserRole"));
-        userRole.setKeyRoles(RolesUser.valueOf(rs.getString("KeyRoles")));
-
-        user.getUserAccount().setId(rs.getInt("IDUserAcc"));
-        user.getUserAccount().setUsername(rs.getString("Username"));
-        user.getUserAccount().setPassword(rs.getString("Password"));
-        user.getUserAccount().setEnable(rs.getByte("Enabled"));
-        user.getUserAccount().setRole(userRole);
-
-    }
-
-
-
 // * Method scan user Account by id
     private static void scanUserAccountByID(UserAccount userAccount, ResultSet rs) throws SQLException {
 
@@ -91,7 +72,7 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
             user.getUserAccount().setRole(userRole);
 
             userAccount.setUsername(user.getUserAccount().getUsername()); // * get data account by id
-            userAccount.setPassword(user.getUserAccount().getPassword());
+//            userAccount.setPassword(user.getUserAccount().getPassword());
             userAccount.setEnable(user.getUserAccount().getEnable());
             userAccount.setRole(user.getUserAccount().getRole());
         }
@@ -160,6 +141,7 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
 
         while (rs.next()) {
             //            * User_Education
+            Integer id = rs.getInt("IDEducation");
             String school = rs.getString("School");
             Object[] educations = new Object[]{school};
 
@@ -168,6 +150,7 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
             for (Object education : educations) { // * loop to render education
 
                 if (education != null) {
+                    userEducation.setId(id);
                     userEducation.setSchool(school);
                     educationList.add(userEducation);
                 }
@@ -202,7 +185,7 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
     private final ResultSetExtractor<UserAccount> userAccountExtractor = new ResultSetExtractor<UserAccount>() {
         @Override
         public UserAccount extractData(ResultSet rs) throws SQLException {
-            UserAccount userAccount = new UserAccount(); // * initialize user account for get data form user
+            final UserAccount userAccount = new UserAccount(); // * initialize user account for get data form user
 
             scanUserAccountByID(userAccount, rs); // * method process retrieve user by id
 
@@ -257,7 +240,7 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
 
     @Override
     public List<UserEducation> getUserEducations(Integer IDUser) { // * fetch education of user
-        String sql = "SELECT ue.School " +
+        String sql = "SELECT ue.IDEducation, ue.School " +
                 "FROM user_education ue " +
                 "WHERE ue.IDUser = ?; ";
 
