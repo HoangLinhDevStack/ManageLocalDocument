@@ -2,13 +2,10 @@ const form = document.getElementById("userForm");
 const submitBtn = document.getElementById("submit");
 const alertArea = document.getElementById("alertArea");
 
-const changeSetEducation = {
-    updated: [],
-    deleted: [],
-    created: []
-}
+const multiValueKeys = ["educations", "addresses", "skills"];
+const changeSet = {} // * this here for multiple data user
 
-const initialValues = {
+const getFormValues = () => ({
     name: document.getElementById("fullName").value,
     nickName: document.getElementById("nickName").value,
     nation: document.getElementById("nation").value,
@@ -16,23 +13,30 @@ const initialValues = {
     username: document.getElementById("Street").value,
     roleId: document.getElementById("roleSelect").value,
 
-    educations: Array.from(document.querySelectorAll("[name='educations']")).map(input => {
-            const container = document.getElementById('educationContainer');
+    educations: Array.from(document.querySelectorAll("[name='educations']")).map(input => ({
+        id: input.closest(".input-group").getAttribute("id-user-educations"),
+        value: input.value
+    })),
 
-            return {
-                id: container.getAttribute("id-user-educations"),
-                value: input.value,
-            }
-        }
-    ),
+    addresses: Array.from(document.querySelectorAll(".address-group")).map(group => ({
+        id: group.closest(".input-group").getAttribute("id-user-addresses"),
+        value: [
+            group.querySelector("[name='streets']")?.value ?? null,
+            group.querySelector("[name='cities']")?.value ?? null,
+            group.querySelector("[name='provinces']")?.value ?? null
+        ],
+        // streets: group.querySelector("[name='streets']")?.value ?? null,
+        // cities: group.querySelector("[name='cities']")?.value ?? null,
+        // provinces: group.querySelector("[name='provinces']")?.value ?? null
+    })),
 
-    streets: Array.from(document.querySelectorAll("[name='streets']")).map(input => input.value),
-    cities: Array.from(document.querySelectorAll("[name='cities']")).map(input => input.value),
-    provinces: Array.from(document.querySelectorAll("[name='provinces']")).map(input => input.value),
+    skills: Array.from(document.querySelectorAll("[name='skills']")).map(input => ({
+        id: input.closest(".input-group").getAttribute("id-user-skills"),
+        value: input.value
+    }))
+});
 
-    skills: Array.from(document.querySelectorAll("[name='skills']")).map(input => input.value),
-};
-
+const initialValues = getFormValues()
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -51,57 +55,83 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-function detectChanges() { // * detect changes in the form
+// function detectChanges() { // * detect changes in the form
+//
+//     const currentValues = getFormValues()
+//
+//     // console.log("Đây là current value education: " + JSON.stringify(currentValues.addresses))
+//
+//
+//     const container = document.getElementById('educationContainer');
+//
+//     const changedFields = [];
+//
+//     // Compare initial and current values
+//     Object.keys(currentValues).forEach(field => {
+//
+//         let initField = JSON.stringify(initialValues[field])
+//         let currentField = JSON.stringify(currentValues[field])
+//
+//         console.log(initField)
+//         // console.log(currentField)
+//
+//         // let initFieldJSONParse = JSON.parse(initField)
+//         // let currentFieldJSONParse = JSON.parse(currentField)
+//
+//         if (initField !== currentField) { // ! rechecking conditions
+//
+//             changeSet[field] = currentValues[field]; // * this here array include value pass to server
+//
+//             changedFields.push(field); // * detecting value init and current value
+//             console.log(changeSet)
+//
+//         } else return
+//
+//     });
+//
+//     if (changedFields.length === 0) {
+//         alertArea.textContent = "Không có gì thay đổi";
+//         alertArea.classList.remove("d-none", "alert-warning");
+//         alertArea.classList.add("alert-info");
+//     } else {
+//         alertArea.textContent = `Các trường sau đã thay đổi: ${changedFields.join(', ')}`;
+//         alertArea.classList.remove("d-none", "alert-info");
+//         alertArea.classList.add("alert-warning");
+//     }
+//
+//
+//     return changedFields
+// }
 
-
-
-    const currentValues = {
-        name: document.getElementById("fullName").value,
-        nickName: document.getElementById("nickName").value,
-        nation: document.getElementById("nation").value,
-        sex: document.getElementById("genderSelect").value,
-        username: document.getElementById("Street").value,
-        roleId: document.getElementById("roleSelect").value,
-
-        educations: Array.from(document.querySelectorAll("[name='educations']")).map(input => {
-                const container = document.getElementById('educationContainer');
-
-                return {
-                    id: container.getAttribute("id-user-educations"),
-                    value: input.value,
-                }
-            }
-        ),
-
-        streets: Array.from(document.querySelectorAll("[name='streets']")).map(input => input.value),
-        cities: Array.from(document.querySelectorAll("[name='cities']")).map(input => input.value),
-        provinces: Array.from(document.querySelectorAll("[name='provinces']")).map(input => input.value),
-
-        skills: Array.from(document.querySelectorAll("[name='skills']")).map(input => input.value),
-    };
-
-
-    const container = document.getElementById('educationContainer');
-
+function detectChanges() {
+    const currentValues = getFormValues();
     const changedFields = [];
 
-    // Compare initial and current values
-    Object.keys(currentValues).forEach(field => {
+    // Reset changeSet
+    Object.keys(changeSet).forEach(key => delete changeSet[key]);
 
-        let a = JSON.stringify(initialValues[field])
-        let b = JSON.stringify(currentValues[field])
+    console.log("📥 Initial Values:", initialValues);
+    console.log("📤 Current Values:", currentValues);
 
-        console.log("Giá trị khởi nguyên:" + field + a)
-        console.log("Giá trị hiện tại:" + field + b)
+    Object.entries(currentValues).forEach(([field, currVal]) => {
+        const initVal = initialValues[field];
+        let isChanged = false; // * flag to track whether a scalar field has changed
 
-        if (a !== b) {
-            console.log("Giá trị khởi nguyên:" + a)
-            console.log("Giá trị hiện tại:" + b)
+        if (multiValueKeys.includes(field)) { // * check value is array or not
+            isChanged = hasArrayFieldChanged(initVal, currVal, field);
+        } else {
+            isChanged = initVal !== currVal;
+            // if (isChanged) { // * scalar field has changed
+            //     console.log(`🔁 [SCALAR] Field changed: ${field}`);
+            //     console.log(`  ↪ Initial:`, initVal);
+            //     console.log(`  ↪ Current:`, currVal);
+            // }
+        }
 
-
-            changedFields.push(field);
-        } else return
-
+        if (isChanged) { // * add value into change set: true to trigger submit
+            changedFields.push(field); // * checking value change
+            changeSet[field] = currVal; // * adding value type array into change set
+        }
     });
 
     if (changedFields.length === 0) {
@@ -114,38 +144,136 @@ function detectChanges() { // * detect changes in the form
         alertArea.classList.add("alert-warning");
     }
 
+    console.log("✅ Final changeSet:", changeSet);
+    return changedFields;
+}
 
-    return changedFields
+function hasArrayFieldChanged(initArr, currArr, fieldName) { // * check for update value
+    if (!Array.isArray(initArr) || !Array.isArray(currArr)) { // * check type of array
+        // console.warn(`⚠️ ${fieldName} is not an array`);
+        return true;
+    }
+
+    if (initArr.length !== currArr.length) { // * check length of array
+        // console.log(`🔁 [${fieldName}] Length changed: ${initArr.length} → ${currArr.length}`);
+        return true;
+    }
+
+    for (let i = 0; i < initArr.length; i++) { // * compare each element of array by ID and check value init has equal with current value
+        const initArrElement = initArr[i];
+        const currArrElement = currArr[i];
+
+        const initArrElementId = initArrElement?.id ?? null;
+        const currArrElementId = currArrElement?.id ?? null;
+        const initArrElementVal = JSON.stringify(initArrElement?.value ?? null);
+        const currArrElementVal = JSON.stringify(currArrElement?.value ?? null);
+
+        if (initArrElementId === currArrElementId && initArrElementVal !== currArrElementVal) {
+            return true; // * return true when find different value
+        }
+    }
+
+    return false; // * return false when all elements have same value
 }
 
 
+
+
+// function submitForm(e) {
+//
+//     e.preventDefault();  // Prevent default submit behavior
+//
+//     // Trigger form change detection
+//     detectChanges();
+//
+//
+//     // If there are no changes, don't submit
+//     if (alertArea.textContent === "Không có gì thay đổi") {
+//         console.log(detectChanges()) // * print debug curent values
+//         return;
+//     }
+//
+//     // If changes are detected, show confirmation modal
+//     const updateModal = new bootstrap.Modal(document.getElementById("updateConfirmationModal"));
+//     const modalMessage = document.getElementById("modalMessage");
+//     modalMessage.textContent = `Are you sure you want to update the changes? ${detectChanges().join(", ")}.`;
+//
+//     // console.log(detectChanges()) // * print debug curent values
+//     // *
+//     const hiddenInput = document.createElement("input");
+//     hiddenInput.type = "hidden";
+//     hiddenInput.name = "changeSetJson";
+//     hiddenInput.value = JSON.stringify(changeSet); // convert to JSON string
+//
+//     form.appendChild(hiddenInput);
+//
+//     console.log('this is value of multiple information user:' + hiddenInput.value)
+//
+//     // Handle confirmation in modal
+//     document.getElementById("updateConfirmationModal").addEventListener("click", function (e) {
+//         if (e.target.id === "confirmYes") {
+//             form.submit(); // Submit the form
+//         }
+//     });
+//
+//     updateModal.show();
+//
+// }
+
 function submitForm(e) {
+    e.preventDefault(); // Prevent normal form submission
 
-    e.preventDefault();  // Prevent default submit behavior
+    // Step 1: Detect changes
+    const changed = detectChanges();
 
-    // Trigger form change detection
-    detectChanges();
-
-    // If there are no changes, don't submit
-    if (alertArea.textContent === "Không có gì thay đổi") {
-        console.log(detectChanges()) // * print debug curent values
+    // Step 2: If no changes → stop here
+    if (changed.length === 0) {
+        console.log("❌ No changes detected. Submission canceled.");
         return;
     }
 
-    // If changes are detected, show confirmation modal
+    const hiddenInput = hiddenInputSetValueChangeset()
+
+    // Step 4: Show confirmation modal
     const updateModal = new bootstrap.Modal(document.getElementById("updateConfirmationModal"));
     const modalMessage = document.getElementById("modalMessage");
-    modalMessage.textContent = `Are you sure you want to update the changes? ${detectChanges().join(", ")}.`;
+    modalMessage.textContent = `Are you sure you want to update the changes? ${changed.join(", ")}.`;
 
-    console.log(detectChanges()) // * print debug curent values
-
-    // Handle confirmation in modal
-    document.getElementById("updateConfirmationModal").addEventListener("click", function (e) {
-        if (e.target.id === "confirmYes") {
-            form.submit(); // Submit the form
-        }
-    });
+    deleteChangeSet(hiddenInput)
 
     updateModal.show();
+}
+
+function hiddenInputSetValueChangeset() {
+    // Step 3: Create hidden input with changeSet JSON
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = "changeSetJson";
+    hiddenInput.value = JSON.stringify(changeSet);
+    form.appendChild(hiddenInput);
+
+    console.log("📦 changeSet to submit:", hiddenInput.value)
+
+    return hiddenInput
+}
+
+function deleteChangeSet(hiddenInput) {
+    // Step 5: Temporary click handler to control modal actions
+    const modalEl = document.getElementById('updateConfirmationModal');
+
+
+
+    const handleClick = (event) => {
+        console.log(event)
+        if (event.target.id === "confirmCancel") {
+            hiddenInput.remove(); // Remove hidden input
+        }
+
+        // Always remove listener after one use
+        modalEl.removeEventListener("click", handleClick);
+    };
+
+    modalEl.addEventListener("click", handleClick);
 
 }
+

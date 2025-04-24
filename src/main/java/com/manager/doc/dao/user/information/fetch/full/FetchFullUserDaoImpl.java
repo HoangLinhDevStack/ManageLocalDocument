@@ -88,6 +88,7 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
 
         while (rs.next()) {
             //            * User_Address
+            Integer id = rs.getInt("IDAddress");
             String city = rs.getString("City");
             String province = rs.getString("Province");
             String streetName = rs.getString("StreetName");
@@ -99,7 +100,7 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
             for (Object address : addresses) { // * loop to render address
 
                 if (address != null) {
-
+                    userAddress.setId(id);
                     userAddress.setCity(city);
                     userAddress.setProvince(province);
                     userAddress.setStreetName(streetName);
@@ -118,6 +119,8 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
 
         while (rs.next()) {
             //            * User_Skills
+
+            Integer id = rs.getInt("IDSkill");
             String skill = rs.getString("Skill");
             Object[] skills = new Object[]{skill};
 
@@ -126,6 +129,7 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
             for (Object skill_loop : skills) { // * loop to render education
 
                 if (skill_loop != null) {
+                    userSkill.setId(id);
                     userSkill.setDescriptions(skill);
                     skillList.add(userSkill);
                 }
@@ -222,7 +226,7 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
 
     @Override
     public List<UserAddress> getUserAddresses(Integer IDUser) { // * fetch addresses of user
-        String sql = "SELECT uad.StreetName, uad.City, uad.Province " +
+        String sql = "SELECT uad.IDAddress, uad.StreetName, uad.City, uad.Province " +
                 "FROM user_address uad " +
                 "WHERE uad.IDUser = ?; ";
 
@@ -231,7 +235,7 @@ public class FetchFullUserDaoImpl implements FetchFullUserDao {
 
     @Override
     public List<UserSkill> getUserSkills(Integer IDUser) { // * fetch skills of user
-        String sql = "SELECT us.Description AS Skill " +
+        String sql = "SELECT us.IDSkill, us.Description AS Skill " +
                 "FROM user_skill us " +
                 "WHERE us.IDUser = ?; ";
 

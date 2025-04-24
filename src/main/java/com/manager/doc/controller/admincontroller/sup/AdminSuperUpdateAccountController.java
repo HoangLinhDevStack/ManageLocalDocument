@@ -1,5 +1,8 @@
 package com.manager.doc.controller.admincontroller.sup;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manager.doc.model.sex.Sex;
 import com.manager.doc.model.user.User;
 import com.manager.doc.model.user.UserAccount;
@@ -236,8 +239,17 @@ public class AdminSuperUpdateAccountController {
 //                                     * skills pass values by array
                                      @RequestParam(value = "skills", required = false) String[] skills,
 
+                                     @RequestParam("changeSetJson") String changeSetJson,
+
                                      Model model,
-                                     RedirectAttributes redirectAttributes) throws JSQLParserException, SQLException {
+                                     RedirectAttributes redirectAttributes) throws JSQLParserException, SQLException, JsonProcessingException {
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode changes = mapper.readTree(changeSetJson);
+
+        System.out.println(changes.toString());
+
         try {
             Integer userId = user.getId();
             System.out.println("Received user ID: " + userId);

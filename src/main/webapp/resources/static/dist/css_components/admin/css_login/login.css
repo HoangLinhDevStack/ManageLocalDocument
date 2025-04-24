@@ -119,7 +119,7 @@ body a:hover,body a{
 /* Every row inside .login-container is defined with p tags */
 
 
-.login input[type="number"],
+.login input[type="text"],
 .login input[type="Email"],
 .login input[type="password"] {
   background: #fff;
@@ -135,20 +135,20 @@ body a:hover,body a{
   font-family: inherit;
   font-size: 0.95em;
 }
-.login-container input[type="email"] {
+.login-container input[type="text"] {
 	color:#ccc6c6;
 }
 
-.login-container input[type="email"]:hover {
+.login-container input[type="text"]:hover {
     border-color: #28d;
 }
 
 /* Text fields' focus effect */
-.login input[type="email"]:focus,
+.login input[type="text"]:focus,
 .login input[type="password"]:focus {
   border-color: #33b5e5;
 }
-.login input[type="email"]:hover 
+.login input[type="text"]:hover 
 .login input[type="password"]:hover {
     border-color:#28d;
 }
@@ -380,7 +380,7 @@ input[type=submit]:hover {
     text-decoration: none;
     font-size: 12px;
 }
-.login input[type="number"]
+.login input[type="text"],
 .login input[type="Email"], 
 .login input[type="password"] {
 
@@ -388,7 +388,7 @@ input[type=submit]:hover {
     padding: 10px;
 }
 
-.login input[type="number"],
+.login input[type="text"],
 .login input[type="Email"], 
 .login input[type="password"] {
     margin: 20px 0px;
@@ -460,14 +460,14 @@ input[type=submit]:hover {
     font-size: 20px;
 }
 
-.login input[type="number"], 
+.login input[type="text"],
 .login input[type="Email"], 
 .login input[type="password"] {
     margin: 15px 0px;
     padding: 10px;
 }
 
-.login input[type="number"],
+.login input[type="text"],
 .login input[type="Email"], 
 .login input[type="password"] {
     margin: 15px 0px;
@@ -514,7 +514,7 @@ input[type=submit]:hover {
     padding: 15px;
 }
 
-.login input[type="number"], 
+.login input[type="text"],
 .login input[type="Email"], 
 .login input[type="password"] {
     margin: 14px 0px;
@@ -583,7 +583,7 @@ input[type=submit]:hover {
     padding: 5px;
 }
 
-.login input[type="number"],
+.login input[type="text"],
 .login input[type="Email"], 
 .login input[type="password"] {
     margin: 12px 0px;

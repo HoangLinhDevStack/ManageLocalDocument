@@ -294,7 +294,7 @@
                                                 <label>Addresses</label>
                                                 <div id="addressContainer">
                                                     <c:forEach items="${user.addresses}" var="address" varStatus="status">
-                                                        <div class="input-group mb-2">
+                                                        <div class="input-group mb-2" id-user-addresses="${address.id}">
                                                             <div class="address-group">
                                                                 <input type="text" class="form-control mb-1"
                                                                        name="streets" value="${address.streetName}" placeholder="Street Name">
@@ -347,7 +347,7 @@
                                                 <label>Skills</label>
                                                 <div id="skillsContainer">
                                                     <c:forEach items="${user.skills}" var="skill" varStatus="status">
-                                                        <div class="input-group mb-2">
+                                                        <div class="input-group mb-2" id-user-skills="${skill.id}">
                                                             <input type="text" class="form-control"
                                                                    name="skills"
                                                                    value="${skill.descriptions}" placeholder="Skill">
@@ -437,7 +437,7 @@
                                     <p id="modalMessage">Checking changes...</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" id="confirmCancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>
                                 <div id="debugInfo" class="mt-3" style="display: none;">
