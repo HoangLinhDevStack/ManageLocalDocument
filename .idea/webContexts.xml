@@ -10,6 +10,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/form/form-create.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/form" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/read_user_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/update_user_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/combine/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/combine" />
       </map>
     </option>
   </component>

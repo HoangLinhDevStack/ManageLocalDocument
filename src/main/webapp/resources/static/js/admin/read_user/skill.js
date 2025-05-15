@@ -18,8 +18,11 @@ function addSkill() {
     const inputGroup = document.createElement('div');
     inputGroup.className = 'input-group mb-2';
 
-    inputGroup.innerHTML = `
-        <input type="text" class="form-control" name="skills" placeholder="Skill">
+    inputGroup.innerHTML = ` 
+        <div class="skill-group">
+            <input type="text" class="form-control" name="skills" placeholder="Skill" >
+        </div>
+        
         <button type="button" class="btn btn-danger remove-skill">
             <i class="bi bi-x"></i>
         </button>

@@ -38,7 +38,7 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="<c:url value="/ManagerBook/admin/logout" />">
                                     <i class="bi bi-box-arrow-right"></i>
                                     Đăng xuất
                                 </a>

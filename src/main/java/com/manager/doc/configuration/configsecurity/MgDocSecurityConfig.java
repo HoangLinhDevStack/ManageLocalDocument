@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -40,6 +41,12 @@ public class MgDocSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
@@ -67,8 +74,11 @@ public class MgDocSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .logout()
-                .logoutUrl("/ManagerBook/admin/logout")
-                .logoutSuccessUrl("/ManagerBook/admin/login?logout") // Redirect to login page after logout
+                .logoutUrl("/admin/logout") // Đảm bảo URL đăng xuất trùng với controller
+                .logoutSuccessUrl("/ManagerBook/admin/logout") // Chuyển hướng về trang login sau khi logout
+                .clearAuthentication(true) // Xóa thông tin xác thực khi đăng xuất
+                .invalidateHttpSession(true) // Vô hiệu hóa session
+                .deleteCookies("JSESSIONID") // Xóa cookie phiên
                 .permitAll()
 
                 .and()

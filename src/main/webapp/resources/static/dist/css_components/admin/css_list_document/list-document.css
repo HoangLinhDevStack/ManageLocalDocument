@@ -1,0 +1,41 @@
+
+/* List group styling */
+
+
+.list-group-document .list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* File info styling */
+.file-name {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.file-size {
+    font-size: 14px;
+    color: #888;
+}
+
+
+
+/* Styling for the activate text */
+.activate-text {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 12px;
+    display: inline-block;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.activate-text.inactive {
+    background-color: #dc3545; /* Red for inactive */
+    color: white;
+}
+
+.activate-text.active {
+    background-color: #28a745; /* Green for active */
+    color: white;
+}

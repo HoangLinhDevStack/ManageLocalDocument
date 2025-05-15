@@ -40,10 +40,14 @@ function addEducation() {
     // `;
 
     inputGroup.innerHTML = `
-        <input type="text" class="form-control" name="educations" placeholder="School">
-        <button type="button" class="btn btn-danger remove-education">
-            <i class="bi bi-x"></i>
-        </button>
+        <div class="education-group" style="display: flex; align-items: center;">
+            <input name="educations" class="form-control educations-input" placeholder="School" style="margin-right: 10px;" >
+            <button 
+                type="button" 
+                class="btn btn-danger remove-education">
+                <i class="bi bi-x"></i>
+            </button>
+        </div>
     `;
 
     container.appendChild(inputGroup);

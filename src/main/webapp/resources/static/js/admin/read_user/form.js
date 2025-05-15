@@ -13,9 +13,12 @@ const getFormValues = () => ({
     username: document.getElementById("Street").value,
     roleId: document.getElementById("roleSelect").value,
 
-    educations: Array.from(document.querySelectorAll("[name='educations']")).map(input => ({
-        id: input.closest(".input-group").getAttribute("id-user-educations"),
-        value: input.value
+    educations: Array.from(document.querySelectorAll(".education-group")).map(group => ({
+        id: group.closest(".input-group").getAttribute("id-user-educations"),
+        // value: input.value
+        value: [
+            group.querySelector("[name='educations']")?.value ?? null,
+        ]
     })),
 
     addresses: Array.from(document.querySelectorAll(".address-group")).map(group => ({
@@ -30,9 +33,12 @@ const getFormValues = () => ({
         // provinces: group.querySelector("[name='provinces']")?.value ?? null
     })),
 
-    skills: Array.from(document.querySelectorAll("[name='skills']")).map(input => ({
-        id: input.closest(".input-group").getAttribute("id-user-skills"),
-        value: input.value
+    skills: Array.from(document.querySelectorAll(".skill-group")).map(group => ({
+        id: group.closest(".input-group").getAttribute("id-user-skills"),
+        // value: input.value
+        value: [
+            group.querySelector("[name='skills']")?.value ?? null,
+        ]
     }))
 });
 
@@ -55,53 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-// function detectChanges() { // * detect changes in the form
-//
-//     const currentValues = getFormValues()
-//
-//     // console.log("Đây là current value education: " + JSON.stringify(currentValues.addresses))
-//
-//
-//     const container = document.getElementById('educationContainer');
-//
-//     const changedFields = [];
-//
-//     // Compare initial and current values
-//     Object.keys(currentValues).forEach(field => {
-//
-//         let initField = JSON.stringify(initialValues[field])
-//         let currentField = JSON.stringify(currentValues[field])
-//
-//         console.log(initField)
-//         // console.log(currentField)
-//
-//         // let initFieldJSONParse = JSON.parse(initField)
-//         // let currentFieldJSONParse = JSON.parse(currentField)
-//
-//         if (initField !== currentField) { // ! rechecking conditions
-//
-//             changeSet[field] = currentValues[field]; // * this here array include value pass to server
-//
-//             changedFields.push(field); // * detecting value init and current value
-//             console.log(changeSet)
-//
-//         } else return
-//
-//     });
-//
-//     if (changedFields.length === 0) {
-//         alertArea.textContent = "Không có gì thay đổi";
-//         alertArea.classList.remove("d-none", "alert-warning");
-//         alertArea.classList.add("alert-info");
-//     } else {
-//         alertArea.textContent = `Các trường sau đã thay đổi: ${changedFields.join(', ')}`;
-//         alertArea.classList.remove("d-none", "alert-info");
-//         alertArea.classList.add("alert-warning");
-//     }
-//
-//
-//     return changedFields
-// }
 
 function detectChanges() {
     const currentValues = getFormValues();
@@ -119,6 +78,7 @@ function detectChanges() {
 
         if (multiValueKeys.includes(field)) { // * check value is array or not
             isChanged = hasArrayFieldChanged(initVal, currVal, field);
+            changeSet[field] = currVal; // * adding value type array into change set
         } else {
             isChanged = initVal !== currVal;
             // if (isChanged) { // * scalar field has changed
@@ -129,8 +89,7 @@ function detectChanges() {
         }
 
         if (isChanged) { // * add value into change set: true to trigger submit
-            changedFields.push(field); // * checking value change
-            changeSet[field] = currVal; // * adding value type array into change set
+            changedFields.push(field); // * checking value change (Detected)
         }
     });
 

@@ -60,7 +60,7 @@
 
             </c:if>
 
-            <form:form class="login-container" action="${pageContext.request.contextPath}/ManagerBook/admin/process-login" method="post">
+            <form:form class="login-container" action="${pageContext.request.contextPath}/ManagerBook/admin/process-login" method="POST">
 
                 <p>Nhập mã quản trị</p>
                 <label>

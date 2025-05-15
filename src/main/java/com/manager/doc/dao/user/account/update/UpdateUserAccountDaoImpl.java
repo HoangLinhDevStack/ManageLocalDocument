@@ -25,7 +25,24 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
         }
     }
 
-    private final ResultSetExtractor<User> findUserByIDRowMapper = new ResultSetExtractor<User>() {
+    private static void scanUserAddressByUserID(ResultSet rs, int rowNum, UserAddress userAddress) throws SQLException {
+        userAddress.setId(rs.getInt("IDAddress"));
+        userAddress.setStreetName(rs.getString("StreetName"));
+        userAddress.setCity(rs.getString("City"));
+        userAddress.setProvince(rs.getString("Province"));
+    }
+
+    private static void scanUserEducationByUserID(ResultSet rs, int rowNum, UserEducation userEducation) throws SQLException {
+        userEducation.setId(rs.getInt("IDEducation"));
+        userEducation.setSchool(rs.getString("School"));
+    }
+
+    private static void scanUserSkillByUserID(ResultSet rs, int rowNum, UserSkill userSkill) throws SQLException {
+        userSkill.setId(rs.getInt("IDSkill"));
+        userSkill.setDescriptions(rs.getString("Description"));
+    }
+
+    private static final ResultSetExtractor<User> findUserByIDRowMapper = new ResultSetExtractor<User>() {
         @Override
         public User extractData(ResultSet rs) throws SQLException, DataAccessException {
 
@@ -34,6 +51,39 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
             scanUserByID(rs, user);
 
             return user;
+        }
+    };
+
+    private static final RowMapper<UserAddress> findUserAddressByIDRowMapper = new RowMapper<UserAddress>() {
+        @Override
+        public UserAddress mapRow(ResultSet rs, int rowNum) throws SQLException {
+            final UserAddress userAddress = new UserAddress();
+
+            scanUserAddressByUserID(rs, rowNum, userAddress);
+
+            return userAddress;
+        }
+    };
+
+    private static final RowMapper<UserEducation> findUserEducationByIDRowMapper = new RowMapper<UserEducation>() {
+        @Override
+        public UserEducation mapRow(ResultSet rs, int rowNum) throws SQLException {
+            final UserEducation userEducation = new UserEducation();
+
+            scanUserEducationByUserID(rs, rowNum, userEducation);
+
+            return userEducation;
+        }
+    };
+
+    private static final RowMapper<UserSkill> findUserSkillByIDRowMapper = new RowMapper<UserSkill>() {
+        @Override
+        public UserSkill mapRow(ResultSet rs, int rowNum) throws SQLException {
+            final UserSkill userSkill = new UserSkill();
+
+            scanUserSkillByUserID(rs, rowNum, userSkill);
+
+            return userSkill;
         }
     };
 
@@ -47,44 +97,13 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
 
     @Override
     public boolean updateUser(User user) throws SQLException {
-        System.out.println("==== DAO LAYER - START ====");
 
-        // Validate user object
-        if (user == null) {
-            System.err.println("User object is null");
-            throw new SQLException("User object cannot be null");
-        }
-
-        if (user.getId() == null) {
-            System.err.println("User ID is null");
-            throw new SQLException("User ID cannot be null");
-        }
-
-        System.out.println("Updating user in DAO with ID: " + user.getId());
-
-        // Check if required fields are null and provide default values
-        String name = (user.getName() != null) ? user.getName() : "";
-        String nickName = (user.getNickName() != null) ? user.getNickName() : "";
-        String nation = (user.getNation() != null) ? user.getNation() : "";
-        String description = (user.getDescription() != null) ? user.getDescription() : "";
-
-        // Check if user.getSex() is null
-        Integer sexId = (user.getSex() != null) ? user.getSex().getId() : null;
-
+        System.out.println("Tầng DAO: " + user.getNation());
 
         try {
             int rowsAffected;
-
-            // Get the date of birth
-            Date dob = user.getDateOfBirth();
-            System.out.println("  - DOB: " + dob);
-
-
             // If sex is not null, update including the sex field
-            String sql = "UPDATE user SET Name = ?, NickName = ?, Nation = ?, DOB = ?, nation = ?, picture = ?, Description = ?, IDSex = ? WHERE IDUser = ?";
-
-            System.out.println("Executing SQL (with sex): " + sql);
-            System.out.println("Parameters: [" + name + ", " + nickName + ", " + nation + ", " + description + ", " + dob + ", " + sexId + ", " + user.getId() + "]");
+            String sql = "UPDATE user SET Name = ?, NickName = ?, Nation = ?, DOB = ?, picture = ?, Description = ?, IDSex = ? WHERE IDUser = ?";
 
             // Use jdbcTemplate to execute the update query with parameters from the User object
             rowsAffected = jdbcTemplate.update(sql,
@@ -93,7 +112,6 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
                     user.getNation(),
                     user.getDateOfBirth(),
                     user.getPicture(),
-                    user.getDescription(),
                     user.getDescription(),
                     user.getSex().getId(),
 
@@ -135,25 +153,11 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
     @Override
     public boolean updateUserEducation(UserEducation education, Integer IDUser) throws SQLException {
 
+        String sql = "UPDATE user_education SET School = ? WHERE IDUser = ? AND IDEducation = ?";
         try {
-            // First check if a record exists for this user
-            String checkSql = "SELECT COUNT(*) FROM user_education WHERE IDUser = ?";
-            Integer count = jdbcTemplate.queryForObject(checkSql, Integer.class, IDUser);
-            boolean recordExists = count != null && count > 0;
+            // Update existing record
 
-            int rowsAffected;
-            if (recordExists) {
-                // Update existing record
-                String updateSql = "UPDATE user_education SET School = ? WHERE IDUser = ? AND IDEducation = ?";
-                rowsAffected = jdbcTemplate.update(updateSql, education.getSchool(), IDUser, education.getId());
-            } else {
-                // Insert new record
-                String insertSql = "INSERT INTO user_education (School, IDUser) VALUES (?, ?)";
-                rowsAffected = jdbcTemplate.update(insertSql, education.getSchool(), IDUser);
-            }
-
-            boolean result = rowsAffected > 0;
-            return result;
+            return jdbcTemplate.update(sql, education.getSchool(), IDUser, education.getId()) > 0;
         } catch (Exception e) {
             System.err.println("==== DAO LAYER - updateUserEducation - ERROR ====");
             System.err.println("Error updating user education: " + e.getMessage());
@@ -166,34 +170,10 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
     @Override
     public boolean updateUserAddress(UserAddress address, Integer IDUser) throws SQLException {
 
+        String sql = "UPDATE user_address SET StreetName = ?, City = ?, Province = ? WHERE IDUser = ? AND IDAddress = ?";
         try {
-            // First check if a record exists for this user
-            String checkSql = "SELECT COUNT(*) FROM user_address WHERE IDUser = ?";
-            Integer count = jdbcTemplate.queryForObject(checkSql, Integer.class, IDUser);
-            boolean recordExists = count != null && count > 0;
 
-            int rowsAffected;
-            if (recordExists) {
-                // Update existing record
-                String updateSql = "UPDATE user_address SET StreetName = ?, City = ?, Province = ? WHERE IDUser = ?";
-                rowsAffected = jdbcTemplate.update(updateSql,
-                        address.getStreetName(),
-                        address.getCity(),
-                        address.getProvince(),
-                        IDUser);
-            } else {
-                // Insert new record
-                String insertSql = "INSERT INTO user_address (StreetName, City, Province, IDUser) VALUES (?, ?, ?, ?)";
-
-                rowsAffected = jdbcTemplate.update(insertSql,
-                        address.getStreetName(),
-                        address.getCity(),
-                        address.getProvince(),
-                        IDUser);
-            }
-
-            boolean result = rowsAffected > 0;
-            return result;
+            return jdbcTemplate.update(sql, address.getStreetName(), address.getCity(), address.getProvince(), IDUser, address.getId()) > 0;
         } catch (Exception e) {
             System.err.println("==== DAO LAYER - updateUserAddress - ERROR ====");
             System.err.println("Error updating user address: " + e.getMessage());
@@ -206,31 +186,80 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
     @Override
     public boolean updateUserSkill(UserSkill skill, Integer IDUser) throws SQLException {
 
+        String sql = "UPDATE user_skill SET Description = ? WHERE IDUser = ? AND IDSkill = ?";
         try {
-            // First check if a record exists for this user
-            String checkSql = "SELECT COUNT(*) FROM user_skill WHERE IDUser = ?";
-            Integer count = jdbcTemplate.queryForObject(checkSql, Integer.class, IDUser);
-            boolean recordExists = count != null && count > 0;
-
-            int rowsAffected;
-            if (recordExists) {
-                // Update existing record
-                String updateSql = "UPDATE user_skill SET Description = ? WHERE IDUser = ?";
-                rowsAffected = jdbcTemplate.update(updateSql, skill.getDescriptions(), IDUser);
-            } else {
-                // Insert new record
-                String insertSql = "INSERT INTO user_skill (Description, IDUser) VALUES (?, ?)";
-                rowsAffected = jdbcTemplate.update(insertSql, skill.getDescriptions(), IDUser);
-            }
-
-            boolean result = rowsAffected > 0;
-            return result;
+            // Update existing record
+            return jdbcTemplate.update(sql, skill.getDescriptions(), IDUser, skill.getId()) > 0;
         } catch (Exception e) {
             System.err.println("==== DAO LAYER - updateUserSkill - ERROR ====");
             System.err.println("Error updating user skill: " + e.getMessage());
             e.printStackTrace();
             System.err.println("==== DAO LAYER - updateUserSkill - ERROR END ====");
             throw e;
+        }
+    }
+
+    @Override
+    public boolean insertUserEducation(UserEducation education, Integer IDUser) throws SQLException {
+        String sql = "INSERT INTO user_education (IDUser, School) " +
+                "SELECT ?, ? " +
+                "FROM DUAL " +
+                "WHERE EXISTS (SELECT 1 FROM user_education WHERE IDUser = ?)";
+
+        try {
+            // Thực thi câu lệnh INSERT với các tham số
+            int rowsInserted = jdbcTemplate.update(sql,
+                    IDUser,
+                    education.getSchool(),
+                    IDUser); // Kiểm tra sự tồn tại của IDUser và IDEducation
+            return rowsInserted > 0; // Trả về true nếu có ít nhất một dòng được chèn
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return false; // Nếu có lỗi, trả về false
+        }
+    }
+
+    @Override
+    public boolean insertUserAddress(UserAddress address, Integer IDUser) throws SQLException {
+        String sql = "INSERT INTO user_address (IDUser, StreetName, City, Province) " +
+                "SELECT ?, ?, ?, ? " +
+                "FROM DUAL " +
+                "WHERE EXISTS (SELECT 1 FROM user_address WHERE IDUser = ?)";
+
+        try {
+            // Thực thi câu lệnh INSERT với các tham số
+            int rowsInserted = jdbcTemplate.update(sql,
+                    IDUser,
+                    address.getStreetName(),
+                    address.getCity(),
+                    address.getProvince(),
+                    IDUser);  // Kiểm tra sự tồn tại của IDUser
+
+            return rowsInserted > 0; // Trả về true nếu có ít nhất một dòng được chèn
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return false; // Nếu có lỗi, trả về false
+        }
+    }
+
+    @Override
+    public boolean insertUserSkill(UserSkill skill, Integer IDUser) throws SQLException {
+        String sql = "INSERT INTO user_skill (IDUser, Description) " +
+                "SELECT ?, ? " +
+                "FROM DUAL " +
+                "WHERE EXISTS (SELECT 1 FROM user_skill WHERE IDUser = ?)";
+
+        try {
+            // Thực thi câu lệnh INSERT với các tham số
+            int rowsInserted = jdbcTemplate.update(sql,
+                    IDUser,
+                    skill.getDescriptions(),
+                    IDUser); // Kiểm tra sự tồn tại của IDUser
+
+            return rowsInserted > 0; // Trả về true nếu có ít nhất một dòng được chèn
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return false; // Nếu có lỗi, trả về false
         }
     }
 
@@ -250,6 +279,25 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
             System.err.println("==== DAO LAYER - updatePassword - ERROR END ====");
             throw e;
         }
+    }
+
+    @Override
+    public UserAddress findUserAddressById(Integer userId, Integer addressId) throws SQLException {
+        String sql = "SELECT IDAddress, StreetName, City, Province FROM user_address WHERE IDUser = ? AND IDAddress = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId, addressId}, findUserAddressByIDRowMapper);
+    }
+
+    @Override
+    public UserEducation findUserEducationById(Integer userId, Integer educationId) throws SQLException {
+        String sql = "SELECT IDEducation, School FROM user_education WHERE IDUser = ? AND IDEducation = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId, educationId}, findUserEducationByIDRowMapper);
+    }
+
+    @Override
+    public UserSkill findUserSkillById(Integer userId, Integer skillId) throws SQLException {
+        String sql = "SELECT IDSkill, Description FROM user_skill WHERE IDUser = ? AND IDSkill = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId, skillId}, findUserSkillByIDRowMapper);
     }
 
     @Override

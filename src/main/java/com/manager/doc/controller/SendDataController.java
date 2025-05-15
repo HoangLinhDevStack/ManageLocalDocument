@@ -1,7 +1,10 @@
 package com.manager.doc.controller;
 
+import com.manager.doc.dao.user.account.update.UpdateUserAccountDao;
 import com.manager.doc.model.user.User;
 import com.manager.doc.model.user.UserAccount;
+import com.manager.doc.model.user.UserAddress;
+import com.manager.doc.model.user.UserEducation;
 import com.manager.doc.service.admin.account.AdminReadUserAccountService;
 import com.manager.doc.service.admin.account.AdminUpdateUserAccountService;
 import com.manager.doc.service.admin.inf.AdminInformationService;
@@ -21,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,6 +61,9 @@ public class SendDataController {
 
     @Autowired
     private AdminUpdateUserAccountService adminUpdateUserAccountService;
+
+    @Autowired
+    private UpdateUserAccountDao updateUserAccountDao;
 
     @GetMapping("/Test")
     public String SendData(Model model) throws JSQLParserException {
@@ -172,7 +179,7 @@ public class SendDataController {
 
     @GetMapping(value ="/inf", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public User getFullInfUser() {
+    public UserEducation getFullInfUser() throws SQLException {
 //        return adminInformationService.getFullUserAndAccount();
 
 //        return ResponseEntity.ok(adminInformationService.getFullUserAndAccount()).getBody();
@@ -183,7 +190,9 @@ public class SendDataController {
 //        return ResponseEntity.ok(fetchDepartment.getDepartmentByID(1)).getBody();
 //        return ResponseEntity.ok(fetchDepartment.departmentSet()).getBody();
 //        return ResponseEntity.ok(fetchDepartment.fetchFullDepartmentWork()).getBody();
-        return ResponseEntity.ok(adminUpdateUserAccountService.findUserAccountFullInformation(1)).getBody();
+//        return ResponseEntity.ok(adminUpdateUserAccountService.findUserAccountFullInformation(1)).getBody();
+        return ResponseEntity.ok(updateUserAccountDao.findUserEducationById(1,4)).getBody();
+//        return ResponseEntity.ok(adminInformationService.getAllUserInformation()).getBody();
 
     }
 

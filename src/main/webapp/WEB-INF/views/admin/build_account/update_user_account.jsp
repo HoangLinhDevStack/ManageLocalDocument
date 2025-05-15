@@ -240,7 +240,11 @@
                                                 <div id="educationContainer">
                                                     <c:forEach items="${user.educations}" var="edu" varStatus="status">
                                                         <div class="input-group mb-2" id-user-educations="${edu.id}">
-                                                            <input name="educations" class="form-control educations-input" value="${edu.school}" placeholder="School"/>
+
+                                                            <div class="education-group">
+                                                                <input name="educations" class="form-control educations-input" value="${edu.school}" placeholder="School"/>
+                                                            </div>
+
                                                             <button type="button" class="btn btn-danger remove-education">
                                                                 <i class="bi bi-x"></i>
                                                             </button>
@@ -348,13 +352,20 @@
                                                 <div id="skillsContainer">
                                                     <c:forEach items="${user.skills}" var="skill" varStatus="status">
                                                         <div class="input-group mb-2" id-user-skills="${skill.id}">
-                                                            <input type="text" class="form-control"
-                                                                   name="skills"
-                                                                   value="${skill.descriptions}" placeholder="Skill">
+
+<%--                                                            * group of skill --%>
+                                                            <div class="skill-group">
+                                                                <input type="text" class="form-control"
+                                                                       name="skills"
+                                                                       value="${skill.descriptions}" placeholder="Skill">
+                                                            </div>
+
                                                             <button type="button" class="btn btn-danger remove-skill">
                                                                 <i class="bi bi-x"></i>
                                                             </button>
                                                         </div>
+
+
                                                     </c:forEach>
                                                 </div>
 

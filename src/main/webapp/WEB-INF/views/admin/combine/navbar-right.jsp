@@ -7,14 +7,11 @@
             Quản lý tài liệu
         </h4>
         <div class="list-group list-group-flush list-sidebar">
-            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Nhận sách</a>
-            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Phản hồi sách</a>
-            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Phân loại sách</a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/up-document" class="list-sidebar-item list-group-item bg-body-secondary">Đăng tải tài liệu</a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document" class="list-sidebar-item list-group-item bg-body-secondary">Danh sách tài liệu</a>
             <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Báo cáo</a>
-            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Biểu mẫu</a>
-            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Phân quyền người dùng</a>
-            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Tạo tài khoản</a>
-            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Cài đặt</a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-account" class="list-sidebar-item list-group-item bg-body-secondary">Danh sách người dùng</a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/setting" class="list-sidebar-item list-group-item bg-body-secondary">Cài đặt</a>
             <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Đăng xuất</a>
         </div>
 
