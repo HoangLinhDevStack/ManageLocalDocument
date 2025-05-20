@@ -1,0 +1,43 @@
+.fade {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.badge-genre {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    background-color: #e3f2fd;
+    color: #0d6efd;
+    border-radius: 20px;
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    font-size: 0.95rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.badge-genre:hover {
+    background-color: #d0ebff;
+}
+
+.badge-genre .btn-close {
+    position: absolute;
+    right: 8px;
+    top: 53%;
+    transform: translateY(-50%);
+    opacity: 0.6;
+    padding: 6px;
+    border-radius: 50%;
+    transition: background-color 0.15s, opacity 0.15s;
+    z-index: 1;
+    height: fit-content;
+    color: #dc3545;
+    border: none;
+}
+
+.badge-genre .btn-close:hover {
+    /*background-color: rgba(220, 53, 69, 0.25); !* đỏ đậm hơn khi hover *!*/
+    color: #a71d2a; /* đỏ sâu hơn */
+    opacity: 1;
+}

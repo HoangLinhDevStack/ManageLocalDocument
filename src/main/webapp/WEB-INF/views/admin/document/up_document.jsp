@@ -13,6 +13,7 @@
           href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/right-side.css">
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/resources/static/dist/css_components/admin/css_list_document/list-document.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_components/document/up-document.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -74,47 +75,70 @@
                     <div class="form-container">
                         <h2 class="text-center mb-4">Upload Document</h2>
 
-                        <form action="/submitDocument" method="post" enctype="multipart/form-data">
+                        <c:if test="${not empty uploadError}">
+                            <div class="alert alert-danger">${uploadError}</div>
+                        </c:if>
+
+                        <c:if test="${not empty uploadSuccess}">
+                            <div class="alert alert-success">${uploadSuccess}</div>
+                        </c:if>
+
+
+                        <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/up-document/upload"
+                              method="POST" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="title" class="form-label">File Title</label>
-                                <input type="text" class="form-control" id="title" name="title" required>
+                                <input type="text" name="title" class="form-control" id="title" />
                             </div>
 
                             <div class="mb-3">
                                 <label for="documentStore" class="form-label">Select Document Store</label>
-                                <select class="form-select" id="documentStore" name="documentStore" required>
-                                    <option value="">Select Store</option>
-                                    <option value="1">Store 1</option>
-                                    <option value="2">Store 2</option>
-                                    <option value="3">Store 3</option>
+                                <select name="documentStoreId" class="form-select" id="documentStore" >
+                                    <option value="" disabled selected>Chọn kho tài liệu</option>
+                                    <c:forEach var="documentStore" items="${documentStores}">
+                                        <option value="${documentStore.key}">${documentStore.value}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
 
                             <div class="mb-3">
-                                <label for="genre" class="form-label">Select Genre</label>
-                                <select class="form-select" id="genre" name="genre" required>
-                                    <option value="">Select Genre</option>
-                                    <option value="1">Genre 1</option>
-                                    <option value="2">Genre 2</option>
-                                    <option value="3">Genre 3</option>
+                                <label class="form-label">Select Genres</label>
+                                <div class="d-flex flex-wrap gap-2 p-2 border rounded bg-light shadow-sm" id="selectedGenres" style="min-height: 45px;">
+                                    <span class="text-muted" id="genrePlaceholder">Chọn thể loại từ danh sách bên dưới</span>
+                                </div>
+                                <select class="form-select" id="genreSelect">
+                                    <option value="" disabled selected>Chọn thể loại</option>
+                                    <c:forEach var="genre" items="${genres}">
+                                        <option value="${genre.key}">${genre.value}</option>
+                                    </c:forEach>
                                 </select>
+                                <input type="hidden" name="genreIdsStr" id="genreIdsStr"/>
                             </div>
 
                             <div class="mb-3">
                                 <label for="file" class="form-label">Upload Document</label>
-                                <input type="file" class="form-control file-input" id="file" name="file"
-                                       accept=".pdf,.docx,.xlsx" required>
-                                <div class="error-message" id="fileError"></div>
+                                <input type="file" name="fileData" class="form-control file-input" id="file" accept=".pdf,.docx,.xlsx" required />
+                                <div class="error-message btn-secondary" id="fileError"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Trạng thái</label>
+                                <select name="status" class="form-select" id="status">
+                                    <option value="" disabled selected>Chọn trạng thái</option>
+                                    <c:forEach var="status" items="${statusList}">
+                                        <option value="${status}">${status}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
 
                             <div class="mb-3">
                                 <label for="author" class="form-label">Author</label>
-                                <input type="text" class="form-control" id="author" name="author" value="${user.name}"
-                                       readonly>
+                                <input type="text" name="author" class="form-control" id="author"/>
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-submit w-100">Upload Document</button>
                         </form>
+
                     </div>
                 </div>
 
@@ -197,5 +221,8 @@
     });
 
 </script>
+
+<script  src="${pageContext.request.contextPath}/resources/static/js/document/up_document/genres.js"></script>
+
 </body>
 </html>

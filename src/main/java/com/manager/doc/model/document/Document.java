@@ -13,7 +13,7 @@ public class Document {
     private String author;
     private StatusDocument status;
     private int fileSize;
-    private byte[] fileData;
+    private String filePath;
     private final List<Genres> genres;
     private Admin admin;
     private User user;
@@ -46,8 +46,12 @@ public class Document {
         this.fileSize = fileSize;
     }
 
-    public void setFileData(byte[] fileData) {
-        this.fileData = fileData;
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public void setAdmin(Admin admin) {
@@ -74,9 +78,7 @@ public class Document {
         return fileSize;
     }
 
-    public byte[] getFileData() {
-        return fileData;
-    }
+
 
     public List<Genres> getGenres() {
         return genres;

@@ -49,14 +49,14 @@ public class AdminSuperCreateAccountController {
         return "admin/build_account";
     }
 
-    @PostMapping(value = "/user-list", produces = "application/x-www-form-urlencoded;charset:UTF-8")
+    @PostMapping( value = "/user-list", produces = "application/x-www-form-urlencoded;charset:UTF-8")
     public String adminCreateUserAccount(@ModelAttribute("CreateUserAccountDTO") CreateUserAccountDTO createUserAccountDTO) {
 
         System.out.println("Controller layer: " + createUserAccountDTO.getUser().getName());
 
         adminCreateUserAccountService.createUserAccount(createUserAccountDTO);
 
-        return "admin/build_account/read_user_account";
+        return "redirect:/ManagerBook/admin/super/list-account";
     }
 
     @PostMapping("/admin")
