@@ -8,4 +8,5 @@ public interface DocumentDao {
     void saveDocument(Document document, int documentStoreId);
     Integer getAdminIdByUsername(String username); // Lấy IDAdmin từ username
     List<Document> getAllDocuments(); // Lấy danh sách tài liệu
+    Document getDocumentById(int documentId); // Lấy thông tin tài liệu theo ID
 }

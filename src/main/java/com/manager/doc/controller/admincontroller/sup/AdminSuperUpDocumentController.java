@@ -59,36 +59,9 @@ public class AdminSuperUpDocumentController {
     @GetMapping
     public String showUploadForm(Model model) throws JSQLParserException {
 
-        // Lấy thông tin người dùng từ Spring Security
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-        
-        // Kiểm tra kiểu dữ liệu của principal
-        if (principal instanceof org.springframework.security.core.userdetails.User) {
-            // Đây là đối tượng User của Spring Security
-            username = ((org.springframework.security.core.userdetails.User) principal).getUsername();
-        } else {
-            // Nếu không phải User, có thể là String hoặc kiểu khác
-            username = principal.toString();
-        }
-        
-        System.out.println("User name là của bố: " + username);
-
-        // Lấy IDAdmin từ username
-        Integer idAdmin = documentService.getAdminIdByUsername(username);
-        
-        // Kiểm tra nếu không tìm thấy admin
-        if (idAdmin == null) {
-            // Xử lý trường hợp không tìm thấy admin
-            // Có thể đặt một giá trị mặc định hoặc chuyển hướng đến trang lỗi
-            System.out.println("Không tìm thấy admin với username: " + username);
-            // Đặt giá trị mặc định là 1 (hoặc một giá trị phù hợp với hệ thống của bạn)
-        }
-
-        // Gửi IDAdmin vào model
-        model.addAttribute("idAdmin", idAdmin);
-
-        model.addAttribute("documentForm", new DocumentForm());
+        // Tạo DocumentForm và thiết lập adminId
+        DocumentForm documentForm = new DocumentForm();
+        model.addAttribute("documentForm", documentForm);
 
 
         model.addAttribute("genres", genresService.listGenres());
@@ -108,6 +81,31 @@ public class AdminSuperUpDocumentController {
                                @RequestParam("fileData") MultipartFile fileData,
                                RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
         try {
+
+            // Lấy thông tin người dùng từ Spring Security
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username;
+
+            // Kiểm tra kiểu dữ liệu của principal
+            if (principal instanceof org.springframework.security.core.userdetails.User) {
+                // Đây là đối tượng User của Spring Security
+                username = ((org.springframework.security.core.userdetails.User) principal).getUsername();
+            } else {
+                // Nếu không phải User, có thể là String hoặc kiểu khác
+                username = principal.toString();
+            }
+
+            // Lấy IDAdmin từ username
+            Integer adminId = documentService.getAdminIdByUsername(username);
+
+            // Kiểm tra nếu không tìm thấy admin
+            if (adminId == null) {
+                redirectAttributes.addFlashAttribute("uploadError", "Không tìm thấy ID người dùng");
+                return "redirect:/ManagerBook/admin/super/up-document";
+            }
+
+            System.out.println("ID Admin được sử dụng: " + adminId);
+
             // Tạo đối tượng DocumentForm từ các tham số
             DocumentForm form = new DocumentForm();
             form.setTitle(title);
@@ -116,6 +114,9 @@ public class AdminSuperUpDocumentController {
             form.setDocumentStoreId(documentStoreId);
             form.setGenreIdsStr(genreIdsStr);
             form.setFileData(fileData);
+            form.setAdminId(adminId);
+            
+            System.out.println("ID Admin được truyền vào: " + adminId);
             
             MultipartFile uploadedFile = fileData;
 
@@ -163,18 +164,25 @@ public class AdminSuperUpDocumentController {
             document.setFileSize((int) uploadedFile.getSize());
             document.setStatus(StatusDocument.valueOf(status));
 
-            Admin admin = new Admin(); admin.setId(form.getAdminId());
-            User user = new User(); user.setId(form.getUserId());
+            // Thiết lập Admin ID
+            Admin admin = new Admin(); 
+            admin.setId(form.getAdminId());
             document.setAdmin(admin);
-            document.setUser(user);
+
+            System.err.println("Đây là id admin cho vào document: " + document.getAdmin().getId());
+
 
             if (form.getGenreIdsStr() != null) {
                 List<Genres> genres = Arrays.stream(form.getGenreIdsStr().split(","))
-                        .map(String::trim)
-                        .map(Integer::parseInt)
-                        .map(id -> { Genres g = new Genres(); g.setId(id); return g; })
-                        .collect(Collectors.toList());
-                document.getGenres().addAll(genres);
+                        .map(String::trim) // * Loại bỏ khoảng trắng ở đầu/cuối
+                        .map(Integer::parseInt) // * Chuyển từ String sang Integer
+                        .map(id -> { // * Tạo đối tượng Genres từ ID
+                            Genres g = new Genres();
+                            g.setId(id);
+                            return g;
+                        })
+                        .collect(Collectors.toList()); // * Thu thập về danh sách genres
+                document.getGenres().addAll(genres);  // * Thêm vào danh sách genres của document
             }
 
             documentService.uploadDocument(document, form.getDocumentStoreId());

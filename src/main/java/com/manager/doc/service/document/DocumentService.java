@@ -8,6 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -32,6 +33,7 @@ public class DocumentService {
     }
 
 
+    @Transactional
     public void uploadDocument(Document document, int documentStoreId) {
         documentDao.saveDocument(document, documentStoreId);
     }
@@ -44,11 +46,28 @@ public class DocumentService {
     public List<Document> listDocuments() {
         return documentDao.getAllDocuments();
     }
+    
+    public Document getDocumentById(int documentId) {
+        return documentDao.getDocumentById(documentId);
+    }
 
     public String generateFileName(String originalFileName, byte[] fileData) throws NoSuchAlgorithmException {
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         return UUID.randomUUID().toString() + "_" + DigestUtils.sha256Hex(fileData) + fileExtension;
     }
+
+    public String formatFileSize(long sizeInBytes) {
+        if (sizeInBytes >= 1024 * 1024 * 1024) {
+            return String.format("%.2f GB", (double) sizeInBytes / (1024 * 1024 * 1024));
+        } else if (sizeInBytes >= 1024 * 1024) {
+            return String.format("%.2f MB", (double) sizeInBytes / (1024 * 1024));
+        } else if (sizeInBytes >= 1024) {
+            return String.format("%.2f KB", (double) sizeInBytes / 1024);
+        } else {
+            return sizeInBytes + " bytes";
+        }
+    }
+
 
 
 }

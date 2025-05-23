@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,9 +17,13 @@ public class DocumentDaoImpl implements DocumentDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Transactional
     @Override
     public void saveDocument(Document document, int documentStoreId) {
-        // Lưu vào bảng document
+
+        System.out.println("Saving document id: " + document.getAdmin().getId());
+
+        // Lưu vào bảng doccument
         String sql = "INSERT INTO doccument (IDDoccumentStore, Title, Author, FilePath, FileSize, Status, IDAdmin, IDUser) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -26,11 +31,11 @@ public class DocumentDaoImpl implements DocumentDao {
                 documentStoreId,
                 document.getTitle(),
                 document.getAuthor(),
-                document.getFilePath(),        // ✅ lưu đường dẫn file
+                document.getFilePath(),
                 document.getFileSize(),
-                document.getStatus().name(),   // enum → String
+                document.getStatus().name(),
                 document.getAdmin().getId(),
-                document.getUser().getId()
+                null // Hoặc document.getUser() != null ? document.getUser().getId() : null
         );
 
         // Lấy ID mới insert
@@ -38,11 +43,15 @@ public class DocumentDaoImpl implements DocumentDao {
         document.setId(newId);
 
         // Lưu genres (document_has_genres)
-        for (Genres genre : document.getGenres()) {
-            jdbcTemplate.update(
-                    "INSERT INTO doccument_has_genres (IDDoccument, IDDoccumentStore, IDGenres) VALUES (?, ?, ?)",
-                    newId, documentStoreId, genre.getId()
-            );
+        if (newId != null) {
+            for (Genres genre : document.getGenres()) {
+                jdbcTemplate.update(
+                        "INSERT INTO doccument_has_genres (IDDoccument, IDDoccumentStore, IDGenres) VALUES (?, ?, ?)",
+                        newId, documentStoreId, genre.getId()
+                );
+            }
+        } else {
+            throw new IllegalStateException("Document record not found for FK insertion.");
         }
     }
 
@@ -64,7 +73,7 @@ public class DocumentDaoImpl implements DocumentDao {
         // Thực hiện truy vấn và ánh xạ kết quả vào danh sách Document
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Document document = new Document();
-            document.setId(rs.getInt("IDDocument"));
+            document.setId(rs.getInt("IDDoccument"));
             document.setTitle(rs.getString("Title"));
             document.setAuthor(rs.getString("Author"));
             document.setFileSize(rs.getInt("FileSize"));
@@ -72,5 +81,25 @@ public class DocumentDaoImpl implements DocumentDao {
             document.setStatus(StatusDocument.valueOf(rs.getString("Status")));
             return document;
         });
+    }
+    
+    @Override
+    public Document getDocumentById(int documentId) {
+        try {
+            String sql = "SELECT * FROM doccument WHERE IDDoccument = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{documentId}, (rs, rowNum) -> {
+                Document document = new Document();
+                document.setId(rs.getInt("IDDoccument"));
+                document.setTitle(rs.getString("Title"));
+                document.setAuthor(rs.getString("Author"));
+                document.setFileSize(rs.getInt("FileSize"));
+                document.setFilePath(rs.getString("FilePath"));
+                document.setStatus(StatusDocument.valueOf(rs.getString("Status")));
+                return document;
+            });
+        } catch (Exception e) {
+            System.err.println("Không tìm thấy tài liệu với ID: " + documentId);
+            return null;
+        }
     }
 }
