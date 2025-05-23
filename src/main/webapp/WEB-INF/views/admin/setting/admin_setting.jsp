@@ -153,20 +153,33 @@
                             <!-- Phần cài đặt Đổi mật khẩu -->
                             <div id="password-settings" class="setting-content">
                                 <h3>Đổi Mật Khẩu</h3>
-                                <form action="/changePassword" method="post">
-                                    <div class="form-group">
+                                
+                                <c:if test="${not empty passwordError}">
+                                    <div class="alert alert-danger">${passwordError}</div>
+                                </c:if>
+                                
+                                <c:if test="${not empty passwordSuccess}">
+                                    <div class="alert alert-success">${passwordSuccess}</div>
+                                </c:if>
+                                
+                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/password/change" method="post">
+                                    <div class="form-group mb-3">
                                         <label for="currentPassword">Mật khẩu hiện tại</label>
                                         <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mb-3">
                                         <label for="newPassword">Mật khẩu mới</label>
-                                        <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                                        <input type="password" class="form-control" id="newPassword" name="newPassword" required 
+                                               minlength="6" oninput="checkPasswordMatch()">
+                                        <small class="form-text text-muted">Mật khẩu phải có ít nhất 6 ký tự</small>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group mb-3">
                                         <label for="confirmPassword">Xác nhận mật khẩu mới</label>
-                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
+                                               oninput="checkPasswordMatch()">
+                                        <div id="passwordMatchMessage" class="form-text"></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary w-100">Đổi mật khẩu</button>
+                                    <button type="submit" class="btn btn-primary w-100" id="changePasswordBtn">Đổi mật khẩu</button>
                                 </form>
                             </div>
 
@@ -212,6 +225,31 @@
         activeSetting.classList.add('active-content');
     }
 
+    // Function to check if passwords match
+    function checkPasswordMatch() {
+        var newPassword = document.getElementById('newPassword').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+        var message = document.getElementById('passwordMatchMessage');
+        var changeBtn = document.getElementById('changePasswordBtn');
+        
+        if (newPassword === '' || confirmPassword === '') {
+            message.innerHTML = '';
+            message.className = 'form-text';
+            changeBtn.disabled = false;
+            return;
+        }
+        
+        if (newPassword === confirmPassword) {
+            message.innerHTML = 'Mật khẩu khớp';
+            message.className = 'form-text text-success';
+            changeBtn.disabled = false;
+        } else {
+            message.innerHTML = 'Mật khẩu không khớp';
+            message.className = 'form-text text-danger';
+            changeBtn.disabled = true;
+        }
+    }
+
     // Function to toggle light/dark mode
     document.getElementById("toggleThemeBtn").addEventListener("click", function () {
         var currentTheme = document.body.classList.contains("dark-theme") ? "dark" : "light";
@@ -232,6 +270,16 @@
         //     document.getElementById("toggleThemeBtn").classList.add("btn-light");
         //     document.getElementById("toggleThemeBtn").innerHTML = '<i class="bi bi-moon"></i> Toggle Dark Mode';
         // }
+    });
+    
+    // Hiển thị thông báo lỗi hoặc thành công nếu có
+    document.addEventListener('DOMContentLoaded', function() {
+        var passwordError = "${passwordError}";
+        var passwordSuccess = "${passwordSuccess}";
+        
+        if (passwordError || passwordSuccess) {
+            showSetting('password-settings');
+        }
     });
 </script>
 

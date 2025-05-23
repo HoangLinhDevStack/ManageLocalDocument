@@ -88,7 +88,7 @@
                               method="POST" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="title" class="form-label">File Title</label>
-                                <input type="text" name="title" class="form-control" id="title" />
+                                <input type="text" name="title" class="form-control" id="title" readonly />
                             </div>
 
                             <div class="mb-3">
