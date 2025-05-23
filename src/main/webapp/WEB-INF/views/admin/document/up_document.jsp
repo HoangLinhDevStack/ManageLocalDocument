@@ -223,6 +223,7 @@
 </script>
 
 <script  src="${pageContext.request.contextPath}/resources/static/js/document/up_document/genres.js"></script>
+<script  src="${pageContext.request.contextPath}/resources/static/js/document/up_document/auto_fill_title.js"></script>
 
 </body>
 </html>

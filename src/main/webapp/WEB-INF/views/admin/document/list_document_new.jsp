@@ -73,16 +73,19 @@
                                         <tr>
                                             <td>
                                                 <c:set var="filePath" value="${document.filePath}" />
-
+                                                <c:set var="lastDotIndex" value="${fn:lastIndexOf(filePath, '.')}" />
+                                                <c:set var="fileExtension" value="${fn:substring(filePath, lastDotIndex + 1, fn:length(filePath))}" />
+                                                <c:set var="fileExtensionLower" value="${fn:toLowerCase(fileExtension)}" />
+                                                
                                                 <c:choose>
-                                                    <c:when test="${fn:endsWith(fn:toLowerCase(filePath), '.pdf')}">
+                                                    <c:when test="${fileExtensionLower eq 'pdf'}">
                                                         <img src="${pageContext.request.contextPath}/resources/static/images/PDF.png" alt="PDF" class="file-icon">
                                                     </c:when>
-                                                    <c:when test="${fn:endsWith(fn:toLowerCase(filePath), '.docx') || fn:endsWith(fn:toLowerCase(filePath), '.doc')}">
+                                                    <c:when test="${fileExtensionLower eq 'docx' || fileExtensionLower eq 'doc'}">
                                                         <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png" alt="Word" class="file-icon">
                                                     </c:when>
-                                                    <c:when test="${fn:endsWith(fn:toLowerCase(filePath), '.xlsx') || fn:endsWith(fn:toLowerCase(filePath), '.xls')}">
-                                                        <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png" alt="Excel" class="file-icon">
+                                                    <c:when test="${fileExtensionLower eq 'xlsx' || fileExtensionLower eq 'xls'}">
+                                                        <img src="${pageContext.request.contextPath}/resources/static/images/excel_732220.png" alt="Excel" class="file-icon">
                                                     </c:when>
                                                     <c:otherwise>
                                                         <img src="${pageContext.request.contextPath}/resources/static/images/dots_16178698.png" alt="File" class="file-icon">
