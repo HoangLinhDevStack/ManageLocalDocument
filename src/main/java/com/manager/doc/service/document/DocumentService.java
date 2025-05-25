@@ -4,6 +4,8 @@ import com.manager.doc.dao.document.DocumentDao;
 import com.manager.doc.dao.document.DocumentStoreDao;
 import com.manager.doc.enumeration.document.StatusDocument;
 import com.manager.doc.model.document.Document;
+import com.manager.doc.model.document.DocumentStore;
+import com.manager.doc.model.document.Genres;
 import net.sf.jsqlparser.JSQLParserException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,26 @@ public class DocumentService {
         return documentDao.updateDocumentStatus(documentId, status);
     }
 
+    @Transactional
+    public boolean permanentDeleteDocument(int documentId) {
+        Document document = documentDao.getDocumentById(documentId);
+        if (document == null) {
+            return false;
+        }
+        
+        // Delete physical file
+        try {
+            java.nio.file.Path filePath = java.nio.file.Paths.get(document.getFilePath());
+            java.nio.file.Files.deleteIfExists(filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+        // Delete from database
+        return documentDao.deleteDocument(documentId);
+    }
+
     public String generateFileName(String originalFileName, byte[] fileData) throws NoSuchAlgorithmException {
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         return UUID.randomUUID().toString() + "_" + DigestUtils.sha256Hex(fileData) + fileExtension;
@@ -85,6 +107,43 @@ public class DocumentService {
         }
     }
 
+    public Map<Integer, String> getIDAndNameGenres() throws JSQLParserException {
+        return documentDao.getIDAndNameGenres();
+    }
 
+    @Transactional
+    public boolean updateDocument(int documentId, int documentStoreId, List<Integer> genreIds, StatusDocument status, String author) {
+        Document document = documentDao.getDocumentById(documentId);
+        if (document == null) {
+            return false;
+        }
+
+        // Update document store
+        DocumentStore documentStore = documentStoreDao.getDocumentStoreById(documentStoreId);
+        if (documentStore != null) {
+            // Update document store in database
+            documentDao.updateDocumentStore(documentId, documentStoreId);
+        }
+
+        // Update status and author
+        document.setStatus(status);
+        document.setAuthor(author);
+        
+        // Update genres
+        List<Genres> genres = document.getGenres();
+        genres.clear();
+        for (Integer genreId : genreIds) {
+            Genres genre = documentDao.getGenreById(genreId);
+            if (genre != null) {
+                genres.add(genre);
+            }
+        }
+
+        return documentDao.updateDocument(document);
+    }
+
+    public List<Genres> getDocumentGenres(int documentId) {
+        return documentDao.getDocumentGenres(documentId);
+    }
 
 }

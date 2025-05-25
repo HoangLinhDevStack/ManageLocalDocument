@@ -7,13 +7,35 @@
             Quản lý tài liệu
         </h4>
         <div class="list-group list-group-flush list-sidebar">
-            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/up-document" class="list-sidebar-item list-group-item bg-body-secondary">Đăng tải tài liệu</a>
-            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document" class="list-sidebar-item list-group-item bg-body-secondary">Danh sách tài liệu</a>
-            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/deleted" class="list-sidebar-item list-group-item bg-body-secondary">Tài liệu đã xóa</a>
-            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Báo cáo</a>
-            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-account" class="list-sidebar-item list-group-item bg-body-secondary">Danh sách người dùng</a>
-            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/setting" class="list-sidebar-item list-group-item bg-body-secondary">Cài đặt</a>
-            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">Đăng xuất</a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/up-document" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-cloud-arrow-up-fill"></i>
+                Đăng tải tài liệu
+            </a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-list-columns-reverse"></i>
+                Danh sách tài liệu
+            </a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/deleted" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-trash-fill"></i>
+                Thùng rác
+            </a>
+            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-bookmark-star-fill"></i>
+                Báo cáo
+            </a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-account" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-person-lines-fill"></i>
+                Danh sách người dùng
+
+            </a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/setting" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-gear-fill"></i>
+                Cài đặt
+            </a>
+<%--            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">--%>
+
+<%--                Thêm--%>
+<%--            </a>--%>
         </div>
 
 

@@ -83,18 +83,39 @@
                                                 ${document.author}
                                             </td>
                                             <td class="text-center">
-                                                <span class="label label-danger">${document.status}</span>
+                                                <c:choose>
+                                                    <c:when test="${document.status == 'Approved'}">
+                                                        <span class="text-primary">
+                                                            <i class="bi bi-check-circle-fill"></i> ${document.status}
+                                                        </span>
+                                                    </c:when>
+                                                    <c:when test="${document.status == 'Pending'}">
+                                                        <span class="text-warning">
+                                                            <i class="bi bi-hourglass-split"></i> ${document.status}
+                                                        </span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="text-danger">
+                                                            <i class="bi bi-x-circle-fill"></i> ${document.status}
+                                                        </span>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </td>
                                             <td>
                                                 <span class="label label-default">${documentService.formatFileSize(document.fileSize)}</span>
                                             </td>
                                             <td style="width: 20%;">
-                                                <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/document/download/${document.id}" class="table-link" title="Tải xuống">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-download fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
+                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/permanent-delete/${document.id}" 
+                                                      method="POST" 
+                                                      style="display: inline;"
+                                                      onsubmit="return confirm('Bạn có chắc chắn muốn xóa vĩnh viễn tài liệu này? Hành động này không thể hoàn tác!');">
+                                                    <button type="submit" class="table-link danger" style="background: none; border: none; padding: 0;">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </button>
+                                                </form>
                                                 <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/restore/${document.id}" 
                                                       method="POST" 
                                                       style="display: inline;"

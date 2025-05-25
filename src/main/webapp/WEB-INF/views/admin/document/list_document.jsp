@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <title>Homepage</title>
-    
+
     <style>
         .file-icon {
             width: 40px;
@@ -72,54 +72,71 @@
                                     <c:forEach var="document" items="${documents}">
                                         <tr>
                                             <td>
-                                                <c:set var="filePath" value="${document.filePath}" />
+                                                <c:set var="filePath" value="${document.filePath}"/>
 
                                                 <c:choose>
                                                     <c:when test="${fn:endsWith(fn:toLowerCase(filePath), '.pdf')}">
-                                                        <img src="${pageContext.request.contextPath}/resources/static/images/PDF.png" alt="PDF" class="file-icon">
+                                                        <img src="${pageContext.request.contextPath}/resources/static/images/PDF.png"
+                                                             alt="PDF" class="file-icon">
                                                     </c:when>
                                                     <c:when test="${fn:endsWith(fn:toLowerCase(filePath), '.docx') || fn:endsWith(fn:toLowerCase(filePath), '.doc')}">
-                                                        <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png" alt="Word" class="file-icon">
+                                                        <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png"
+                                                             alt="Word" class="file-icon">
                                                     </c:when>
                                                     <c:when test="${fn:endsWith(fn:toLowerCase(filePath), '.xlsx') || fn:endsWith(fn:toLowerCase(filePath), '.xls')}">
-                                                        <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png" alt="Excel" class="file-icon">
+                                                        <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png"
+                                                             alt="Excel" class="file-icon">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img src="${pageContext.request.contextPath}/resources/static/images/dots_16178698.png" alt="File" class="file-icon">
+                                                        <img src="${pageContext.request.contextPath}/resources/static/images/dots_16178698.png"
+                                                             alt="File" class="file-icon">
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <span class="label label-default">${document.title}</span>
                                             </td>
                                             <td>
-                                                ${document.author}
+                                                    ${document.author}
                                             </td>
                                             <td class="text-center">
-                                                <span class="label label-default">${document.status}</span>
+                                                <c:choose>
+                                                    <c:when test="${document.status == 'Approved'}">
+                                                        <span class="text-primary">
+                                                            <i class="bi bi-check-circle-fill"></i> ${document.status}
+                                                        </span>
+                                                    </c:when>
+                                                    <c:when test="${document.status == 'Pending'}">
+                                                        <span class="text-warning">
+                                                            <i class="bi bi-hourglass-split"></i> ${document.status}
+                                                        </span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <span class="text-danger">
+                                                            <i class="bi bi-x-circle-fill"></i> ${document.status}
+                                                        </span>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </td>
+
                                             <td>
                                                 <span class="label label-default">${documentService.formatFileSize(document.fileSize)}</span>
                                             </td>
                                             <td style="width: 20%;">
-                                                <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/document/download/${document.id}" class="table-link" title="Tải xuống">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-download fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                                <a href="#" class="table-link">
+                                                <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-document/${document.id}"
+                                                   class="table-link">
                                                     <span class="fa-stack">
                                                         <i class="fa fa-square fa-stack-2x"></i>
                                                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                                     </span>
                                                 </a>
-                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/delete/${document.id}" 
-                                                      method="POST" 
+                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/delete/${document.id}"
+                                                      method="POST"
                                                       style="display: inline;"
                                                       onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?');">
-                                                    <button type="submit" class="table-link danger" style="background: none; border: none; padding: 0;">
+                                                    <button type="submit" class="table-link danger"
+                                                            style="background: none; border: none; padding: 0;">
                                                         <span class="fa-stack">
                                                             <i class="fa fa-square fa-stack-2x"></i>
-                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                            <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
                                                         </span>
                                                     </button>
                                                 </form>

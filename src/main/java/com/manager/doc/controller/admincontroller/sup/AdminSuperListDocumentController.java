@@ -79,4 +79,15 @@ public class AdminSuperListDocumentController {
         }
         return "redirect:/ManagerBook/admin/super/list-document/deleted";
     }
+
+    @PostMapping("/permanent-delete/{id}")
+    public String permanentDeleteDocument(@PathVariable("id") int documentId, RedirectAttributes redirectAttributes) {
+        boolean success = documentService.permanentDeleteDocument(documentId);
+        if (success) {
+            redirectAttributes.addFlashAttribute("uploadSuccess", "Tài liệu đã được xóa vĩnh viễn!");
+        } else {
+            redirectAttributes.addFlashAttribute("uploadError", "Không thể xóa tài liệu. Vui lòng thử lại sau.");
+        }
+        return "redirect:/ManagerBook/admin/super/list-document/deleted";
+    }
 }

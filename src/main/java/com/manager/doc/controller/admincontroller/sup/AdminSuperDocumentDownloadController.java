@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("admin/super/document")
-public class AdminDocumentDownloadController {
+public class AdminSuperDocumentDownloadController {
 
     @Autowired
     @Qualifier("documentService")

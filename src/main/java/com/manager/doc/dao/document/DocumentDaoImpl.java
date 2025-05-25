@@ -3,13 +3,17 @@ package com.manager.doc.dao.document;
 import com.manager.doc.enumeration.document.StatusDocument;
 import com.manager.doc.model.document.Document;
 import com.manager.doc.model.document.Genres;
+import net.sf.jsqlparser.JSQLParserException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class DocumentDaoImpl implements DocumentDao {
@@ -59,9 +63,8 @@ public class DocumentDaoImpl implements DocumentDao {
     public Integer getAdminIdByUsername(String username) {
         try {
             String sql = "SELECT IDAdmin FROM admin_account WHERE Username = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
+            return jdbcTemplate.queryForObject(sql, Integer.class, username);
         } catch (EmptyResultDataAccessException e) {
-            // Không tìm thấy admin với username này
             return null;
         }
     }
@@ -131,6 +134,107 @@ public class DocumentDaoImpl implements DocumentDao {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    public Map<Integer, String> getIDAndNameGenres() throws JSQLParserException {
+        String sql = "SELECT IDGenres, GenresName FROM genres";
+        Map<Integer, String> genres = new HashMap<>();
+        
+        List<Map<String, Object>> results = jdbcTemplate.queryForList(sql);
+        for (Map<String, Object> row : results) {
+            genres.put((Integer) row.get("IDGenres"), (String) row.get("GenresName"));
+        }
+        
+        return genres;
+    }
+
+    @Override
+    public Genres getGenreById(Integer genreId) {
+        try {
+            String sql = "SELECT * FROM genres WHERE IDGenres = ?";
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+                Genres genre = new Genres();
+                genre.setId(rs.getInt("IDGenres"));
+                genre.setGenresName(rs.getString("GenresName"));
+                return genre;
+            }, genreId);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean updateDocument(Document document) {
+        String sql = "UPDATE doccument SET Status = ?, Author = ? WHERE IDDoccument = ?";
+        int rowsAffected = jdbcTemplate.update(sql, 
+            document.getStatus().name(), // Convert enum to string
+            document.getAuthor(), 
+            document.getId()
+        );
+
+        if (rowsAffected > 0) {
+            // Get documentStoreId from document table
+            String getStoreSql = "SELECT IDDoccumentStore FROM doccument WHERE IDDoccument = ?";
+            Integer documentStoreId = jdbcTemplate.queryForObject(getStoreSql, Integer.class, document.getId());
+
+            // Insert new genres without deleting existing ones
+            for (Genres genre : document.getGenres()) {
+                // Check if the genre already exists for this document
+                String checkSql = "SELECT COUNT(*) FROM doccument_has_genres WHERE IDDoccument = ? AND IDGenres = ?";
+                int count = jdbcTemplate.queryForObject(checkSql, Integer.class, document.getId(), genre.getId());
+                
+                if (count == 0) {
+                    // Only insert if the genre doesn't exist
+                    jdbcTemplate.update(
+                            "INSERT INTO doccument_has_genres (IDDoccument, IDGenres, IDDoccumentStore) VALUES (?, ?, ?)",
+                            document.getId(),
+                            genre.getId(),
+                            documentStoreId
+                    );
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public boolean updateDocumentStore(int documentId, int documentStoreId) {
+        try {
+            String sql = "UPDATE doccument SET IDDoccumentStore = ? WHERE IDDoccument = ?";
+            int rowsAffected = jdbcTemplate.update(sql, documentStoreId, documentId);
+            
+            if (rowsAffected > 0) {
+                // Update document_has_genres table
+                String updateGenresSql = "UPDATE doccument_has_genres SET IDDoccumentStore = ? WHERE IDDoccument = ?";
+                jdbcTemplate.update(updateGenresSql, documentStoreId, documentId);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public List<Genres> getDocumentGenres(int documentId) {
+        try {
+            String sql = "SELECT g.* FROM genres g " +
+                         "JOIN doccument_has_genres dhg ON g.IDGenres = dhg.IDGenres " +
+                         "WHERE dhg.IDDoccument = ?";
+            
+            return jdbcTemplate.query(sql, (rs, rowNum) -> {
+                Genres genre = new Genres();
+                genre.setId(rs.getInt("IDGenres"));
+                genre.setGenresName(rs.getString("GenresName"));
+                return genre;
+            }, documentId);
+        } catch (EmptyResultDataAccessException e) {
+            return new ArrayList<>(); // Return empty list if no genres found
         }
     }
 }

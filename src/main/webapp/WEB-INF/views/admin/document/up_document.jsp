@@ -121,15 +121,28 @@
                                 <div class="error-message btn-secondary" id="fileError"></div>
                             </div>
 
+<%--                            <div class="mb-3">--%>
+<%--                                <label for="status" class="form-label">Trạng thái</label>--%>
+<%--                                <select name="status" class="form-select" id="status">--%>
+<%--                                    <option value="" disabled selected>Chọn trạng thái</option>--%>
+<%--                                    <c:forEach var="status" items="${statusList}">--%>
+<%--                                        <option value="${status}">${status}</option>--%>
+<%--                                    </c:forEach>--%>
+<%--                                </select>--%>
+<%--                            </div>--%>
+
                             <div class="mb-3">
                                 <label for="status" class="form-label">Trạng thái</label>
                                 <select name="status" class="form-select" id="status">
                                     <option value="" disabled selected>Chọn trạng thái</option>
-                                    <c:forEach var="status" items="${statusList}">
-                                        <option value="${status}">${status}</option>
+                                    <c:forEach var="status" items="${statusList}" varStatus="loop">
+                                        <c:if test="${!loop.last}">
+                                            <option value="${status}">${status}</option>
+                                        </c:if>
                                     </c:forEach>
                                 </select>
                             </div>
+
 
                             <div class="mb-3">
                                 <label for="author" class="form-label">Author</label>
