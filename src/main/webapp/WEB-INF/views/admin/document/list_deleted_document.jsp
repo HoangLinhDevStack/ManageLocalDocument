@@ -4,21 +4,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/side-bar.css">
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/right-side.css">
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/resources/static/dist/css_components/admin/css_list_document/list-document.css">
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/right-side.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_components/admin/css_list_document/list-document.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <title>Homepage</title>
+    <title>Deleted Documents</title>
     
     <style>
         .file-icon {
@@ -28,24 +24,18 @@
             margin-right: 10px;
         }
     </style>
-
 </head>
 <body>
-
 <div class="container-fluid flex-fill padding-0">
-
     <div class="d-flex height-100percent">
-
         <!-- Sidebar left side begin -->
         <%@include file="../combine/navbar-right.jsp" %>
 
         <div id="rightside" class="padding-0 container">
-
             <!-- Header begin -->
             <%@include file="../combine/header.jsp" %>
 
             <div class="container">
-
                 <c:if test="${not empty uploadError}">
                     <div class="alert alert-danger">${uploadError}</div>
                 </c:if>
@@ -73,7 +63,6 @@
                                         <tr>
                                             <td>
                                                 <c:set var="filePath" value="${document.filePath}" />
-
                                                 <c:choose>
                                                     <c:when test="${fn:endsWith(fn:toLowerCase(filePath), '.pdf')}">
                                                         <img src="${pageContext.request.contextPath}/resources/static/images/PDF.png" alt="PDF" class="file-icon">
@@ -94,7 +83,7 @@
                                                 ${document.author}
                                             </td>
                                             <td class="text-center">
-                                                <span class="label label-default">${document.status}</span>
+                                                <span class="label label-danger">${document.status}</span>
                                             </td>
                                             <td>
                                                 <span class="label label-default">${documentService.formatFileSize(document.fileSize)}</span>
@@ -106,20 +95,14 @@
                                                         <i class="fa fa-download fa-stack-1x fa-inverse"></i>
                                                     </span>
                                                 </a>
-                                                <a href="#" class="table-link">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/delete/${document.id}" 
+                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/restore/${document.id}" 
                                                       method="POST" 
                                                       style="display: inline;"
-                                                      onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?');">
-                                                    <button type="submit" class="table-link danger" style="background: none; border: none; padding: 0;">
+                                                      onsubmit="return confirm('Bạn có chắc chắn muốn khôi phục tài liệu này?');">
+                                                    <button type="submit" class="table-link success" style="background: none; border: none; padding: 0;">
                                                         <span class="fa-stack">
                                                             <i class="fa fa-square fa-stack-2x"></i>
-                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                            <i class="fa fa-undo fa-stack-1x fa-inverse"></i>
                                                         </span>
                                                     </button>
                                                 </form>
@@ -133,7 +116,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -147,21 +129,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
-
-<script>
-    // Example functions for the dropdown actions
-    function downloadFile(filename) {
-        alert('Downloading file: ' + filename);
-    }
-
-    function activateFile(filename) {
-        alert('Activating file: ' + filename);
-    }
-
-    function deleteFile(filename) {
-        alert('Deleting file: ' + filename);
-    }
-</script>
-
 </body>
-</html>
+</html> 

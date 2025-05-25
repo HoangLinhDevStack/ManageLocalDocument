@@ -87,19 +87,50 @@ public class DocumentDaoImpl implements DocumentDao {
     public Document getDocumentById(int documentId) {
         try {
             String sql = "SELECT * FROM doccument WHERE IDDoccument = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{documentId}, (rs, rowNum) -> {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
                 Document document = new Document();
                 document.setId(rs.getInt("IDDoccument"));
                 document.setTitle(rs.getString("Title"));
                 document.setAuthor(rs.getString("Author"));
+                document.setStatus(StatusDocument.valueOf(rs.getString("Status")));
                 document.setFileSize(rs.getInt("FileSize"));
                 document.setFilePath(rs.getString("FilePath"));
-                document.setStatus(StatusDocument.valueOf(rs.getString("Status")));
                 return document;
-            });
-        } catch (Exception e) {
-            System.err.println("Không tìm thấy tài liệu với ID: " + documentId);
+            }, documentId);
+        } catch (EmptyResultDataAccessException e) {
             return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteDocument(int documentId) {
+        try {
+            // Delete from document_has_genres first
+            String deleteGenresSql = "DELETE FROM doccument_has_genres WHERE IDDoccument = ?";
+            jdbcTemplate.update(deleteGenresSql, documentId);
+
+            // Delete from doccument
+            String deleteDocumentSql = "DELETE FROM doccument WHERE IDDoccument = ?";
+            int rowsAffected = jdbcTemplate.update(deleteDocumentSql, documentId);
+            
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean updateDocumentStatus(int documentId, StatusDocument status) {
+        try {
+            String sql = "UPDATE doccument SET Status = ? WHERE IDDoccument = ?";
+            int rowsAffected = jdbcTemplate.update(sql, status.name(), documentId);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

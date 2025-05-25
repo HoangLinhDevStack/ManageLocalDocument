@@ -2,6 +2,7 @@ package com.manager.doc.service.document;
 
 import com.manager.doc.dao.document.DocumentDao;
 import com.manager.doc.dao.document.DocumentStoreDao;
+import com.manager.doc.enumeration.document.StatusDocument;
 import com.manager.doc.model.document.Document;
 import net.sf.jsqlparser.JSQLParserException;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -49,6 +50,22 @@ public class DocumentService {
     
     public Document getDocumentById(int documentId) {
         return documentDao.getDocumentById(documentId);
+    }
+
+    @Transactional
+    public boolean deleteDocument(int documentId) {
+        Document document = documentDao.getDocumentById(documentId);
+        if (document == null) {
+            return false;
+        }
+        
+        // Update status to Rejected instead of deleting
+        return documentDao.updateDocumentStatus(documentId, StatusDocument.Rejected);
+    }
+
+    @Transactional
+    public boolean updateDocumentStatus(int documentId, StatusDocument status) {
+        return documentDao.updateDocumentStatus(documentId, status);
     }
 
     public String generateFileName(String originalFileName, byte[] fileData) throws NoSuchAlgorithmException {
