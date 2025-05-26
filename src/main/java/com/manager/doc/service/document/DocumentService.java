@@ -2,6 +2,7 @@ package com.manager.doc.service.document;
 
 import com.manager.doc.dao.document.DocumentDao;
 import com.manager.doc.dao.document.DocumentStoreDao;
+import com.manager.doc.dto.document.DocumentForm;
 import com.manager.doc.enumeration.document.StatusDocument;
 import com.manager.doc.model.document.Document;
 import com.manager.doc.model.document.DocumentStore;
@@ -15,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DocumentService {
@@ -49,7 +52,7 @@ public class DocumentService {
     public List<Document> listDocuments() {
         return documentDao.getAllDocuments();
     }
-    
+
     public Document getDocumentById(int documentId) {
         return documentDao.getDocumentById(documentId);
     }
@@ -60,7 +63,7 @@ public class DocumentService {
         if (document == null) {
             return false;
         }
-        
+
         // Update status to Rejected instead of deleting
         return documentDao.updateDocumentStatus(documentId, StatusDocument.Rejected);
     }
@@ -76,7 +79,7 @@ public class DocumentService {
         if (document == null) {
             return false;
         }
-        
+
         // Delete physical file
         try {
             java.nio.file.Path filePath = java.nio.file.Paths.get(document.getFilePath());
@@ -85,7 +88,7 @@ public class DocumentService {
             e.printStackTrace();
             return false;
         }
-        
+
         // Delete from database
         return documentDao.deleteDocument(documentId);
     }
@@ -128,7 +131,7 @@ public class DocumentService {
         // Update status and author
         document.setStatus(status);
         document.setAuthor(author);
-        
+
         // Update genres
         List<Genres> genres = document.getGenres();
         genres.clear();
@@ -142,10 +145,12 @@ public class DocumentService {
         return documentDao.updateDocument(document);
     }
 
+    @Transactional
     public List<Genres> getDocumentGenres(int documentId) {
         return documentDao.getDocumentGenres(documentId);
     }
 
+    @Transactional
     public Integer getDocumentStoreIdByDocumentId(int documentId) {
         return documentDao.getDocumentStoreIdByDocumentId(documentId);
     }
@@ -153,6 +158,11 @@ public class DocumentService {
     @Transactional
     public boolean updateDocumentStoreForDocument(int documentId, int documentStoreId) {
         return documentDao.updateDocumentStoreForDocument(documentId, documentStoreId);
+    }
+
+    @Transactional
+    public boolean deleteGenreFromDocument(int documentId, Integer genreId) {
+        return documentDao.deleteGenreFromDocument(documentId, genreId);
     }
 
 }

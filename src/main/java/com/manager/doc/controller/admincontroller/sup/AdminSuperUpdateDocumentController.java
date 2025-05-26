@@ -92,21 +92,57 @@ public class AdminSuperUpdateDocumentController {
                 hasChanges = true;
             }
 
-            // So sánh genres (có thể rỗng)
-            if (form.getGenreIdsStr() != null && !form.getGenreIdsStr().trim().isEmpty()) {
-                List<Integer> newGenreIds = Arrays.stream(form.getGenreIdsStr().split(","))
-                        .map(String::trim)
-                        .map(Integer::parseInt)
-                        .collect(Collectors.toList());
+//            // Kiểm tra xem form có gửi lên danh sách genres không
+//            // form.getGenreIdsStr() có thể là null hoặc chuỗi rỗng
+            if (form.getGenreIdsStr() != null && !form.getGenreIdsStr().trim().isEmpty()) { // * Kiểm tra xem form có gửi lên chuỗi genre IDs không
+                System.out.println("=== CONTROLLER LAYER ===");
+                System.out.println("Form genreIdsStr: " + form.getGenreIdsStr());
 
-                List<Integer> currentGenreIds = document.getGenres().stream()
-                        .map(Genres::getId)
-                        .collect(Collectors.toList());
+                // Chuyển đổi chuỗi genres từ form thành List<Integer>
+                List<Integer> newGenreIds = Arrays.stream(form.getGenreIdsStr().split(",")) // * Chuyển đổi chuỗi thành danh sách số
+                        .map(String::trim)        // Loại bỏ khoảng trắng thừa
+                        .map(Integer::parseInt)   // Chuyển String thành Integer
+                        .collect(Collectors.toList()); // Gộp thành List
 
-                if (!newGenreIds.equals(currentGenreIds)) {
+                System.out.println("New genre IDs: " + newGenreIds);
+
+                List<Genres> documentGenres = documentService.getDocumentGenres(documentId);
+                for (Genres genre : documentGenres) {
+                    document.getGenres().add(genre);
+                } // * Thêm genres vào danh sách genres của document
+
+
+                List<Integer> currentGenreIds = document.getGenres().stream() // * Lấy danh sách ID của genres hiện tại từ document
+                        .map(Genres::getId)       // Lấy id của mỗi genre
+                        .collect(Collectors.toList()); // Gộp thành List
+
+                System.out.println("Current genre IDs: " + currentGenreIds);
+
+                // So sánh 2 danh sách genres
+                if (!newGenreIds.equals(currentGenreIds)) { // * So sánh 2 danh sách genres new và current
                     hasChanges = true;
+
+
+                    List<Integer> genresToDelete = currentGenreIds.stream() // * Tìm các genres cần xóa (có trong currentGenreIds nhưng không có trong newGenreIds)
+                            .filter(id -> !newGenreIds.contains(id))
+                            .collect(Collectors.toList());
+
+                    System.out.println("Genres to delete: " + genresToDelete);
+
+                    // Nếu có genres cần xóa
+                    if (!genresToDelete.isEmpty()) { // * thực thi xóa
+                        // Xóa các genres không còn trong danh sách mới
+                        for (Integer genreId : genresToDelete) {
+                            System.out.println("Calling service to delete genre ID: " + genreId);
+                            documentService.deleteGenreFromDocument(documentId, genreId);
+                        }
+                    }
                 }
             }
+
+//            if (form.getGenreIdsStr() != null && !form.getGenreIdsStr().trim().isEmpty()) {
+//                documentService.handleGenreUpdates(document, form, hasChanges);
+//            }
 
             if (!hasChanges) {
                 redirectAttributes.addFlashAttribute("uploadSuccess", "Không có thay đổi nào được thực hiện.");
@@ -122,15 +158,18 @@ public class AdminSuperUpdateDocumentController {
                 return "redirect:/ManagerBook/admin/super/update-document/" + documentId;
             }
 
-            // Chuẩn bị danh sách genreIds
+            // Chuẩn bị danh sách genreIds cuối cùng để cập nhật
+            // Sử dụng toán tử điều kiện (ternary operator) để quyết định lấy danh sách từ đâu
             List<Integer> genreIds = (form.getGenreIdsStr() != null && !form.getGenreIdsStr().trim().isEmpty())
-                    ? Arrays.stream(form.getGenreIdsStr().split(","))
-                    .map(String::trim)
-                    .map(Integer::parseInt)
-                    .collect(Collectors.toList())
-                    : document.getGenres().stream()
-                    .map(Genres::getId)
-                    .collect(Collectors.toList());
+                    ? // Nếu form có gửi lên genres mới
+                    Arrays.stream(form.getGenreIdsStr().split(","))
+                            .map(String::trim)        // Loại bỏ khoảng trắng thừa
+                            .map(Integer::parseInt)   // Chuyển String thành Integer
+                            .collect(Collectors.toList()) // Gộp thành List
+                    : // Nếu form không gửi lên genres mới
+                    document.getGenres().stream()
+                            .map(Genres::getId)       // Lấy id của mỗi genre
+                            .collect(Collectors.toList()); // Gộp thành List
 
             // Gọi cập nhật
             boolean updateResult = documentService.updateDocument(

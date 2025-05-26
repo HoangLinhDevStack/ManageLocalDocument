@@ -100,11 +100,9 @@
                                 <label class="form-label">Select Genres</label>
                                 <div class="d-flex flex-wrap gap-2 p-2 border rounded bg-light shadow-sm" id="selectedGenres" style="min-height: 45px;">
                                     <c:forEach var="genre" items="${document.genres}">
-                                        <span class="badge-genre">
-                                            ${genre.genresName}
-                                            <button type="button" class="btn-close ms-2 position-absolute end-0 me-2" aria-label="Remove"></button>
+<%--                                        <span class="badge-genre position-relative me-2 mb-2">--%>
                                             <input type="hidden" name="currentGenreIds" value="${genre.id}">
-                                        </span>
+<%--                                        </span>--%>
                                     </c:forEach>
                                     <span class="text-muted" id="genrePlaceholder" style="display: ${empty document.genres ? 'inline' : 'none'}">Chọn thể loại từ danh sách bên dưới</span>
                                 </div>
@@ -122,6 +120,7 @@
                                 </select>
                                 <input type="hidden" name="genreIdsStr" id="genreIdsStr"/>
                             </div>
+
 
                             <div class="mb-3">
                                 <label for="status" class="form-label">Trạng thái</label>

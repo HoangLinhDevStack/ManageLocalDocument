@@ -261,4 +261,28 @@ public class DocumentDaoImpl implements DocumentDao {
             return null;
         }
     }
+
+    @Override
+    @Transactional
+    public boolean deleteGenreFromDocument(int documentId, Integer genreId) {
+        System.out.println("=== DAO LAYER ===");
+        System.out.println("Executing SQL to delete genre ID: " + genreId + " from document ID: " + documentId);
+
+        try {
+            String sql = "DELETE FROM doccument_has_genres WHERE IDDoccument = ? AND IDGenres = ?";
+            System.out.println("SQL Query: " + sql);
+            System.out.println("Parameters - documentId: " + documentId + ", genreId: " + genreId);
+            
+            int rowsAffected = jdbcTemplate.update(sql, documentId, genreId);
+            System.out.println("Rows affected: " + rowsAffected);
+            
+            boolean result = rowsAffected > 0;
+            System.out.println("Delete operation successful: " + result);
+            return result;
+        } catch (Exception e) {
+            System.out.println("Error occurred while deleting genre: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

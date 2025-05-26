@@ -21,4 +21,5 @@ public interface DocumentDao {
     boolean updateDocumentStoreForDocument(int documentId, int documentStoreId);
     List<Genres> getDocumentGenres(int documentId);
     Integer getDocumentStoreIdByDocumentId(int documentId);
+    boolean deleteGenreFromDocument(int documentId, Integer genreId);
 }
