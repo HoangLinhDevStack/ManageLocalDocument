@@ -122,7 +122,7 @@ public class DocumentService {
         DocumentStore documentStore = documentStoreDao.getDocumentStoreById(documentStoreId);
         if (documentStore != null) {
             // Update document store in database
-            documentDao.updateDocumentStore(documentId, documentStoreId);
+            documentDao.updateDocumentStoreForDocument(documentId, documentStoreId);
         }
 
         // Update status and author
@@ -144,6 +144,15 @@ public class DocumentService {
 
     public List<Genres> getDocumentGenres(int documentId) {
         return documentDao.getDocumentGenres(documentId);
+    }
+
+    public Integer getDocumentStoreIdByDocumentId(int documentId) {
+        return documentDao.getDocumentStoreIdByDocumentId(documentId);
+    }
+
+    @Transactional
+    public boolean updateDocumentStoreForDocument(int documentId, int documentStoreId) {
+        return documentDao.updateDocumentStoreForDocument(documentId, documentStoreId);
     }
 
 }

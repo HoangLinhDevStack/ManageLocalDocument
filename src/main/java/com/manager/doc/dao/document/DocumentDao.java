@@ -18,6 +18,7 @@ public interface DocumentDao {
     Map<Integer, String> getIDAndNameGenres() throws JSQLParserException;
     Genres getGenreById(Integer genreId);
     boolean updateDocument(Document document);
-    boolean updateDocumentStore(int documentId, int documentStoreId);
+    boolean updateDocumentStoreForDocument(int documentId, int documentStoreId);
     List<Genres> getDocumentGenres(int documentId);
+    Integer getDocumentStoreIdByDocumentId(int documentId);
 }

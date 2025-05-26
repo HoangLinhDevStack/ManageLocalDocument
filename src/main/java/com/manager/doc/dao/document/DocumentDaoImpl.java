@@ -3,6 +3,7 @@ package com.manager.doc.dao.document;
 import com.manager.doc.enumeration.document.StatusDocument;
 import com.manager.doc.model.document.Document;
 import com.manager.doc.model.document.Genres;
+import com.manager.doc.model.document.DocumentStore;
 import net.sf.jsqlparser.JSQLParserException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,8 @@ public class DocumentDaoImpl implements DocumentDao {
         if (newId != null) {
             for (Genres genre : document.getGenres()) {
                 jdbcTemplate.update(
-                        "INSERT INTO doccument_has_genres (IDDoccument, IDDoccumentStore, IDGenres) VALUES (?, ?, ?)",
-                        newId, documentStoreId, genre.getId()
+                        "INSERT INTO doccument_has_genres (IDDoccument, IDGenres) VALUES (?, ?)",
+                        newId, genre.getId()
                 );
             }
         } else {
@@ -89,7 +90,10 @@ public class DocumentDaoImpl implements DocumentDao {
     @Override
     public Document getDocumentById(int documentId) {
         try {
-            String sql = "SELECT * FROM doccument WHERE IDDoccument = ?";
+            String sql = "SELECT d.*, ds.IDDoccumentStore, ds.NameStore, ds.Description " +
+                        "FROM doccument d " +
+                        "LEFT JOIN doccument_store ds ON d.IDDoccumentStore = ds.IDDoccumentStore " +
+                        "WHERE d.IDDoccument = ?";
             return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
                 Document document = new Document();
                 document.setId(rs.getInt("IDDoccument"));
@@ -98,6 +102,15 @@ public class DocumentDaoImpl implements DocumentDao {
                 document.setStatus(StatusDocument.valueOf(rs.getString("Status")));
                 document.setFileSize(rs.getInt("FileSize"));
                 document.setFilePath(rs.getString("FilePath"));
+                
+                // Set DocumentStore with proper relationship
+                DocumentStore documentStore = new DocumentStore();
+                documentStore.setId(rs.getInt("IDDoccumentStore"));
+                documentStore.setNameStore(rs.getString("NameStore"));
+                documentStore.setDescription(rs.getString("Description"));
+                documentStore.getDocuments().add(document); // Add document to store's documents set
+                //document.setDocumentStore(documentStore);
+                
                 return document;
             }, documentId);
         } catch (EmptyResultDataAccessException e) {
@@ -175,10 +188,6 @@ public class DocumentDaoImpl implements DocumentDao {
         );
 
         if (rowsAffected > 0) {
-            // Get documentStoreId from document table
-            String getStoreSql = "SELECT IDDoccumentStore FROM doccument WHERE IDDoccument = ?";
-            Integer documentStoreId = jdbcTemplate.queryForObject(getStoreSql, Integer.class, document.getId());
-
             // Insert new genres without deleting existing ones
             for (Genres genre : document.getGenres()) {
                 // Check if the genre already exists for this document
@@ -188,10 +197,9 @@ public class DocumentDaoImpl implements DocumentDao {
                 if (count == 0) {
                     // Only insert if the genre doesn't exist
                     jdbcTemplate.update(
-                            "INSERT INTO doccument_has_genres (IDDoccument, IDGenres, IDDoccumentStore) VALUES (?, ?, ?)",
+                            "INSERT INTO doccument_has_genres (IDDoccument, IDGenres) VALUES (?, ?)",
                             document.getId(),
-                            genre.getId(),
-                            documentStoreId
+                            genre.getId()
                     );
                 }
             }
@@ -202,23 +210,29 @@ public class DocumentDaoImpl implements DocumentDao {
 
     @Override
     @Transactional
-    public boolean updateDocumentStore(int documentId, int documentStoreId) {
+    public boolean updateDocumentStoreForDocument(int documentId, int newStoreId) {
         try {
-            String sql = "UPDATE doccument SET IDDoccumentStore = ? WHERE IDDoccument = ?";
-            int rowsAffected = jdbcTemplate.update(sql, documentStoreId, documentId);
-            
-            if (rowsAffected > 0) {
-                // Update document_has_genres table
-                String updateGenresSql = "UPDATE doccument_has_genres SET IDDoccumentStore = ? WHERE IDDoccument = ?";
-                jdbcTemplate.update(updateGenresSql, documentStoreId, documentId);
-                return true;
+            // Step 1: Lấy IDDocumentStore hiện tại của Document
+            String getOldStoreSql = "SELECT IDDoccumentStore FROM doccument WHERE IDDoccument = ?";
+            Integer oldStoreId = jdbcTemplate.queryForObject(getOldStoreSql, new Object[]{documentId}, Integer.class);
+
+            if (oldStoreId == null || oldStoreId.equals(newStoreId)) {
+                return false; // không cần cập nhật
             }
-            return false;
+
+            // Step 2: Cập nhật bảng doccument
+            String updateDocumentSql = "UPDATE doccument SET IDDoccumentStore = ? WHERE IDDoccument = ?";
+
+            return jdbcTemplate.update(updateDocumentSql, newStoreId, documentId) > 0;
+
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
+
+    
 
     @Override
     public List<Genres> getDocumentGenres(int documentId) {
@@ -235,6 +249,16 @@ public class DocumentDaoImpl implements DocumentDao {
             }, documentId);
         } catch (EmptyResultDataAccessException e) {
             return new ArrayList<>(); // Return empty list if no genres found
+        }
+    }
+
+    @Override
+    public Integer getDocumentStoreIdByDocumentId(int documentId) {
+        try {
+            String sql = "SELECT IDDoccumentStore FROM doccument WHERE IDDoccument = ?";
+            return jdbcTemplate.queryForObject(sql, Integer.class, documentId);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         }
     }
 }

@@ -85,11 +85,15 @@
                                 <select name="documentStoreId" class="form-select" id="documentStore">
                                     <option value="" disabled>Chọn kho tài liệu</option>
                                     <c:forEach var="documentStore" items="${documentStores}">
-                                        <c:forEach var="documentStore" items="${documentStores}">
-                                            <option value="${documentStore.key}">${documentStore.value}</option>
-                                        </c:forEach>
+                                        <option value="${documentStore.key}"
+                                                <c:if test="${idDocumentStoreOfIDDocument != null && idDocumentStoreOfIDDocument == documentStore.key}">
+                                                    selected
+                                                </c:if>>
+                                                ${documentStore.value}
+                                        </option>
                                     </c:forEach>
                                 </select>
+
                             </div>
 
                             <div class="mb-3">

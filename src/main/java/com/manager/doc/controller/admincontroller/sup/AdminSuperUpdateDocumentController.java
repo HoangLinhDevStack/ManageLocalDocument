@@ -30,6 +30,7 @@ public class AdminSuperUpdateDocumentController {
     @GetMapping("/{documentId}")
     public String showUpdateForm(@PathVariable int documentId, Model model) throws JSQLParserException {
         Document document = documentService.getDocumentById(documentId);
+        Integer idDocumentStoreOfIDDocument = documentService.getDocumentStoreIdByDocumentId(documentId);
         if (document == null) {
             return "redirect:/ManagerBook/admin/super/list-document";
         }
@@ -43,6 +44,7 @@ public class AdminSuperUpdateDocumentController {
         model.addAttribute("document", document);
         model.addAttribute("genres", genresService.listGenres());
         model.addAttribute("documentStores", documentService.getIDAndNameDocumentStore());
+        model.addAttribute("idDocumentStoreOfIDDocument", idDocumentStoreOfIDDocument);
         model.addAttribute("statusList", StatusDocument.values());
 
         return "admin/document/update_document";
@@ -57,18 +59,11 @@ public class AdminSuperUpdateDocumentController {
                                  RedirectAttributes redirectAttributes) {
         try {
             Document document = documentService.getDocumentById(documentId);
+            Integer idDocumentStoreOfIDDocument = documentService.getDocumentStoreIdByDocumentId(documentId);
             if (document == null) {
                 redirectAttributes.addFlashAttribute("uploadError", "Không tìm thấy tài liệu");
                 return "redirect:/ManagerBook/admin/super/list-document";
             }
-
-            System.out.println("==== Form Submission Debug Info ====");
-            System.out.println("documentId: " + documentId);
-            System.out.println("documentStoreId: " + documentStoreId);
-            System.out.println("genreIdsStr: " + genreIdsStr);
-            System.out.println("status: " + status);
-            System.out.println("author: " + author);
-            System.out.println("====================================");
 
             // Gộp logic input vào một DocumentForm
             DocumentForm form = new DocumentForm();
@@ -80,9 +75,12 @@ public class AdminSuperUpdateDocumentController {
             boolean hasChanges = false;
 
             // So sánh document store
-//            if (document.getDocumentStore().getId() != form.getDocumentStoreId()) {
-//                hasChanges = true;
-//            }
+            if (idDocumentStoreOfIDDocument == null || idDocumentStoreOfIDDocument != form.getDocumentStoreId()) {
+                hasChanges = true;
+                // Cập nhật document store nếu có thay đổi
+                documentService.updateDocumentStoreForDocument(documentId, form.getDocumentStoreId());
+            }
+
 
             // So sánh status
             if (!document.getStatus().name().equals(form.getStatus())) {
@@ -112,7 +110,7 @@ public class AdminSuperUpdateDocumentController {
 
             if (!hasChanges) {
                 redirectAttributes.addFlashAttribute("uploadSuccess", "Không có thay đổi nào được thực hiện.");
-                return "redirect:/ManagerBook/admin/super/list-document";
+                return "redirect:/ManagerBook/admin/super/update-document/" + documentId;
             }
 
             // Validate và convert status sang enum
@@ -156,5 +154,7 @@ public class AdminSuperUpdateDocumentController {
             return "redirect:/ManagerBook/admin/super/update-document/" + documentId;
         }
     }
+
+
 
 } 
