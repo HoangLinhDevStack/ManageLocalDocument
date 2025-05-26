@@ -145,6 +145,40 @@ public class DocumentService {
         return documentDao.updateDocument(document);
     }
 
+
+    public List<Integer> convertGenresNewToListLogic(String genreIdsStr) {
+        return Arrays.stream(genreIdsStr.split(","))
+                .map(String::trim)        // Loại bỏ khoảng trắng thừa
+                .map(Integer::parseInt)   // Chuyển String thành Integer
+                .collect(Collectors.toList()); // Gộp thành List
+    }
+
+    public List<Integer> convertGenresCurrentToListLogic(List<Genres> genresCurrent) {
+        return genresCurrent.stream() // * Lấy danh sách ID của genres hiện tại từ document
+                .map(Genres::getId)       // Lấy id của mỗi genre
+                .collect(Collectors.toList()); // Gộp thành List
+    }
+
+    public List<Integer> findToRemovedGenresLogic(List<Integer> currentGenreIds, List<Integer> newGenreIds) {
+        return currentGenreIds.stream() // * Tìm các genres cần xóa (có trong currentGenreIds nhưng không có trong newGenreIds)
+                            .filter(id -> !newGenreIds.contains(id))
+                            .collect(Collectors.toList());
+    }
+
+    public List<Integer> determineGenresPass(String genreIdsStrForm, List<Genres> genreIdsStrCur) {
+        return (genreIdsStrForm != null && !genreIdsStrForm.trim().isEmpty())
+        ? // Nếu form có gửi lên genres mới
+        Arrays.stream(genreIdsStrForm.split(","))
+                .map(String::trim)        // Loại bỏ khoảng trắng thừa
+                .map(Integer::parseInt)   // Chuyển String thành Integer
+                .collect(Collectors.toList()) // Gộp thành List
+        : // Nếu form không gửi lên genres mới
+        genreIdsStrCur.stream()
+                .map(Genres::getId)       // Lấy id của mỗi genre
+                .collect(Collectors.toList()); // Gộp thành List
+    }
+
+
     @Transactional
     public List<Genres> getDocumentGenres(int documentId) {
         return documentDao.getDocumentGenres(documentId);
