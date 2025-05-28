@@ -85,7 +85,8 @@
 
 
                         <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/up-document/upload"
-                              method="POST" enctype="multipart/form-data">
+                              method="POST" enctype="multipart/form-data"
+                              onsubmit="return confirm('Bạn có muốn đăng tải tài liệu này?');">
                             <div class="mb-3">
                                 <label for="title" class="form-label">File Title</label>
                                 <input type="text" name="title" class="form-control" id="title" readonly />

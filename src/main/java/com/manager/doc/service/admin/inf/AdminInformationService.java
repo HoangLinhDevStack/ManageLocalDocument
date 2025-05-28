@@ -5,12 +5,14 @@ import com.manager.doc.dao.user.information.fetch.full.FetchFullUserDao;
 import com.manager.doc.model.department.Department;
 import com.manager.doc.model.department.DepartmentWork;
 import com.manager.doc.model.user.*;
+import net.sf.jsqlparser.JSQLParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -91,6 +93,11 @@ public class AdminInformationService {
 
         return fetchDepartmentDao.getFullDepartmentWork();
     }
+
+//    public Map<Integer, String> fetchAdminRole() throws JSQLParserException { // * Fetch role user by id and value
+//
+//        return userRoleDao.fetchUserRole();
+//    }
 
 
 }

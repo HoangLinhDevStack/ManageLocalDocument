@@ -26,16 +26,15 @@
             <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-account" class="list-sidebar-item list-group-item bg-body-secondary">
                 <i class="bi bi-person-lines-fill"></i>
                 Danh sách người dùng
-
+            </a>
+            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-person-fill-gear"></i>
+                Danh sách người quản trị
             </a>
             <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/setting" class="list-sidebar-item list-group-item bg-body-secondary">
                 <i class="bi bi-gear-fill"></i>
                 Cài đặt
             </a>
-<%--            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">--%>
-
-<%--                Thêm--%>
-<%--            </a>--%>
         </div>
 
 

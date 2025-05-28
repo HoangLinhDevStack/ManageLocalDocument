@@ -11,8 +11,11 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import javax.sql.DataSource;
 
-@Repository
+@Repository("updateUserAccountDaoImpl")
 public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
 
     @Autowired
@@ -313,6 +316,21 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
             System.err.println("Error finding user by ID: " + e.getMessage());
             e.printStackTrace();
             System.err.println("==== DAO LAYER - findUserByID - ERROR END ====");
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean toggleAccountStatus(int userId) throws SQLException {
+        String sql = "UPDATE user_account SET Enabled = NOT Enabled WHERE IDUser = ?";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, userId);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("==== DAO LAYER - toggleAccountStatus - ERROR ====");
+            System.err.println("Error toggling account status: " + e.getMessage());
+            e.printStackTrace();
+            System.err.println("==== DAO LAYER - toggleAccountStatus - ERROR END ====");
             throw e;
         }
     }

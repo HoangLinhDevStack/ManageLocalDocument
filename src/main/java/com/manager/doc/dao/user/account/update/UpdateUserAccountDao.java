@@ -28,4 +28,5 @@ public interface UpdateUserAccountDao {
     UserEducation findUserEducationById(Integer userId, Integer educationId) throws SQLException;
     UserSkill findUserSkillById(Integer userId, Integer skillId) throws SQLException;
     User findUserByID(Integer id);
+    boolean toggleAccountStatus(int userId) throws SQLException;
 }

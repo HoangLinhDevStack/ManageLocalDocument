@@ -46,7 +46,7 @@ public class AdminSuperCreateAccountController {
     @GetMapping("/admin")
     public String adminCreateAdminAccountForm() {
 
-        return "admin/build_account";
+        return "admin/build_account/create_admin_account";
     }
 
     @PostMapping( value = "/user-list", produces = "application/x-www-form-urlencoded;charset:UTF-8")

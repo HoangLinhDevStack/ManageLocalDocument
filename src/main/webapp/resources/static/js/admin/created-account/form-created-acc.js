@@ -1,4 +1,3 @@
-
 Validate({
 
     // get class and id from tag html
@@ -27,7 +26,8 @@ Validate({
         Validate.isPassword('#password'),
         Validate.isConfirmPassword("#confirm-password"),
         Validate.isSelectRole('#roles'),
-        Validate.isSelectGender('#gender')
+        Validate.isSelectGender('#gender'),
+        Validate.isDateOfBirth('#dob-id')
     ],
 
     onSubmit: function (data) {

@@ -71,6 +71,14 @@
                         <div class="card-body p-4">
                             <h3 class="mb-4 text-center">Change Password</h3>
 
+                            <c:if test="${not empty uploadError}">
+                                <div class="alert alert-danger">${uploadError}</div>
+                            </c:if>
+
+                            <c:if test="${not empty uploadSuccess}">
+                                <div class="alert alert-success">${uploadSuccess}</div>
+                            </c:if>
+
                             <div class="text-center mb-4">
                                 <img src="" alt="Profile Picture" class="rounded-circle mb-2" width="100" height="100">
                                 <h5 class="mb-1">${user.name}</h5>
@@ -154,5 +162,6 @@
         crossorigin="anonymous"></script>
 
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/update_password_user/announce.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/update_password_user/validate.js"></script>
 </body>
 </html>

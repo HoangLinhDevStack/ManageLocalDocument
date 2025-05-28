@@ -17,6 +17,7 @@ public class Admin {
     private String name;
     private String nickname;
     private Date dateOfBirth;
+    private String nation;
     private byte[] picture;
     private Sex sex;
     private String description;
@@ -37,6 +38,14 @@ public class Admin {
         this.educations = new HashSet<>();
         this.addresses = new HashSet<>();
         this.skills = new HashSet<>();
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
     }
 
     public Sex getSex() {

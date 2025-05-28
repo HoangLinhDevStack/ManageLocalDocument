@@ -79,7 +79,8 @@
                         </div>
 
                         <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-document/${document.id}"
-                              method="POST">
+                              method="POST"
+                              onsubmit="return confirm('Bạn có chắc chắn muốn cập nhật tài liệu này?');">
                             <div class="mb-3">
                                 <label for="documentStore" class="form-label">Select Document Store</label>
                                 <select name="documentStoreId" class="form-select" id="documentStore">
@@ -151,6 +152,8 @@
         </div>
     </div>
 </div>
+
+
 
 <%@include file="../combine/footer.jsp" %>
 

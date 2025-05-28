@@ -63,8 +63,12 @@
 
     <div class="form-outline mb-1">
         <label class="form-label" for="dob-id">Ngày tháng năm sinh</label>
-        <input type="date" id="dob-id" class="form-control"
-               placeholder="Chose DOB"/>
+        <form:input type="date" id="dob-id" class="form-control"
+                    placeholder="Chose DOB" path="user.dateOfBirth"/>
+        <p class="form-error mt-2">
+            <i class="bi bi-emoji-expressionless-fill"></i>
+            <span class="error-message"></span> <%--error say --%>
+        </p>
     </div>
 
     <div class="form-outline mb-4">

@@ -17,8 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import javax.sql.DataSource;
 
 @Service
 public class AdminUpdateUserAccountService {
@@ -37,6 +40,9 @@ public class AdminUpdateUserAccountService {
 
     @Autowired
     private PasswordEncoder encoder;
+
+    @Autowired
+    private DataSource dataSource;
 
     public User findUserAccountFullInformation(Integer id) {
 
@@ -235,6 +241,11 @@ public class AdminUpdateUserAccountService {
 
         // Optionally, handle the user role update as well
         updateUserAccountRole(user.getUserAccount().getRole().getId(), userId);
+    }
+
+    @Transactional
+    public boolean toggleAccountStatus(int userId) throws SQLException {
+        return updateUserAccountDao.toggleAccountStatus(userId);
     }
 
 }

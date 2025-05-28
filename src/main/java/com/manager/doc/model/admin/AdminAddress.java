@@ -1,11 +1,20 @@
 package com.manager.doc.model.admin;
 
 public class AdminAddress {
+    private Integer id;
     private String StreetName;
     private String city;
     private String province;
 
     public AdminAddress() {}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getStreetName() {
         return StreetName;

@@ -6,7 +6,7 @@
     background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
 
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    background: linear-gradient(to right, #24e5ee, #36c5d8, #d799b0, #bea0b7);
 }
 
 .gradient-custom-2:hover {
@@ -43,7 +43,7 @@
 .form-outline .form-show {
     position: absolute;
     right: 0;
-    top: 2.3rem;
+    top: 1.8rem;
     float: left;
     font-size: 30px;
     cursor: pointer;

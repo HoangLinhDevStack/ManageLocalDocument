@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <title>Deleted Documents</title>
     
     <style>
@@ -22,6 +23,32 @@
             height: 40px;
             object-fit: contain;
             margin-right: 10px;
+        }
+        
+        /* Style cho DataTables */
+        .dataTables_wrapper .dataTables_filter {
+            margin-bottom: 15px;
+        }
+        
+        .dataTables_wrapper .dataTables_filter input {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-left: 5px;
+        }
+        
+        .dataTables_wrapper .dataTables_length select {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .dataTables_wrapper .dataTables_info {
+            padding-top: 15px;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate {
+            padding-top: 15px;
         }
     </style>
 </head>
@@ -48,7 +75,7 @@
                     <div class="col-lg-12">
                         <div class="main-box clearfix">
                             <div class="table-responsive">
-                                <table class="table user-list">
+                                <table class="table user-list" id="deletedDocumentsTable">
                                     <thead>
                                     <tr>
                                         <th><span>Name Document</span></th>
@@ -150,5 +177,32 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#deletedDocumentsTable').DataTable({
+            language: {
+                search: "Tìm kiếm:",
+                lengthMenu: "Hiển thị _MENU_ bản ghi",
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+                infoEmpty: "Hiển thị 0 đến 0 của 0 bản ghi",
+                infoFiltered: "(được lọc từ _MAX_ bản ghi)",
+                paginate: {
+                    first: "Đầu",
+                    last: "Cuối",
+                    next: "Tiếp",
+                    previous: "Trước"
+                }
+            },
+            pageLength: 10,
+            order: [[0, 'asc']], // Sắp xếp theo cột tên tài liệu
+            responsive: true
+        });
+    });
+</script>
 </body>
 </html> 

@@ -33,6 +33,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -75,13 +76,157 @@ public class AdminSuperUpDocumentController {
     @PostMapping("/upload")
     public String uploadDocument(@RequestParam("title") String title,
                                @RequestParam("author") String author,
-                               @RequestParam("status") String status,
-                               @RequestParam("documentStoreId") int documentStoreId,
+                               @RequestParam(value = "status", required = false) String status,
+                               @RequestParam(value = "documentStoreId", required = false) String documentStoreIdStr,
                                @RequestParam(value = "genreIdsStr", required = false) String genreIdsStr,
                                @RequestParam("fileData") MultipartFile fileData,
                                RedirectAttributes redirectAttributes) throws NoSuchAlgorithmException {
-        try {
 
+        System.out.println(documentStoreIdStr + " Có gì ở đây ko?");
+
+        // Kiểm tra title
+        if (title == null || title.trim().isEmpty()) {
+            redirectAttributes.addFlashAttribute("uploadError", "Tiêu đề không được để trống");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+        // Kiểm tra documentStoreId
+        if (documentStoreIdStr == null || documentStoreIdStr.trim().isEmpty()) {
+            redirectAttributes.addFlashAttribute("uploadError", "Vui lòng chọn kho tài liệu");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+        int documentStoreId;
+        try {
+            documentStoreId = Integer.parseInt(documentStoreIdStr);
+            if (documentStoreId <= 0) {
+                redirectAttributes.addFlashAttribute("uploadError", "Kho tài liệu không hợp lệ");
+                return "redirect:/ManagerBook/admin/super/up-document";
+            }
+            // Kiểm tra xem documentStoreId có tồn tại trong danh sách không
+            Map<Integer, String> stores = documentService.getIDAndNameDocumentStore();
+            if (stores == null || stores.isEmpty() || !stores.containsKey(documentStoreId)) {
+                redirectAttributes.addFlashAttribute("uploadError", "Kho tài liệu không tồn tại");
+                return "redirect:/ManagerBook/admin/super/up-document";
+            }
+        } catch (NumberFormatException e) {
+            redirectAttributes.addFlashAttribute("uploadError", "ID kho tài liệu không hợp lệ");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        } catch (JSQLParserException e) {
+            redirectAttributes.addFlashAttribute("uploadError", "Lỗi khi kiểm tra kho tài liệu");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+        // Kiểm tra status
+        if (status == null || status.trim().isEmpty()) {
+            redirectAttributes.addFlashAttribute("uploadError", "Trạng thái không được để trống");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+        // Kiểm tra status có hợp lệ không
+        try {
+            StatusDocument.valueOf(status);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("uploadError", "Trạng thái không hợp lệ. Các trạng thái hợp lệ: Pending, Approved, Rejected");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+        // Kiểm tra author
+        if (author == null || author.trim().isEmpty()) {
+            redirectAttributes.addFlashAttribute("uploadError", "Tác giả không được để trống");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+//        // Kiểm tra status
+//        if (status == null || status.trim().isEmpty()) {
+//            redirectAttributes.addFlashAttribute("uploadError", "Trạng thái không được để trống");
+//            return "redirect:/ManagerBook/admin/super/up-document";
+//        }
+//
+//        // Kiểm tra status có hợp lệ không
+//        try {
+//            StatusDocument.valueOf(status);
+//        } catch (IllegalArgumentException e) {
+//            redirectAttributes.addFlashAttribute("uploadError", "Trạng thái không hợp lệ. Các trạng thái hợp lệ: Pending, Approved, Rejected");
+//            return "redirect:/ManagerBook/admin/super/up-document";
+//        }
+
+
+
+//        int documentStoreId;
+//        try {
+//            documentStoreId = Integer.parseInt(documentStoreIdStr);
+//            if (documentStoreId <= 0) {
+//                redirectAttributes.addFlashAttribute("uploadError", "Kho tài liệu không hợp lệ");
+//                return "redirect:/ManagerBook/admin/super/up-document";
+//            }
+//            // Kiểm tra xem documentStoreId có tồn tại trong danh sách không
+//            Map<Integer, String> stores = documentService.getIDAndNameDocumentStore();
+//            if (stores == null || stores.isEmpty() || !stores.containsKey(documentStoreId)) {
+//                redirectAttributes.addFlashAttribute("uploadError", "Kho tài liệu không tồn tại");
+//                return "redirect:/ManagerBook/admin/super/up-document";
+//            }
+//        } catch (NumberFormatException e) {
+//            redirectAttributes.addFlashAttribute("uploadError", "ID kho tài liệu không hợp lệ");
+//            return "redirect:/ManagerBook/admin/super/up-document";
+//        } catch (JSQLParserException e) {
+//            redirectAttributes.addFlashAttribute("uploadError", "Lỗi khi kiểm tra kho tài liệu");
+//            return "redirect:/ManagerBook/admin/super/up-document";
+//        }
+
+        // Kiểm tra file
+        if (fileData == null || fileData.isEmpty()) {
+            redirectAttributes.addFlashAttribute("uploadError", "Vui lòng chọn file tài liệu");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+        // Kiểm tra định dạng file
+        String originalFilename = fileData.getOriginalFilename();
+        if (originalFilename == null) {
+            redirectAttributes.addFlashAttribute("uploadError", "Tên file không hợp lệ");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+        
+        String fileExtension = originalFilename.toLowerCase();
+        if (!fileExtension.endsWith(".pdf") && 
+            !fileExtension.endsWith(".doc") && 
+            !fileExtension.endsWith(".docx") && 
+            !fileExtension.endsWith(".xls") && 
+            !fileExtension.endsWith(".xlsx")) {
+            redirectAttributes.addFlashAttribute("uploadError", "Chỉ chấp nhận file PDF, Word (.doc, .docx) và Excel (.xls, .xlsx)");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+        // Kiểm tra kích thước file (giới hạn 3.5GB)
+        if (fileData.getSize() > 3.5 * 1024 * 1024 * 1024) {
+            redirectAttributes.addFlashAttribute("uploadError", "Kích thước file không được vượt quá 3.5GB");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+        // Kiểm tra genreIdsStr
+        if (genreIdsStr == null || genreIdsStr.trim().isEmpty()) {
+            redirectAttributes.addFlashAttribute("uploadError", "Vui lòng chọn ít nhất một thể loại");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+        // Kiểm tra định dạng của genreIdsStr
+        try {
+            String[] genreIds = genreIdsStr.split(",");
+            for (String genreId : genreIds) {
+                if (!genreId.trim().matches("\\d+")) {
+                    redirectAttributes.addFlashAttribute("uploadError", "Định dạng thể loại không hợp lệ");
+                    return "redirect:/ManagerBook/admin/super/up-document";
+                }
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("uploadError", "Định dạng thể loại không hợp lệ");
+            return "redirect:/ManagerBook/admin/super/up-document";
+        }
+
+        try {
+            // Validate status enum
+            StatusDocument statusEnum = StatusDocument.valueOf(status);
+            
             // Lấy thông tin người dùng từ Spring Security
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String username;
@@ -129,18 +274,8 @@ public class AdminSuperUpDocumentController {
                 return "redirect:/ManagerBook/admin/super/up-document";
             }
 
-            // Validate enum status
-            StatusDocument statusDefine;
-            try {
-                statusDefine = StatusDocument.valueOf(form.getStatus());
-            } catch (IllegalArgumentException e) {
-                redirectAttributes.addFlashAttribute("uploadError", "Trạng thái không hợp lệ.");
-                return "redirect:/ManagerBook/admin/super/up-document";
-            }
-
             // ===== 📁 Xây đường dẫn lưu file theo ngày
-            String originalFileName = formatTextUTF_8.decodeValue(uploadedFile.getOriginalFilename());
-            String safeFileName = documentService.generateFileName(Objects.requireNonNull(originalFileName), uploadedFile.getBytes());
+            String safeFileName = documentService.generateFileName(Objects.requireNonNull(originalFilename), uploadedFile.getBytes());
             String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
             Path folderPath = Paths.get(uploadDir, today);
             Files.createDirectories(folderPath);  // Tạo thư mục nếu chưa có
@@ -149,7 +284,7 @@ public class AdminSuperUpDocumentController {
             Path finalFilePath = folderPath.resolve(safeFileName);
             if (Files.exists(finalFilePath)) {
                 // Sinh lại tên file nếu trùng
-                safeFileName = documentService.generateFileName(originalFileName, uploadedFile.getBytes());
+                safeFileName = documentService.generateFileName(originalFilename, uploadedFile.getBytes());
                 finalFilePath = folderPath.resolve(safeFileName);
             }
 
@@ -186,12 +321,15 @@ public class AdminSuperUpDocumentController {
             }
 
             documentService.uploadDocument(document, form.getDocumentStoreId());
-            redirectAttributes.addFlashAttribute("uploadSuccess", "Tải lên thành công.");
+            redirectAttributes.addFlashAttribute("uploadSuccess", "Tải lên thành công." + form.getTitle());
             return "redirect:/ManagerBook/admin/super/list-document";
 
-        } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("uploadError", "Lỗi khi ghi tệp: " + e.getMessage());
-            return "redirect:/ManagerBook/admin/super/up-document";
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("uploadError", "Trạng thái không hợp lệ");
+            return "redirect:/ManagerBook/admin/super/upload-document";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("uploadError", "Lỗi khi xử lý tài liệu: " + e.getMessage());
+            return "redirect:/ManagerBook/admin/super/upload-document";
         }
     }
 

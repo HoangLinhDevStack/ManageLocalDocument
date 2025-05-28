@@ -15,6 +15,8 @@ import com.manager.doc.service.sex.FetchSex;
 import com.manager.doc.service.user.inf.UserInformationService;
 import net.sf.jsqlparser.JSQLParserException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("admin/super/update-account")
@@ -88,8 +91,6 @@ public class AdminSuperUpdateAccountController {
         JsonNode changes = mapper.readTree(changeSetJson);
         System.out.println(changes.toString());
 
-        System.out.println("DCM đây là quốc gia" + user.getNation());
-
         UserRoles userRoles = new UserRoles();
         userRoles.setId(roleId);
         Sex sex = new Sex();
@@ -133,5 +134,20 @@ public class AdminSuperUpdateAccountController {
         model.addAttribute("departmentWork", fetchDepartment.fetchFullDepartmentWork());
 
         return "admin/build_account/read_user_account";
+    }
+
+    @RequestMapping(value = "/toggle-account-status/{id}", method = {RequestMethod.GET, RequestMethod.POST})
+    public String toggleAccountStatus(@PathVariable int id, RedirectAttributes redirectAttributes) {
+        try {
+            boolean result = adminUpdateUserAccountService.toggleAccountStatus(id);
+            if (result) {
+                redirectAttributes.addFlashAttribute("successMessage", "Cập nhật trạng thái tài khoản thành công");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "Cập nhật trạng thái tài khoản thất bại");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
+        }
+        return "redirect:/ManagerBook/admin/super/list-account";
     }
 }
