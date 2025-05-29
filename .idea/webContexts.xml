@@ -6,8 +6,11 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/TestSendData.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/Login_out/login.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/Login_out" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/create_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/create_admin_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/create_user_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/form/form-create-admin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/form" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/form/form-create.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/form" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/read_admin_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/read_user_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/update_user_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/combine/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/combine" />

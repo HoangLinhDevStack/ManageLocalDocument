@@ -1,16 +1,327 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Admin
-  Date: 17/12/2024
-  Time: 12:33 CH
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/base.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/side-bar.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/resources/static/dist/css_web_config/right-side.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/resources/static/dist/css_components/admin/css_cre_account/create-account-admin.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Tạo tài khoản người dùng</title>
 </head>
+
 <body>
 
+
+<div class="container-fluid flex-fill padding-0">
+
+    <div class="d-flex height-100percent ">
+
+        <!--
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                            Sidebar left side begin
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        -->
+
+        <%@include file="../combine/navbar-right.jsp" %>
+
+        <!--
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                            Sidebar left side end
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        -->
+
+
+        <div id="right-side" class="padding-0 container">
+
+            <!--
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                                Header begin
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            -->
+
+            <%@include file="../combine/header.jsp" %>
+
+            <!--
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                                Header end
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            -->
+
+
+            <!--
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                                Container right begin
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            -->
+
+
+            <div class="container mt-1">
+                <h2 class="text-center">Tạo tài khoản cho người quản trị</h2>
+
+                <section class="gradient-form" style="background-color: #eee;">
+
+
+                    <div class="row g-0">
+                        <div class="col-lg-8">
+                            <div class="card-body p-md-5 mx-md-4" >
+
+                                <!--
+                                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                        Form create account for Admin "Super" start
+                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                -->
+
+                                <sec:authorize access="hasAuthority('Super')">
+
+                                    <form:form action="${pageContext.request.contextPath}/ManagerBook/admin/super/create-account/admin-list"
+                                               method="post"
+                                               modelAttribute="createAdminAccountDTO"
+                                               id="form-created-acc"
+                                               accept-charset="UTF-8">
+
+
+
+<%--                                        <%@include file="form/form-create-admin.jsp" %>--%>
+
+
+                                        <p>Điền đầy đủ thông tin giữa các trường</p>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="name">Tên người quản trị</label>
+                                                <%-- this name of user --%>
+                                            <form:input type="text" id="name" class="form-control"
+                                                        placeholder="Nhập tên người dùng"
+                                                        lang="vi"
+                                                        htmlEscape="true"
+                                                        dynamicAttributes="{lang: vi}"
+
+                                                        path="admin.name"/>
+                                            <p class="form-error mt-2">
+                                                <i class="bi bi-emoji-expressionless-fill"></i>
+                                                <span class="error-message"></span> <%--error say --%>
+                                            </p>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="username">Tài khoản người quản trị</label>
+                                                <%-- this username account --%>
+                                            <form:input type="text" id="username" class="form-control"
+                                                        placeholder="Tạo tài khoản người dùng" path="username"/>
+                                            <p class="form-error mt-2">
+                                                <i class="bi bi-emoji-expressionless-fill"></i>
+                                                <span class="error-message"></span> <%--error say --%>
+                                            </p>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="password">Mật khẩu</label>
+                                            <div class="form-show">
+                                                    <%--                                                                                            <i class="bi bi-eye"></i>--%>
+                                                <i class="bi bi-eye-slash"></i>
+                                            </div>
+                                            <input type="password" id="password"
+                                                   class="form-control" placeholder="Nhập mật khẩu"/>
+                                            <p class="form-error mt-2">
+                                                <i class="bi bi-emoji-expressionless-fill"></i>
+                                                <span class="error-message"></span> <%--error say --%>
+                                            </p>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="confirm-password">Xác nhận mật khẩu</label>
+                                            <div class="form-show">
+                                                    <%--                                            <i class="bi bi-eye"></i>--%>
+                                                <i class="bi bi-eye-slash"></i>
+                                            </div>
+                                            <form:input type="password" id="confirm-password" class="form-control"
+                                                        placeholder="Xác nhận mật khẩu" path="password"/>
+                                            <p class="form-error mt-2">
+                                                <i class="bi bi-emoji-expressionless-fill"></i>
+                                                <span class="error-message"></span> <%--error say --%>
+                                            </p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+
+                                            <div class="form-outline mb-1">
+                                                <label class="form-label" for="dob-id">Ngày tháng năm sinh</label>
+                                                <form:input type="date" id="dob-id" class="form-control"
+                                                            placeholder="Chose DOB" path="admin.dateOfBirth"/>
+                                                <p class="form-error mt-2">
+                                                    <i class="bi bi-emoji-expressionless-fill"></i>
+                                                    <span class="error-message"></span> <%--error say --%>
+                                                </p>
+                                            </div>
+
+                                            <div class="form-outline mb-4">
+                                                <label class="form-label" for="roles">Vai trò người dùng</label>
+                                                    <%-- This get value roles user --%>
+                                                <form:select id="roles" class="form-select"
+                                                             aria-label="Default select example" path="role.id">
+                                                    <option value="">Chọn vai trò người dùng</option>
+                                                    <c:if test="${roleAdmin != null}">
+                                                        <c:forEach items="${roleAdmin}" var="entry">
+                                                            <form:option value="${entry.key}">${entry.value}</form:option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </form:select>
+
+                                                <p class="form-error mt-2">
+                                                    <i class="bi bi-emoji-expressionless-fill"></i>
+                                                    <span class="error-message"></span> <%--error say --%>
+                                                </p>
+                                            </div>
+
+                                            <div class="form-outline mb-4">
+                                                <label class="form-label" for="gender">Chọn giới tính</label>
+                                                    <%-- This get value gender --%>
+                                                <form:select id="gender" class="form-select"
+                                                             aria-label="Default select example" path="sex.id">
+                                                    <option value="">Chọn giới tính</option>
+                                                    <c:if test="${sexData != null}">
+                                                        <c:forEach items="${sexData}" var="entry">
+                                                            <form:option value="${entry.key}">${entry.value}</form:option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </form:select>
+
+                                                <p class="form-error mt-2">
+                                                    <i class="bi bi-emoji-expressionless-fill"></i>
+                                                    <span class="error-message"></span> <%--error say --%>
+                                                </p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-model text-center pt-1 mb-3">
+
+                                            <!-- Button trigger modal -->
+                                            <button type="button"
+                                                    id="button-modal"
+                                                    class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 p-3">
+                                                Tạo tài khoản người dùng
+                                            </button>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                 aria-labelledby="exampleModalLabel">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Tạo tài
+                                                                khoản người dùng</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Bạn có muốn tạo tài khoản người dùng không?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" id="modalNoBtn"
+                                                                    class="model-no btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Không (Đóng)
+                                                            </button>
+                                                                <%--                                                        <button type="button" id="modalYesBtn"--%>
+                                                                <%--                                                                class="model-yes btn btn-primary">Có (Đồng ý)--%>
+                                                            <input id="submit"
+                                                                   class="btn btn-primary btn-block fa-lg gradient-custom-2"
+                                                                   type="submit" value="Có (Đồng ý)"/>
+                                                                <%--                                                        </button>--%>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </form:form>
+
+                                </sec:authorize>
+
+
+                                <!--
+                                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                                Form create account for Admin "Super" end
+                                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                -->
+
+
+
+
+<%--                                <div class="d-flex align-items-center justify-content-center pb-4">--%>
+<%--                                    <p class="mb-0 me-2">Check tài khoản người dùng</p>--%>
+<%--                                    <button type="button" class="btn btn-outline-danger">Kiểm tra</button>--%>
+<%--                                </div>--%>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-flex gradient-custom-2">
+                            <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+
+
+                                <%--                            <img src="${pageContext.request.contextPath}/resources/static/img/combine/beautiful-mountains-landscape_pink.jpg" alt="">--%>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </section>
+
+            </div>
+
+
+            <!--
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                                Container right end
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            -->
+
+
+        </div>
+
+    </div>
+
+</div>
+<!--
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                    footer left side end
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+
+<%@include file="../combine/footer.jsp" %>
+
+
+<!--
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                                    footer left side end
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/created-account/interface-form.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/created-account/validate-created-acc.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/created-account/properties-method-created-acc.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/created-account/form-created-acc.js"></script>
 </body>
+
 </html>

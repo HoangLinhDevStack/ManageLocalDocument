@@ -67,6 +67,13 @@
                                     </c:otherwise>
                                 </c:choose>
                                 <h4 class="mb-0 ms-3">${document.title}</h4>
+
+                                <div class="d-flex ms-auto">
+                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document" class="btn btn-secondary">
+                                        <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                                    </a>
+                                </div>
+
                             </div>
                             <div class="mt-2">
                                 <strong>Thể loại hiện tại:</strong>

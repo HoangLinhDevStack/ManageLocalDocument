@@ -1,7 +1,10 @@
 package com.manager.doc.service.admin.inf;
 
+import com.manager.doc.dao.admin.information.fetch.full.FetchFullAdminDao;
+import com.manager.doc.dao.admin.information.fetch.roles.AdminRoleDao;
 import com.manager.doc.dao.department.DepartmentDao;
 import com.manager.doc.dao.user.information.fetch.full.FetchFullUserDao;
+import com.manager.doc.model.admin.*;
 import com.manager.doc.model.department.Department;
 import com.manager.doc.model.department.DepartmentWork;
 import com.manager.doc.model.user.*;
@@ -23,9 +26,19 @@ public class AdminInformationService {
     private FetchFullUserDao fetchFullUserDao;
 
     @Autowired
+    @Qualifier("fetchFullAdminDaoImpl")
+    private FetchFullAdminDao fetchFullAdminDao;
+
+    @Autowired
     @Qualifier("departmentDaoImpl")
     private DepartmentDao fetchDepartmentDao;
 
+    @Autowired
+    @Qualifier("adminRoleDaoImpl")
+    private AdminRoleDao adminRoleDao;
+
+
+//    --------------------------------------FOR ADMIN MANAGE USER ACCOUNT-----------------------------------------------------
     protected UserAccount getUserAccountByID(Integer IDUser) {
 
         return fetchFullUserDao.getUserAccountByID(IDUser);
@@ -94,10 +107,72 @@ public class AdminInformationService {
         return fetchDepartmentDao.getFullDepartmentWork();
     }
 
-//    public Map<Integer, String> fetchAdminRole() throws JSQLParserException { // * Fetch role user by id and value
-//
-//        return userRoleDao.fetchUserRole();
-//    }
+
+//    --------------------------------------FOR ADMIN MANAGE ADMIN ACCOUNT-----------------------------------------------------
+
+    public Map<Integer, String> fetchAdminRole() throws JSQLParserException { // * Fetch role user by id and value
+
+        return adminRoleDao.fetchAdminRole();
+    }
+
+    protected AdminAccount getAdminAccountByID(Integer IDAdmin) {
+
+        return fetchFullAdminDao.getAdminAccountByID(IDAdmin);
+    } // * private admin inf
+
+    private List<Admin> multipleAdminInformation() {
+        List<Admin> admins = new ArrayList<>(fetchFullAdminDao.getAdminInformation()); // * to get data from list users
+
+        for (Admin admin: admins) {
+            List<AdminEducation> educationList = new ArrayList<>(fetchFullAdminDao.getAdminEducations(admin.getId()));
+            List<AdminAddress> addressList = new ArrayList<>(fetchFullAdminDao.getAdminAddresses(admin.getId()));
+            List<AdminSkill> skillList = new ArrayList<>(fetchFullAdminDao.getAdminSkills(admin.getId()));
+
+            for (AdminEducation adminEducation: educationList) { // * each user to be add education
+
+                admin.getEducations().add(adminEducation);
+            }
+
+            for (AdminAddress adminAddress: addressList) { // * each user to be add address
+
+                admin.getAddresses().add(adminAddress);
+            }
+
+            for (AdminSkill adminSkill: skillList) { // * each user to be add address
+
+                admin.getSkills().add(adminSkill);
+            }
+
+        }
+
+        return admins;
+    }
+
+    public List<Admin> getMultipleInfAdmin() {
+
+        return multipleAdminInformation();
+    } // * multiple inf
+
+    public List<Admin> getAllAdminInformation() { // * method get all data private and multiple inf user
+
+        AdminAccount newAdminAccount;
+        List<Admin> newAdmins = new ArrayList<>();
+
+        for (Admin admin : multipleAdminInformation()) {
+            newAdminAccount = getAdminAccountByID(admin.getId());
+
+            admin.getAdminAccount().setId(newAdminAccount.getId());
+            admin.getAdminAccount().setUsername(newAdminAccount.getUsername());
+//            user.getUserAccount().setPassword(newUserAccount.getPassword());
+            admin.getAdminAccount().setEnable(newAdminAccount.getEnable());
+            admin.getAdminAccount().setRole(newAdminAccount.getRole());
+
+            newAdmins.add(admin);
+        }
+
+        return newAdmins;
+    }
+
 
 
 }

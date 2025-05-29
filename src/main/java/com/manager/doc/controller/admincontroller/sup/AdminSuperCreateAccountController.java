@@ -1,7 +1,9 @@
 package com.manager.doc.controller.admincontroller.sup;
 
+import com.manager.doc.dto.admin.CreateAdminAccountDTO;
 import com.manager.doc.dto.user.CreateUserAccountDTO;
 import com.manager.doc.service.admin.account.AdminCreateUserAccountService;
+import com.manager.doc.service.admin.inf.AdminInformationService;
 import com.manager.doc.service.sex.FetchSex;
 import com.manager.doc.service.user.inf.UserInformationService;
 import net.sf.jsqlparser.JSQLParserException;
@@ -25,6 +27,9 @@ public class AdminSuperCreateAccountController {
     @Autowired
     private UserInformationService userInformationService;
 
+    @Autowired
+    private AdminInformationService adminInformationService;
+
     @GetMapping
     public String adminChoiceFormAccount() {
         return "admin/build_account/choice_form";
@@ -44,7 +49,14 @@ public class AdminSuperCreateAccountController {
     }
 
     @GetMapping("/admin")
-    public String adminCreateAdminAccountForm() {
+    public String adminCreateAdminAccountForm(@ModelAttribute("createAdminAccountDTO") CreateAdminAccountDTO createAdminAccountDTO, Model model) throws JSQLParserException {
+
+        Map<Integer, String> sexData = fetchSex.choiceSex();
+        Map<Integer, String> roleAdmins = adminInformationService.fetchAdminRole(); // ! fix from user to admin roles
+
+        model.addAttribute("sexData", sexData);
+        model.addAttribute("roleAdmin", roleAdmins);
+        System.out.println(roleAdmins);
 
         return "admin/build_account/create_admin_account";
     }
@@ -59,9 +71,14 @@ public class AdminSuperCreateAccountController {
         return "redirect:/ManagerBook/admin/super/list-account";
     }
 
-    @PostMapping("/admin")
-    public String adminCreateAdminAccount() {
-        return "admin/homepage";
+    @PostMapping(value = "/admin-list", produces = "application/x-www-form-urlencoded;charset:UTF-8")
+    public String adminCreateAdminAccount(@ModelAttribute("createAdminAccountDTO") CreateAdminAccountDTO createAdminAccountDTO) {
+
+        System.out.println("Controller layer: " + createAdminAccountDTO.getAdmin().getName());
+
+        adminCreateUserAccountService.createAdminAccount(createAdminAccountDTO);
+
+        return "admin/build_account/read_admin_account";
     }
 
 

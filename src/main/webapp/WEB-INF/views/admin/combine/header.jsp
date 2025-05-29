@@ -38,7 +38,7 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item" href="<c:url value="/ManagerBook/admin/logout" />">
+                                <a class="dropdown-item" href="<c:url value="/ManagerBook/admin/logout" />" onclick="return confirm('Bạn có chắc chắn muốn đăng xuất?');">
                                     <i class="bi bi-box-arrow-right"></i>
                                     Đăng xuất
                                 </a>

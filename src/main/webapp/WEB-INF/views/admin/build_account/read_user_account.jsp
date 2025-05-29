@@ -135,36 +135,36 @@
                                         <div class="col-lg-3">
                                             <h5>Lọc theo:</h5>
                                         </div>
-                                        <div class="col-lg-3">
-                                            <select class="form-select" id="roleFilter">
-                                                <option value="">Tất cả vai trò</option>
-                                                <c:if test="${roleUser != null}">
-                                                    <c:forEach items="${roleUser}" var="entry">
-                                                        <option value="${entry.key}">${entry.value}</option>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <select class="form-select" id="departmentFilter">
-                                                <option value="">Tất cả khoa</option>
-                                                <c:if test="${DepartmentKeyAndValue != null}">
-                                                    <c:forEach items="${DepartmentKeyAndValue}" var="entry">
-                                                        <option value="${entry.key}">${entry.value}</option>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <select class="form-select" id="officeFilter">
-                                                <option value="">Tất cả phòng ban</option>
-                                                <c:if test="${OfficeKeyAndValue != null}">
-                                                    <c:forEach items="${OfficeKeyAndValue}" var="entry">
-                                                        <option value="${entry.key}">${entry.value}</option>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </select>
-                                        </div>
+<%--                                        <div class="col-lg-3">--%>
+<%--                                            <select class="form-select" id="roleFilter">--%>
+<%--                                                <option value="">Tất cả vai trò</option>--%>
+<%--                                                <c:if test="${roleUser != null}">--%>
+<%--                                                    <c:forEach items="${roleUser}" var="entry">--%>
+<%--                                                        <option value="${entry.key}">${entry.value}</option>--%>
+<%--                                                    </c:forEach>--%>
+<%--                                                </c:if>--%>
+<%--                                            </select>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="col-lg-3">--%>
+<%--                                            <select class="form-select" id="departmentFilter">--%>
+<%--                                                <option value="">Tất cả khoa</option>--%>
+<%--                                                <c:if test="${DepartmentKeyAndValue != null}">--%>
+<%--                                                    <c:forEach items="${DepartmentKeyAndValue}" var="entry">--%>
+<%--                                                        <option value="${entry.key}">${entry.value}</option>--%>
+<%--                                                    </c:forEach>--%>
+<%--                                                </c:if>--%>
+<%--                                            </select>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="col-lg-3">--%>
+<%--                                            <select class="form-select" id="officeFilter">--%>
+<%--                                                <option value="">Tất cả phòng ban</option>--%>
+<%--                                                <c:if test="${OfficeKeyAndValue != null}">--%>
+<%--                                                    <c:forEach items="${OfficeKeyAndValue}" var="entry">--%>
+<%--                                                        <option value="${entry.key}">${entry.value}</option>--%>
+<%--                                                    </c:forEach>--%>
+<%--                                                </c:if>--%>
+<%--                                            </select>--%>
+<%--                                        </div>--%>
                                     </div>
                                 </div>
                             </div>
@@ -172,46 +172,46 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="align-items-center row">
-                                    <div class="col-lg-8">
-                                        <div class="mb-3 mb-lg-0">
-                                            <h6 class="fs-16 mb-0">Showing 1 – 8 of 11 results</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="candidate-list-widgets">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="selection-widget">
+<%--                                    <div class="col-lg-8">--%>
+<%--                                        <div class="mb-3 mb-lg-0">--%>
+<%--                                            <h6 class="fs-16 mb-0">Showing 1 – 8 of 11 results</h6>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                    <div class="col-lg-4">--%>
+<%--                                        <div class="candidate-list-widgets">--%>
+<%--                                            <div class="row">--%>
+<%--                                                <div class="col-lg-6">--%>
+<%--                                                    <div class="selection-widget">--%>
 
 
-                                                        <select class="form-select" data-trigger="true"
-                                                                name="choices-single-filter-orderby"
-                                                                id="choices-single-filter-orderby"
-                                                                aria-label="Default select example">
-                                                            <option value="df">Gần đây</option>
-                                                            <option value="ne">Newest</option>
-                                                            <option value="od">Oldest</option>
-                                                            <option value="rd">Random</option>
-                                                        </select>
+<%--                                                        <select class="form-select" data-trigger="true"--%>
+<%--                                                                name="choices-single-filter-orderby"--%>
+<%--                                                                id="choices-single-filter-orderby"--%>
+<%--                                                                aria-label="Default select example">--%>
+<%--                                                            <option value="df">Gần đây</option>--%>
+<%--                                                            <option value="ne">Newest</option>--%>
+<%--                                                            <option value="od">Oldest</option>--%>
+<%--                                                            <option value="rd">Random</option>--%>
+<%--                                                        </select>--%>
 
 
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="selection-widget mt-2 mt-lg-0">
-                                                        <select class="form-select" data-trigger="true"
-                                                                name="choices-candidate-page"
-                                                                id="choices-candidate-page"
-                                                                aria-label="Default select example">
-                                                            <option value="df">Toàn bộ tài khoản</option>
-                                                            <option value="ne">8 per Page</option>
-                                                            <option value="ne">12 per Page</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+<%--                                                    </div>--%>
+<%--                                                </div>--%>
+<%--                                                <div class="col-lg-6">--%>
+<%--                                                    <div class="selection-widget mt-2 mt-lg-0">--%>
+<%--                                                        <select class="form-select" data-trigger="true"--%>
+<%--                                                                name="choices-candidate-page"--%>
+<%--                                                                id="choices-candidate-page"--%>
+<%--                                                                aria-label="Default select example">--%>
+<%--                                                            <option value="df">Toàn bộ tài khoản</option>--%>
+<%--                                                            <option value="ne">8 per Page</option>--%>
+<%--                                                            <option value="ne">12 per Page</option>--%>
+<%--                                                        </select>--%>
+<%--                                                    </div>--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
                                 </div>
 
 
@@ -303,7 +303,10 @@
                                                             </button>
                                                             <ul class="dropdown-menu">
                                                                 <li>
-                                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/toggle-account-status/${item.id}" method="post" style="margin: 0;">
+                                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/toggle-account-status/${item.id}"
+                                                                          method="post"
+                                                                          style="margin: 0;"
+                                                                          onsubmit="return confirm('Bạn có chắc chắn muốn ${item.userAccount.enable == 1 ? ' vô hiệu hóa' : ' kích hoạt'} tài khoản này không?');">
                                                                         <button type="submit" class="dropdown-item">
                                                                             <i class="bi ${item.userAccount.enable == 1 ? 'bi-x-circle-fill text-danger' : 'bi-check-circle-fill text-primary'}"></i>
                                                                             <span>${item.userAccount.enable == 1 ? 'Vô hiệu hóa tài khoản' : 'Kích hoạt tài khoản'}</span>

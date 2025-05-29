@@ -110,7 +110,8 @@
                                             <div class="card l-bg-blue-dark">
 
                                                 <sec:authorize access="hasAuthority('Super')">
-                                                    <a class="card-link" href="">
+                                                    <a class="card-link"
+                                                       href="${pageContext.request.contextPath}/ManagerBook/admin/super/create-account/admin">
 
                                                         <%@include file="../build_account/card/create_admin.jsp" %>
 

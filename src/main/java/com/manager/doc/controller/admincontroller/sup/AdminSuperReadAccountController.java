@@ -1,6 +1,8 @@
 package com.manager.doc.controller.admincontroller.sup;
 
+import com.manager.doc.dto.admin.CreateAdminAccountDTO;
 import com.manager.doc.dto.user.CreateUserAccountDTO;
+import com.manager.doc.model.admin.AdminAccount;
 import com.manager.doc.model.user.UserAccount;
 import com.manager.doc.service.admin.account.AdminReadUserAccountService;
 import com.manager.doc.service.admin.inf.AdminInformationService;
@@ -59,6 +61,32 @@ public class AdminSuperReadAccountController {
 
     @PostMapping
     public String adminReadAccount(@ModelAttribute("userAccountDTO") CreateUserAccountDTO createUserAccountDTO, Model model) {
+        // This method is not used currently
+        return "redirect:/ManagerBook/admin/super/list-account";
+    }
+
+    @GetMapping("/admin")
+    public String adminReadAccountForm(Model model) {
+        try {
+            List<AdminAccount> accounts = adminReadUserAccountService.getAdminsAccount();
+
+            model.addAttribute("roleAdmin", adminInformationService.fetchAdminRole());
+            model.addAttribute("DepartmentKeyAndValue", fetchDepartment.choiceDepartment());
+            model.addAttribute("OfficeKeyAndValue", fetchOffice.choiceOffices());
+            model.addAttribute("adminAccount", accounts);
+            model.addAttribute("allAdminInformation", adminInformationService.getAllAdminInformation());
+            model.addAttribute("departmentWork", fetchDepartment.fetchFullDepartmentWork());
+
+            return "admin/build_account/read_admin_account";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "An error occurred while loading user accounts: " + e.getMessage());
+            return "admin/build_account/read_admin_account";
+        }
+    }
+
+    @PostMapping("/admin")
+    public String adminReadAdminAccount(@ModelAttribute("adminAccountDTO") CreateAdminAccountDTO createAdminAccountDTO, Model model) {
         // This method is not used currently
         return "redirect:/ManagerBook/admin/super/list-account";
     }
