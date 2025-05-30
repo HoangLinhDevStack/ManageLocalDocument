@@ -196,6 +196,87 @@
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/created-account/validate-created-acc.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/created-account/properties-method-created-acc.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/created-account/form-created-acc.js"></script>
+
+<style>
+.warning-icon {
+    color: #ff6b6b; /* Màu đỏ vàng */
+    margin-right: 5px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded');
+    
+    const usernameInput = document.getElementById('username');
+    console.log('Username input:', usernameInput);
+    
+    const errorMessageUsername = document.querySelector('.error-message-username');
+    console.log('Error message span:', errorMessageUsername);
+    
+    const warningIcon = document.querySelector('.warning-icon');
+    console.log('Warning icon:', warningIcon);
+    
+    const form = document.getElementById('form-created-acc');
+    console.log('Form:', form);
+    
+    let isUsernameValid = true;
+    
+    if (!usernameInput || !errorMessageUsername || !warningIcon || !form) {
+        console.error('Required elements not found');
+        return;
+    }
+    
+    // Lấy danh sách username từ model và chuyển thành mảng JavaScript
+    const existingUsernames = [
+        <c:forEach items="${existingUsernames}" var="username">
+            "${username}",
+        </c:forEach>
+    ];
+    console.log('Existing usernames:', existingUsernames);
+
+    usernameInput.addEventListener('input', function() {
+        const username = this.value;
+        console.log('Username input value:', username);
+        
+        if (username) {
+            // Check xem username có trùng với username nào trong danh sách không
+            const isDuplicate = existingUsernames.some(existingUsername => 
+                existingUsername === username
+            );
+            console.log('Is duplicate:', isDuplicate);
+
+            if (isDuplicate) {
+                errorMessageUsername.textContent = 'Tên tài khoản này đã được sử dụng';
+                errorMessageUsername.style.color = '#ff6b6b';
+                warningIcon.style.display = 'inline-block'; // Hiển thị icon
+                usernameInput.setCustomValidity('Tên tài khoản này đã được sử dụng');
+                isUsernameValid = false;
+            } else {
+                errorMessageUsername.textContent = '';
+                warningIcon.style.display = 'none'; // Ẩn icon
+                usernameInput.setCustomValidity('');
+                isUsernameValid = true;
+            }
+        } else {
+            errorMessageUsername.textContent = '';
+            warningIcon.style.display = 'none'; // Ẩn icon
+            usernameInput.setCustomValidity('');
+            isUsernameValid = true;
+        }
+    });
+
+    // Ngăn submit form nếu username không hợp lệ
+    form.addEventListener('submit', function(event) {
+        if (!isUsernameValid) {
+            event.preventDefault();
+            errorMessageUsername.textContent = 'Không thể tạo tài khoản với tên đăng nhập này';
+            errorMessageUsername.style.color = '#ff6b6b';
+            warningIcon.style.display = 'inline-block'; // Hiển thị icon
+        }
+    });
+});
+</script>
 </body>
 
 </html>

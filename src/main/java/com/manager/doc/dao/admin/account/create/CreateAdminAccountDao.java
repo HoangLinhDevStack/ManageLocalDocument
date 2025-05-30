@@ -7,4 +7,5 @@ public interface CreateAdminAccountDao {
 
     int save(Admin admin);
 
+
 }

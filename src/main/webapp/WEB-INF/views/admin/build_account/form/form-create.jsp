@@ -29,6 +29,13 @@
         <i class="bi bi-emoji-expressionless-fill"></i>
         <span class="error-message"></span> <%--error say --%>
     </p>
+    <p class="form mt-2">
+        <i class="bi bi-emoji-expressionless-fill warning-icon" style="display: none;"></i>
+        <span class="error-message-username"></span>
+        <c:if test="${not empty error}">
+            <span class="error-message-username" style="color: #ff6b6b;">${error}</span>
+        </c:if>
+    </p>
 </div>
 
 <div class="form-outline mb-4">

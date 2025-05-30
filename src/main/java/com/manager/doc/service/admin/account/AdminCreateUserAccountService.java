@@ -1,5 +1,6 @@
 package com.manager.doc.service.admin.account;
 
+import com.manager.doc.dao.admin.AdminAccountDao;
 import com.manager.doc.dao.admin.account.create.CreateAdminAccountDao;
 import com.manager.doc.dao.admin.information.create.CreateAdminDao;
 import com.manager.doc.dao.user.account.create.CreateUserAccountDao;
@@ -9,11 +10,15 @@ import com.manager.doc.dto.user.CreateUserAccountDTO;
 import com.manager.doc.model.admin.Admin;
 import com.manager.doc.model.user.*;
 import com.manager.doc.service.format.FormatTextUTF_8;
+import com.manager.doc.service.format.SafeDecoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminCreateUserAccountService {
@@ -39,6 +44,10 @@ public class AdminCreateUserAccountService {
     private CreateAdminDao createPartAdminDao;
 
     @Autowired
+    @Qualifier("adminAccountDaoImpl")
+    private AdminAccountDao adminAccountDao;
+
+    @Autowired
     @Qualifier("getPasswordEncoder")
     private PasswordEncoder encoder;
 
@@ -48,7 +57,11 @@ public class AdminCreateUserAccountService {
         System.out.println("Service layer: " + createUserAccountDTO.getUser().getName());
 
         User user = new User(); // * Create user information
-        user.setName(formatConfig.decodeValue(createUserAccountDTO.getUser().getName())); // * decoding text to criteria form UTF-8
+//        user.setName(formatConfig.decodeValue(createUserAccountDTO.getUser().getName())); // * decoding text to criteria form UTF-8
+
+        String rawName = createUserAccountDTO.getUser().getName();
+        user.setName(SafeDecoder.decodeIfEncoded(rawName, formatConfig::decodeValue));
+
         user.setSex(createUserAccountDTO.getSex());
 
         // * set value for user account
@@ -69,7 +82,13 @@ public class AdminCreateUserAccountService {
         System.out.println("Service layer: " + createAdminAccountDTO.getAdmin().getName());
 
         Admin admin = new Admin(); // * Create user information
-        admin.setName(formatConfig.decodeValue(createAdminAccountDTO.getAdmin().getName())); // * decoding text to criteria form UTF-8
+//        admin.setName(formatConfig.decodeValue(createAdminAccountDTO.getAdmin().getName())); // * decoding text to criteria form UTF-8
+
+        String rawName = createAdminAccountDTO.getAdmin().getName();
+        admin.setName(SafeDecoder.decodeIfEncoded(rawName, formatConfig::decodeValue));
+
+        System.out.println("debug decode: " + admin.getName());
+
         admin.setSex(createAdminAccountDTO.getSex());
 
         // * set value for user account
@@ -82,5 +101,21 @@ public class AdminCreateUserAccountService {
         admin.setId(adminId); // * set for object
 
         createAdminAccountDao.save(admin);
+    }
+
+    public boolean isAdminUsernameExists(String username) {
+        return adminAccountDao.isUsernameExists(username);
+    }
+
+    public boolean isUserUsernameExists(String username) {
+        return createUserAccountDao.isUsernameExists(username);
+    }
+
+    public List<String> getAllAdminUsernames() {
+        return adminAccountDao.getAllUsernames();
+    }
+
+    public List<String> getAllUserUsernames() {
+        return createUserAccountDao.getAllUsernames();
     }
 }

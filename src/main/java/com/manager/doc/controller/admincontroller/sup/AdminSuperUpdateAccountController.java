@@ -3,6 +3,9 @@ package com.manager.doc.controller.admincontroller.sup;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.manager.doc.model.admin.Admin;
+import com.manager.doc.model.admin.AdminAccount;
+import com.manager.doc.model.admin.AdminRoles;
 import com.manager.doc.model.sex.Sex;
 import com.manager.doc.model.user.*;
 import com.manager.doc.service.admin.account.AdminReadUserAccountService;
@@ -57,6 +60,8 @@ public class AdminSuperUpdateAccountController {
     private PasswordEncoder encoder;
 
 
+//   * ----------------- update account user -------------------
+
     @GetMapping("/user/{id}")
     public String adminUpdateAccountForm(@PathVariable int id, Model model) throws JSQLParserException {
 
@@ -82,27 +87,30 @@ public class AdminSuperUpdateAccountController {
     public String adminUpdateAccount(@ModelAttribute("user") User user,
                                      @RequestParam(value = "roleId", required = false) Integer roleId,
                                      @RequestParam(value = "genderId", required = false) Integer genderId,
+                                     @RequestParam("changeSetJson") String changeSetJson,
+                                     Model model,
+                                     RedirectAttributes redirectAttributes) throws JSQLParserException, SQLException, JsonProcessingException {
 
-                                     @RequestParam("changeSetJson") String changeSetJson, // * value of json string contain key and values of user field
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode changes = mapper.readTree(changeSetJson);
+            System.out.println(changes.toString());
 
-                                     Model model) throws JSQLParserException, SQLException, JsonProcessingException {
+            UserRoles userRoles = new UserRoles();
+            userRoles.setId(roleId);
+            Sex sex = new Sex();
+            sex.setId(genderId);
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode changes = mapper.readTree(changeSetJson);
-        System.out.println(changes.toString());
+            user.getUserAccount().setRole(userRoles);
+            user.setSex(sex);
 
-        UserRoles userRoles = new UserRoles();
-        userRoles.setId(roleId);
-        Sex sex = new Sex();
-        sex.setId(genderId);
+            adminUpdateUserAccountService.processUserChangeSet(changes, user);
+            redirectAttributes.addFlashAttribute("successMessage", "Cập nhật thông tin tài khoản người dùng thành công!");
 
-//
-        user.getUserAccount().setRole(userRoles);
-//        int idRole = user.getUserAccount().getRole().getId();
-//        System.out.println("Id User roles" + idRole);
-        user.setSex(sex);
-//
-        adminUpdateUserAccountService.processChangeSet(changes, user);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
+            e.printStackTrace();
+        }
 
         return "redirect:/ManagerBook/admin/super/list-account";
     }
@@ -113,7 +121,7 @@ public class AdminSuperUpdateAccountController {
                                                  @RequestParam("password") String password,
                                                  Model model) throws JSQLParserException, SQLException {
 
-        boolean result = adminUpdateUserAccountService.updatePassword(IDUser, password);
+        boolean result = adminUpdateUserAccountService.updateUserPassword(IDUser, password);
 
         if (!result) {
             System.out.println("Error updated password");
@@ -137,7 +145,7 @@ public class AdminSuperUpdateAccountController {
     }
 
     @RequestMapping(value = "/toggle-account-status/{id}", method = {RequestMethod.GET, RequestMethod.POST})
-    public String toggleAccountStatus(@PathVariable int id, RedirectAttributes redirectAttributes) {
+    public String toggleUserAccountStatus(@PathVariable int id, RedirectAttributes redirectAttributes) {
         try {
             boolean result = adminUpdateUserAccountService.toggleAccountStatus(id);
             if (result) {
@@ -150,4 +158,106 @@ public class AdminSuperUpdateAccountController {
         }
         return "redirect:/ManagerBook/admin/super/list-account";
     }
+
+
+//  *  ------------------ update account admin -------------------
+
+    @GetMapping("/admin/{id}")
+    public String adminUpdateAdminAccountForm(@PathVariable int id, Model model) throws JSQLParserException {
+
+        Map<Integer, String> sexData = fetchSex.choiceSex();
+        Map<Integer, String> roleAdmins = adminInformationService.fetchAdminRole();
+
+        model.addAttribute("sexData", sexData);
+        model.addAttribute("roleAdmin", roleAdmins);
+        model.addAttribute("admin", adminUpdateUserAccountService.findAdminAccountFullInformation(id));
+
+        return "admin/build_account/update_admin_account";
+    }
+
+    @GetMapping("/admin-account-password/{id}")
+    public String adminUpdateAdminPasswordAccountForm(@PathVariable int id, Model model) {
+
+        model.addAttribute("admin", adminUpdateUserAccountService.findAdminAccountFullInformation(id));
+        return "admin/build_account/update_admin_account_password";
+    }
+
+
+    @PostMapping("/update-admin")
+    public String adminUpdateAccount(@ModelAttribute("admin") Admin admin,
+                                     @RequestParam(value = "roleId", required = false) Integer roleId,
+                                     @RequestParam(value = "genderId", required = false) Integer genderId,
+                                     @RequestParam("changeSetJson") String changeSetJson,
+                                     Model model,
+                                     RedirectAttributes redirectAttributes) throws JSQLParserException, SQLException, JsonProcessingException {
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode changes = mapper.readTree(changeSetJson);
+            System.out.println(changes.toString());
+
+            AdminRoles adminRoles = new AdminRoles();
+            adminRoles.setId(roleId);
+            Sex sex = new Sex();
+            sex.setId(genderId);
+
+            admin.getAdminAccount().setRole(adminRoles);
+            admin.setSex(sex);
+
+            adminUpdateUserAccountService.processAdminChangeSet(changes, admin);
+            redirectAttributes.addFlashAttribute("successMessage", "Cập nhật thông tin tài khoản admin thành công!");
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return "redirect:/ManagerBook/admin/super/list-account-admin";
+    }
+
+
+    @PostMapping("/update-password-admin")
+    public String adminUpdateAdminPasswordAccount(@RequestParam("IDAdmin") Integer IDAdmin,
+                                                 @RequestParam("password") String password,
+                                                 Model model) throws JSQLParserException, SQLException {
+
+        boolean result = adminUpdateUserAccountService.updateAdminPassword(IDAdmin, password);
+
+        if (!result) {
+            System.out.println("Error updated password");
+        } else {
+            System.out.println("Success updated password");
+        }
+
+
+        List<AdminAccount> accounts = adminReadUserAccountService.getAdminsAccount();
+        System.out.println("Fetched Users: " + accounts);
+
+
+        model.addAttribute("roleAdmin", adminInformationService.fetchAdminRole());
+        model.addAttribute("DepartmentKeyAndValue", fetchDepartment.choiceDepartment());
+        model.addAttribute("OfficeKeyAndValue", fetchOffice.choiceOffices());
+        model.addAttribute("adminAccount", accounts);
+        model.addAttribute("allAdminInformation", adminInformationService.getAllAdminInformation());
+        model.addAttribute("departmentWork", fetchDepartment.fetchFullDepartmentWork());
+
+        return "admin/build_account/read_admin_account";
+    }
+
+    @RequestMapping(value = "/toggle-admin-account-status/{id}", method = {RequestMethod.GET, RequestMethod.POST})
+    public String toggleAdminAccountStatus(@PathVariable int id, RedirectAttributes redirectAttributes) {
+        try {
+            boolean result = adminUpdateUserAccountService.toggleAdminAccountStatus(id);
+            if (result) {
+                redirectAttributes.addFlashAttribute("successMessage", "Cập nhật trạng thái tài khoản thành công");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "Cập nhật trạng thái tài khoản thất bại");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
+        }
+        return "redirect:/ManagerBook/admin/super/list-account-admin";
+    }
+
+
 }

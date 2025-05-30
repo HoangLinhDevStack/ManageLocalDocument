@@ -121,96 +121,96 @@
                     </div>
                 </c:if>
 
-                <h1 class=""> Các tài khoản người dùng </h1>
+                <h1 class=""> Các tài khoản admin </h1>
 
                 <link rel="stylesheet"
                       href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
                       integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous"/>
                 <section class="section">
                     <div class="container">
-                        <div class="justify-content-center row">
-                            <div class="col-lg-12">
-                                <div class="candidate-list-widgets mb-4">
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <h5>Lọc theo:</h5>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <select class="form-select" id="roleFilter">
-                                                <option value="">Tất cả vai trò</option>
-                                                <c:if test="${roleAdmin != null}">
-                                                    <c:forEach items="${roleAdmin}" var="entry">
-                                                        <option value="${entry.key}">${entry.value}</option>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <select class="form-select" id="departmentFilter">
-                                                <option value="">Tất cả khoa</option>
-                                                <c:if test="${DepartmentKeyAndValue != null}">
-                                                    <c:forEach items="${DepartmentKeyAndValue}" var="entry">
-                                                        <option value="${entry.key}">${entry.value}</option>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </select>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <select class="form-select" id="officeFilter">
-                                                <option value="">Tất cả phòng ban</option>
-                                                <c:if test="${OfficeKeyAndValue != null}">
-                                                    <c:forEach items="${OfficeKeyAndValue}" var="entry">
-                                                        <option value="${entry.key}">${entry.value}</option>
-                                                    </c:forEach>
-                                                </c:if>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<%--                        <div class="justify-content-center row">--%>
+<%--                            <div class="col-lg-12">--%>
+<%--                                <div class="candidate-list-widgets mb-4">--%>
+<%--                                    <div class="row">--%>
+<%--                                        <div class="col-lg-3">--%>
+<%--                                            <h5>Lọc theo:</h5>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="col-lg-3">--%>
+<%--                                            <select class="form-select" id="roleFilter">--%>
+<%--                                                <option value="">Tất cả vai trò</option>--%>
+<%--                                                <c:if test="${roleAdmin != null}">--%>
+<%--                                                    <c:forEach items="${roleAdmin}" var="entry">--%>
+<%--                                                        <option value="${entry.key}">${entry.value}</option>--%>
+<%--                                                    </c:forEach>--%>
+<%--                                                </c:if>--%>
+<%--                                            </select>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="col-lg-3">--%>
+<%--                                            <select class="form-select" id="departmentFilter">--%>
+<%--                                                <option value="">Tất cả khoa</option>--%>
+<%--                                                <c:if test="${DepartmentKeyAndValue != null}">--%>
+<%--                                                    <c:forEach items="${DepartmentKeyAndValue}" var="entry">--%>
+<%--                                                        <option value="${entry.key}">${entry.value}</option>--%>
+<%--                                                    </c:forEach>--%>
+<%--                                                </c:if>--%>
+<%--                                            </select>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="col-lg-3">--%>
+<%--                                            <select class="form-select" id="officeFilter">--%>
+<%--                                                <option value="">Tất cả phòng ban</option>--%>
+<%--                                                <c:if test="${OfficeKeyAndValue != null}">--%>
+<%--                                                    <c:forEach items="${OfficeKeyAndValue}" var="entry">--%>
+<%--                                                        <option value="${entry.key}">${entry.value}</option>--%>
+<%--                                                    </c:forEach>--%>
+<%--                                                </c:if>--%>
+<%--                                            </select>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="align-items-center row">
                                     <div class="col-lg-8">
-                                        <div class="mb-3 mb-lg-0">
-                                            <h6 class="fs-16 mb-0">Showing 1 – 8 of 11 results</h6>
-                                        </div>
+<%--                                        <div class="mb-3 mb-lg-0">--%>
+<%--                                            <h6 class="fs-16 mb-0">Showing 1 – 8 of 11 results</h6>--%>
+<%--                                        </div>--%>
                                     </div>
                                     <div class="col-lg-4">
-                                        <div class="candidate-list-widgets">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="selection-widget">
+<%--                                        <div class="candidate-list-widgets">--%>
+<%--                                            <div class="row">--%>
+<%--                                                <div class="col-lg-6">--%>
+<%--                                                    <div class="selection-widget">--%>
 
 
-                                                        <select class="form-select" data-trigger="true"
-                                                                name="choices-single-filter-orderby"
-                                                                id="choices-single-filter-orderby"
-                                                                aria-label="Default select example">
-                                                            <option value="df">Gần đây</option>
-                                                            <option value="ne">Newest</option>
-                                                            <option value="od">Oldest</option>
-                                                            <option value="rd">Random</option>
-                                                        </select>
+<%--                                                        <select class="form-select" data-trigger="true"--%>
+<%--                                                                name="choices-single-filter-orderby"--%>
+<%--                                                                id="choices-single-filter-orderby"--%>
+<%--                                                                aria-label="Default select example">--%>
+<%--                                                            <option value="df">Gần đây</option>--%>
+<%--                                                            <option value="ne">Newest</option>--%>
+<%--                                                            <option value="od">Oldest</option>--%>
+<%--                                                            <option value="rd">Random</option>--%>
+<%--                                                        </select>--%>
 
 
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="selection-widget mt-2 mt-lg-0">
-                                                        <select class="form-select" data-trigger="true"
-                                                                name="choices-candidate-page"
-                                                                id="choices-candidate-page"
-                                                                aria-label="Default select example">
-                                                            <option value="df">Toàn bộ tài khoản</option>
-                                                            <option value="ne">8 per Page</option>
-                                                            <option value="ne">12 per Page</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+<%--                                                    </div>--%>
+<%--                                                </div>--%>
+<%--                                                <div class="col-lg-6">--%>
+<%--                                                    <div class="selection-widget mt-2 mt-lg-0">--%>
+<%--                                                        <select class="form-select" data-trigger="true"--%>
+<%--                                                                name="choices-candidate-page"--%>
+<%--                                                                id="choices-candidate-page"--%>
+<%--                                                                aria-label="Default select example">--%>
+<%--                                                            <option value="df">Toàn bộ tài khoản</option>--%>
+<%--                                                            <option value="ne">8 per Page</option>--%>
+<%--                                                            <option value="ne">12 per Page</option>--%>
+<%--                                                        </select>--%>
+<%--                                                    </div>--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
                                     </div>
                                 </div>
 
@@ -271,23 +271,23 @@
                                                 </td>
                                                 <td>
                                                     <c:if test="${not empty item.adminAccount.role.keyRoles}">
-                                                        <span class="badge bg-soft-secondary">${item.userAccount.role.keyRoles}</span>
+                                                        <span class="badge bg-soft-secondary">${item.adminAccount.role.keyRoles}</span>
                                                     </c:if>
-                                                    <c:if test="${empty item.userAccount.role.keyRoles}">
+                                                    <c:if test="${empty item.adminAccount.role.keyRoles}">
                                                         <span class="badge bg-soft-secondary">Chưa cập nhật</span>
                                                     </c:if>
                                                 </td>
                                                 <td>
-                                                    <c:if test="${item.userAccount.enable == 1}">
+                                                    <c:if test="${item.adminAccount.enable == 1}">
                                                         <span class="badge bg-success">Đã kích hoạt</span>
                                                     </c:if>
-                                                    <c:if test="${item.userAccount.enable == 0}">
+                                                    <c:if test="${item.adminAccount.enable == 0}">
                                                         <span class="badge bg-danger">Chưa kích hoạt</span>
                                                     </c:if>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex gap-2">
-                                                        <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/user/${item.id}"
+                                                        <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/admin/${item.id}"
                                                            class="btn btn-sm btn-primary">
                                                             <i class="bi bi-wrench"></i>
                                                         </a>
@@ -303,16 +303,19 @@
                                                             </button>
                                                             <ul class="dropdown-menu">
                                                                 <li>
-                                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/toggle-account-status/${item.id}" method="post" style="margin: 0;">
+                                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/toggle-admin-account-status/${item.id}" 
+                                                                          method="post" 
+                                                                          style="margin: 0;"
+                                                                          onsubmit=" return confirm('Bạn có chắc chắn muốn ${item.adminAccount.enable == 1 ? ' vô hiệu hóa' : ' kích hoạt'} tài khoản này?'); ">
                                                                         <button type="submit" class="dropdown-item">
-                                                                            <i class="bi ${item.userAccount.enable == 1 ? 'bi-x-circle-fill text-danger' : 'bi-check-circle-fill text-primary'}"></i>
-                                                                            <span>${item.userAccount.enable == 1 ? 'Vô hiệu hóa tài khoản' : 'Kích hoạt tài khoản'}</span>
+                                                                            <i class="bi ${item.adminAccount.enable == 1 ? 'bi-x-circle-fill text-danger' : 'bi-check-circle-fill text-primary'}"></i>
+                                                                            <span>${item.adminAccount.enable == 1 ? 'Vô hiệu hóa tài khoản' : 'Kích hoạt tài khoản'}</span>
                                                                         </button>
                                                                     </form>
                                                                 </li>
                                                                 <li>
                                                                     <a class="dropdown-item"
-                                                                       href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/user-account-password/${item.id}">
+                                                                       href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/admin-account-password/${item.id}">
                                                                         <i class="bi bi-key"></i> Đặt lại mật khẩu
                                                                     </a>
                                                                 </li>
@@ -359,8 +362,6 @@
 
 
     </div>
-
-</div>
 
 </div>
 

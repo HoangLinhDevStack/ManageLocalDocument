@@ -204,17 +204,14 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
 
     @Override
     public boolean insertUserEducation(UserEducation education, Integer IDUser) throws SQLException {
-        String sql = "INSERT INTO user_education (IDUser, School) " +
-                "SELECT ?, ? " +
-                "FROM DUAL " +
-                "WHERE EXISTS (SELECT 1 FROM user_education WHERE IDUser = ?)";
+        String sql = "INSERT INTO user_education (IDUser, School) VALUES (?, ?)";
 
         try {
             // Thực thi câu lệnh INSERT với các tham số
             int rowsInserted = jdbcTemplate.update(sql,
                     IDUser,
-                    education.getSchool(),
-                    IDUser); // Kiểm tra sự tồn tại của IDUser và IDEducation
+                    education.getSchool());
+
             return rowsInserted > 0; // Trả về true nếu có ít nhất một dòng được chèn
         } catch (DataAccessException e) {
             e.printStackTrace();
@@ -222,12 +219,10 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
         }
     }
 
+
     @Override
     public boolean insertUserAddress(UserAddress address, Integer IDUser) throws SQLException {
-        String sql = "INSERT INTO user_address (IDUser, StreetName, City, Province) " +
-                "SELECT ?, ?, ?, ? " +
-                "FROM DUAL " +
-                "WHERE EXISTS (SELECT 1 FROM user_address WHERE IDUser = ?)";
+        String sql = "INSERT INTO user_address (IDUser, StreetName, City, Province) VALUES (?, ?, ?, ?)";
 
         try {
             // Thực thi câu lệnh INSERT với các tham số
@@ -235,8 +230,7 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
                     IDUser,
                     address.getStreetName(),
                     address.getCity(),
-                    address.getProvince(),
-                    IDUser);  // Kiểm tra sự tồn tại của IDUser
+                    address.getProvince());
 
             return rowsInserted > 0; // Trả về true nếu có ít nhất một dòng được chèn
         } catch (DataAccessException e) {
@@ -245,19 +239,16 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
         }
     }
 
+
     @Override
     public boolean insertUserSkill(UserSkill skill, Integer IDUser) throws SQLException {
-        String sql = "INSERT INTO user_skill (IDUser, Description) " +
-                "SELECT ?, ? " +
-                "FROM DUAL " +
-                "WHERE EXISTS (SELECT 1 FROM user_skill WHERE IDUser = ?)";
+        String sql = "INSERT INTO user_skill (IDUser, Description) VALUES (?, ?)";
 
         try {
             // Thực thi câu lệnh INSERT với các tham số
             int rowsInserted = jdbcTemplate.update(sql,
                     IDUser,
-                    skill.getDescriptions(),
-                    IDUser); // Kiểm tra sự tồn tại của IDUser
+                    skill.getDescriptions());
 
             return rowsInserted > 0; // Trả về true nếu có ít nhất một dòng được chèn
         } catch (DataAccessException e) {
@@ -265,6 +256,7 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
             return false; // Nếu có lỗi, trả về false
         }
     }
+
 
     @Override
     public boolean updatePassword(Integer IDUser, String newPassword) throws SQLException {

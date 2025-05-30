@@ -1,5 +1,7 @@
 package com.manager.doc.dao.admin;
 
+import java.util.List;
+
 public interface AdminAccountDao {
     /**
      * Lấy mật khẩu hiện tại của admin dựa trên username
@@ -22,4 +24,17 @@ public interface AdminAccountDao {
      * @return ID của admin
      */
     Integer getAdminIdByUsername(String username);
+
+    /**
+     * Kiểm tra xem username đã tồn tại trong hệ thống chưa
+     * @param username Tên đăng nhập cần kiểm tra
+     * @return true nếu username đã tồn tại, false nếu chưa
+     */
+    boolean isUsernameExists(String username);
+
+    /**
+     * Lấy danh sách tất cả username của admin
+     * @return Danh sách username
+     */
+    List<String> getAllUsernames();
 }

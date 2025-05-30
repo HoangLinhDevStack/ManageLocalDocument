@@ -5,6 +5,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("adminAccountDaoImpl")
 public class AdminAccountDaoImpl implements AdminAccountDao {
 
@@ -41,5 +43,23 @@ public class AdminAccountDaoImpl implements AdminAccountDao {
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    @Override
+    public boolean isUsernameExists(String username) {
+        try {
+            String sql = "SELECT COUNT(*) FROM admin_account WHERE Username = ?";
+            int count = jdbcTemplate.queryForObject(sql, new Object[]{username}, Integer.class);
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public List<String> getAllUsernames() {
+        String sql = "SELECT Username FROM admin_account";
+        return jdbcTemplate.queryForList(sql, String.class);
     }
 }
