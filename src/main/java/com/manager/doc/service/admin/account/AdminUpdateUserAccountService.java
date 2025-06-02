@@ -13,6 +13,7 @@ import com.manager.doc.model.user.UserEducation;
 import com.manager.doc.model.user.UserSkill;
 import com.manager.doc.service.admin.inf.AdminInformationService;
 import com.manager.doc.service.format.FormatTextUTF_8;
+import com.manager.doc.service.format.SafeDecoder;
 import com.manager.doc.service.helper.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
 
 @Service
@@ -129,126 +133,134 @@ public class AdminUpdateUserAccountService {
         JsonNode addresses = changes.get("addresses");
         JsonNode skills = changes.get("skills");
 
+        // Get existing data
+        List<UserEducation> existingEducations = updateUserAccountDao.getAllUserEducationById(userId);
+        List<UserAddress> existingAddresses = updateUserAccountDao.getAllUserAddressById(userId);
+        List<UserSkill> existingSkills = updateUserAccountDao.getAllUserSkillById(userId);
+
+        // Process educations
+        Set<Integer> existingEducationIds = existingEducations.stream()
+                .map(UserEducation::getId)
+                .collect(Collectors.toSet());
+        Set<Integer> newEducationIds = new HashSet<>();
+        
         for (JsonNode edu : educations) {
             JsonNode idNode = edu.get("id");
             JsonNode valueNode = edu.get("value");
 
-            // Kiểm tra nếu valueNode hợp lệ (ít nhất có 1 giá trị)
             if (valueNode == null || valueNode.size() < 1) continue;
 
-            String school = formatTextUTF_8.decodeValue(valueNode.get(0).asText());
+            String school = valueNode.get(0).asText();
 
-            // Kiểm tra nếu idNode là null hoặc missing node (thực hiện INSERT)
             if (idNode == null || idNode.isNull()) {
-
-                System.out.println("Đã vào null");
-
-                // * CASE: INSERT NEW EDUCATION
                 UserEducation newEducation = new UserEducation();
-                newEducation.setSchool(school);
+                newEducation.setSchool(SafeDecoder.decodeIfEncoded(school, formatTextUTF_8::decodeValue));
                 updateUserAccountDao.insertUserEducation(newEducation, userId);
             } else {
-                // * CASE: POSSIBLE UPDATE
                 int educationId = idNode.asInt();
+                newEducationIds.add(educationId);
                 UserEducation existingEducation = updateUserAccountDao.findUserEducationById(userId, educationId);
 
                 boolean changed = !Helper.safeEquals(existingEducation.getSchool(), school);
 
                 if (changed) {
-                    existingEducation.setSchool(school);
-                    updateUserAccountDao.updateUserEducation(existingEducation, userId); // UPDATE EXISTING EDUCATION
-                } else {
-                    continue;
+                    existingEducation.setSchool(SafeDecoder.decodeIfEncoded(school, formatTextUTF_8::decodeValue));
+                    updateUserAccountDao.updateUserEducation(existingEducation, userId);
                 }
             }
         }
 
+        // Delete removed educations
+        existingEducationIds.removeAll(newEducationIds);
+        for (Integer educationId : existingEducationIds) {
+            updateUserAccountDao.deleteUserEducation(userId, educationId);
+        }
 
-
+        // Process addresses
+        Set<Integer> existingAddressIds = existingAddresses.stream()
+                .map(UserAddress::getId)
+                .collect(Collectors.toSet());
+        Set<Integer> newAddressIds = new HashSet<>();
 
         for (JsonNode addrNode : addresses) {
-            // Read id and value
             JsonNode idNode = addrNode.get("id");
             JsonNode valueNode = addrNode.get("value");
 
-            System.out.println("Dcm đây là Size của thằng cha address: " + valueNode.size());
+            if (valueNode == null || valueNode.size() < 3) continue;
 
-            if (valueNode == null || valueNode.size() < 3) continue; // Ensure structure
-
-            String street = formatTextUTF_8.decodeValue(valueNode.get(0).asText());
-            String city = formatTextUTF_8.decodeValue(valueNode.get(1).asText());
-            String province = formatTextUTF_8.decodeValue(valueNode.get(2).asText());
+            String street = valueNode.get(0).asText();
+            String city = valueNode.get(1).asText();
+            String province = valueNode.get(2).asText();
 
             if (idNode == null || idNode.isNull()) {
-
-                System.out.println(idNode + "Neu id null");
-
-                // * CASE: INSERT NEW ADDRESS
                 UserAddress newAddress = new UserAddress();
-                newAddress.setStreetName(street);
-                newAddress.setCity(city);
-                newAddress.setProvince(province);
-                updateUserAccountDao.insertUserAddress(newAddress, userId); // Insert path
-
-                System.out.println("Chèn dữ liệu oke rồi đấy");
+                newAddress.setStreetName(SafeDecoder.decodeIfEncoded(street, formatTextUTF_8::decodeValue));
+                newAddress.setCity(SafeDecoder.decodeIfEncoded(city, formatTextUTF_8::decodeValue));
+                newAddress.setProvince(SafeDecoder.decodeIfEncoded(province, formatTextUTF_8::decodeValue));
+                updateUserAccountDao.insertUserAddress(newAddress, userId);
             } else {
-                // * CASE: POSSIBLE UPDATE
                 int addressId = idNode.asInt();
+                newAddressIds.add(addressId);
                 UserAddress existing = updateUserAccountDao.findUserAddressById(userId, addressId);
 
                 boolean changed = !Helper.safeEquals(existing.getStreetName(), street) ||
-                                  !Helper.safeEquals(existing.getCity(), city) ||
-                                  !Helper.safeEquals(existing.getProvince(), province);
+                        !Helper.safeEquals(existing.getCity(), city) ||
+                        !Helper.safeEquals(existing.getProvince(), province);
 
                 if (changed) {
-                    existing.setStreetName(street);
-                    existing.setCity(city);
-                    existing.setProvince(province);
-                    updateUserAccountDao.updateUserAddress(existing, userId); // Update path
-                } else {
-                    // Skip update
-                    continue;
+                    existing.setStreetName(SafeDecoder.decodeIfEncoded(street, formatTextUTF_8::decodeValue));
+                    existing.setCity(SafeDecoder.decodeIfEncoded(city, formatTextUTF_8::decodeValue));
+                    existing.setProvince(SafeDecoder.decodeIfEncoded(province, formatTextUTF_8::decodeValue));
+                    updateUserAccountDao.updateUserAddress(existing, userId);
                 }
             }
         }
+
+        // Delete removed addresses
+        existingAddressIds.removeAll(newAddressIds);
+        for (Integer addressId : existingAddressIds) {
+            updateUserAccountDao.deleteUserAddress(userId, addressId);
+        }
+
+        // Process skills
+        Set<Integer> existingSkillIds = existingSkills.stream()
+                .map(UserSkill::getId)
+                .collect(Collectors.toSet());
+        Set<Integer> newSkillIds = new HashSet<>();
 
         for (JsonNode skill : skills) {
             JsonNode idNode = skill.get("id");
             JsonNode valueNode = skill.get("value");
 
-            System.out.println("id của skills: " + idNode);
-            System.out.println("Giá trị: " + valueNode);
-            System.out.println("Kích thước trong mảng Skill: " + valueNode.size());
-
-            // Kiểm tra valueNode có null hoặc không có ít nhất 1 giá trị hợp lệ
             if (valueNode == null || valueNode.size() < 1) continue;
 
-            String skillName = formatTextUTF_8.decodeValue(valueNode.get(0).asText());
+            String skillName = valueNode.get(0).asText();
 
-            // Kiểm tra idNode có null hoặc missing (insert case)
             if (idNode == null || idNode.isNull()) {
-                // CASE: INSERT NEW SKILL
                 UserSkill newSkill = new UserSkill();
-                newSkill.setDescriptions(skillName);
+                newSkill.setDescriptions(SafeDecoder.decodeIfEncoded(skillName, formatTextUTF_8::decodeValue));
                 updateUserAccountDao.insertUserSkill(newSkill, userId);
             } else {
-                // CASE: POSSIBLE UPDATE
                 int skillId = idNode.asInt();
+                newSkillIds.add(skillId);
                 UserSkill existingSkill = updateUserAccountDao.findUserSkillById(userId, skillId);
 
                 boolean changed = !Helper.safeEquals(existingSkill.getDescriptions(), skillName);
 
                 if (changed) {
-                    existingSkill.setDescriptions(skillName);
-                    updateUserAccountDao.updateUserSkill(existingSkill, userId); // Update existing skill
-                } else {
-                    continue;
+                    existingSkill.setDescriptions(SafeDecoder.decodeIfEncoded(skillName, formatTextUTF_8::decodeValue));
+                    updateUserAccountDao.updateUserSkill(existingSkill, userId);
                 }
             }
         }
 
+        // Delete removed skills
+        existingSkillIds.removeAll(newSkillIds);
+        for (Integer skillId : existingSkillIds) {
+            updateUserAccountDao.deleteUserSkill(userId, skillId);
+        }
 
-        // Optionally, handle the user role update as well
+        // Update user role
         updateUserAccountRole(user.getUserAccount().getRole().getId(), userId);
     }
 
@@ -349,7 +361,7 @@ public class AdminUpdateUserAccountService {
             // Kiểm tra nếu valueNode hợp lệ (ít nhất có 1 giá trị)
             if (valueNode == null || valueNode.size() < 1) continue;
 
-            String school = formatTextUTF_8.decodeValue(valueNode.get(0).asText());
+            String school = valueNode.get(0).asText();
 
             // Kiểm tra nếu idNode là null hoặc missing node (thực hiện INSERT)
             if (idNode == null || idNode.isNull()) {
@@ -358,7 +370,7 @@ public class AdminUpdateUserAccountService {
 
                 // * CASE: INSERT NEW EDUCATION
                 AdminEducation newEducation = new AdminEducation();
-                newEducation.setSchool(school);
+                newEducation.setSchool(SafeDecoder.decodeIfEncoded(school, formatTextUTF_8::decodeValue));
 
                 System.out.println("school để insert  : " + newEducation.getSchool());
                 updateAdminAccountDao.insertAdminEducation(newEducation, adminId);
@@ -370,15 +382,13 @@ public class AdminUpdateUserAccountService {
                 boolean changed = !Helper.safeEquals(existingEducation.getSchool(), school);
 
                 if (changed) {
-                    existingEducation.setSchool(school);
+                    existingEducation.setSchool(SafeDecoder.decodeIfEncoded(school, formatTextUTF_8::decodeValue));
                     updateAdminAccountDao.updateAdminEducation(existingEducation, adminId); // UPDATE EXISTING EDUCATION
                 } else {
                     continue;
                 }
             }
         }
-
-
 
 
         for (JsonNode addrNode : addresses) {
@@ -390,9 +400,9 @@ public class AdminUpdateUserAccountService {
 
             if (valueNode == null || valueNode.size() < 3) continue; // Ensure structure
 
-            String street = formatTextUTF_8.decodeValue(valueNode.get(0).asText());
-            String city = formatTextUTF_8.decodeValue(valueNode.get(1).asText());
-            String province = formatTextUTF_8.decodeValue(valueNode.get(2).asText());
+            String street = valueNode.get(0).asText();
+            String city = valueNode.get(1).asText();
+            String province = valueNode.get(2).asText();
 
             if (idNode == null || idNode.isNull()) {
 
@@ -400,9 +410,9 @@ public class AdminUpdateUserAccountService {
 
                 // * CASE: INSERT NEW ADDRESS
                 AdminAddress newAddress = new AdminAddress();
-                newAddress.setStreetName(street);
-                newAddress.setCity(city);
-                newAddress.setProvince(province);
+                newAddress.setStreetName(SafeDecoder.decodeIfEncoded(street, formatTextUTF_8::decodeValue));
+                newAddress.setCity(SafeDecoder.decodeIfEncoded(city, formatTextUTF_8::decodeValue));
+                newAddress.setProvince(SafeDecoder.decodeIfEncoded(province, formatTextUTF_8::decodeValue));
                 updateAdminAccountDao.insertAdminAddress(newAddress, adminId); // Insert path
 
                 System.out.println("Chèn dữ liệu oke rồi đấy");
@@ -416,9 +426,9 @@ public class AdminUpdateUserAccountService {
                         !Helper.safeEquals(existing.getProvince(), province);
 
                 if (changed) {
-                    existing.setStreetName(street);
-                    existing.setCity(city);
-                    existing.setProvince(province);
+                    existing.setStreetName(SafeDecoder.decodeIfEncoded(street, formatTextUTF_8::decodeValue));
+                    existing.setCity(SafeDecoder.decodeIfEncoded(city, formatTextUTF_8::decodeValue));
+                    existing.setProvince(SafeDecoder.decodeIfEncoded(province, formatTextUTF_8::decodeValue));
                     updateAdminAccountDao.updateAdminAddress(existing, adminId); // Update path
                 } else {
                     // Skip update
@@ -437,13 +447,13 @@ public class AdminUpdateUserAccountService {
             // Kiểm tra valueNode có null hoặc không có ít nhất 1 giá trị hợp lệ
             if (valueNode == null || valueNode.size() < 1) continue;
 
-            String skillName = formatTextUTF_8.decodeValue(valueNode.get(0).asText());
+            String skillName = valueNode.get(0).asText();
 
             // Kiểm tra idNode có null hoặc missing (insert case)
             if (idNode == null || idNode.isNull()) {
                 // CASE: INSERT NEW SKILL
                 AdminSkill newSkill = new AdminSkill();
-                newSkill.setDescription(skillName);
+                newSkill.setDescription(SafeDecoder.decodeIfEncoded(skillName, formatTextUTF_8::decodeValue));
                 updateAdminAccountDao.insertAdminSkill(newSkill, adminId);
             } else {
                 // CASE: POSSIBLE UPDATE
@@ -453,7 +463,7 @@ public class AdminUpdateUserAccountService {
                 boolean changed = !Helper.safeEquals(existingSkill.getDescription(), skillName);
 
                 if (changed) {
-                    existingSkill.setDescription(skillName);
+                    existingSkill.setDescription(SafeDecoder.decodeIfEncoded(skillName, formatTextUTF_8::decodeValue));
                     updateAdminAccountDao.updateAdminSkill(existingSkill, adminId); // Update existing skill
                 } else {
                     continue;
@@ -471,4 +481,18 @@ public class AdminUpdateUserAccountService {
         return updateAdminAccountDao.toggleAdminAccountStatus(userId);
     }
 
+    @Transactional
+    public boolean deleteUserEducation(Integer userId, Integer educationId) throws SQLException {
+        // First check if the education exists for this user
+        UserEducation existingEducation = updateUserAccountDao.findUserEducationById(userId, educationId);
+
+        if (existingEducation == null) {
+            throw new IllegalStateException("Education not found for user " + userId + " with education ID " + educationId);
+        }
+
+        // If education exists, proceed with deletion
+        return updateUserAccountDao.deleteUserEducation(userId, existingEducation.getId());
+    }
+
 }
+

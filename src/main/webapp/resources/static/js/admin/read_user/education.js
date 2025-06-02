@@ -76,20 +76,27 @@ function restoreEducation() {
         const inputGroup = document.createElement('div');
         inputGroup.className = 'input-group mb-2';
 
+        const educationGroup = document.createElement('div');
+        educationGroup.className = 'education-group';
+        educationGroup.style.display = 'flex';
+        educationGroup.style.alignItems = 'center';
+
         const input = document.createElement('input');
         input.type = 'text';
-        input.className = 'form-control';
+        input.className = 'form-control educations-input';
         input.name = 'educations';
         input.value = edu.school.valueOf();
-        input.placeholder = 'Education';
+        input.placeholder = 'School';
+        input.style.marginRight = '10px';
 
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'btn btn-danger remove-education';
         button.innerHTML = '<i class="bi bi-x"></i>';
 
-        inputGroup.appendChild(input);
-        inputGroup.appendChild(button);
+        educationGroup.appendChild(input);
+        educationGroup.appendChild(button);
+        inputGroup.appendChild(educationGroup);
         fragment.appendChild(inputGroup);  // Add to fragment
     });
 

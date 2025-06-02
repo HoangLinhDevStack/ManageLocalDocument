@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.List;
 import javax.sql.DataSource;
 
 @Repository("updateUserAccountDaoImpl")
@@ -296,6 +297,24 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
     }
 
     @Override
+    public List<UserAddress> getAllUserAddressById(Integer userId) throws SQLException {
+        String sql = "SELECT IDAddress, StreetName, City, Province FROM user_address WHERE IDUser = ?";
+        return jdbcTemplate.query(sql, findUserAddressByIDRowMapper, userId);
+    }
+
+    @Override
+    public List<UserEducation> getAllUserEducationById(Integer userId) throws SQLException {
+        String sql = "SELECT IDEducation, School FROM user_education WHERE IDUser = ?";
+        return jdbcTemplate.query(sql, findUserEducationByIDRowMapper, userId);
+    }
+
+    @Override
+    public List<UserSkill> getAllUserSkillById(Integer userId) throws SQLException {
+        String sql = "SELECT IDSkill, Description FROM user_skill WHERE IDUser = ?";
+        return jdbcTemplate.query(sql, findUserSkillByIDRowMapper, userId);
+    }
+
+    @Override
     public User findUserByID(Integer id) {
 
         String sql = "SELECT IDUser FROM user WHERE IDUser = ?";
@@ -323,6 +342,51 @@ public class UpdateUserAccountDaoImpl implements UpdateUserAccountDao {
             System.err.println("Error toggling account status: " + e.getMessage());
             e.printStackTrace();
             System.err.println("==== DAO LAYER - toggleAccountStatus - ERROR END ====");
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean deleteUserEducation(Integer userId, Integer educationId) throws SQLException {
+        String sql = "DELETE FROM user_education WHERE IDUser = ? AND IDEducation = ?";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, userId, educationId);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("==== DAO LAYER - deleteUserEducation - ERROR ====");
+            System.err.println("Error deleting user education: " + e.getMessage());
+            e.printStackTrace();
+            System.err.println("==== DAO LAYER - deleteUserEducation - ERROR END ====");
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean deleteUserAddress(Integer userId, Integer addressId) throws SQLException {
+        String sql = "DELETE FROM user_address WHERE IDUser = ? AND IDAddress = ?";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, userId, addressId);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("==== DAO LAYER - deleteUserAddress - ERROR ====");
+            System.err.println("Error deleting user address: " + e.getMessage());
+            e.printStackTrace();
+            System.err.println("==== DAO LAYER - deleteUserAddress - ERROR END ====");
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean deleteUserSkill(Integer userId, Integer skillId) throws SQLException {
+        String sql = "DELETE FROM user_skill WHERE IDUser = ? AND IDSkill = ?";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, userId, skillId);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("==== DAO LAYER - deleteUserSkill - ERROR ====");
+            System.err.println("Error deleting user skill: " + e.getMessage());
+            e.printStackTrace();
+            System.err.println("==== DAO LAYER - deleteUserSkill - ERROR END ====");
             throw e;
         }
     }

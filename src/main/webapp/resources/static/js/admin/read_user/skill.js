@@ -51,6 +51,9 @@ function restoreSkills() {
         const inputGroup = document.createElement('div');
         inputGroup.className = 'input-group mb-2';
 
+        const skillGroup = document.createElement('div');
+        skillGroup.className = 'skill-group';
+
         const input = document.createElement('input');
         input.type = 'text';
         input.className = 'form-control';
@@ -63,7 +66,8 @@ function restoreSkills() {
         button.className = 'btn btn-danger remove-skill';
         button.innerHTML = '<i class="bi bi-x"></i>';
 
-        inputGroup.appendChild(input);
+        skillGroup.appendChild(input);
+        inputGroup.appendChild(skillGroup);
         inputGroup.appendChild(button);
         fragment.appendChild(inputGroup);
     });
