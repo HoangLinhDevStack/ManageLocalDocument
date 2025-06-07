@@ -109,6 +109,8 @@ public class AdminSuperUpdateAccountController {
             user.getUserAccount().setRole(userRoles);
             user.setSex(sex);
 
+            System.out.println("Cập nhập Thoong tin sinh nhật: " + user.getDateOfBirth());
+
             adminUpdateUserAccountService.processUserChangeSet(changes, user);
             redirectAttributes.addFlashAttribute("successMessage", "Cập nhật thông tin tài khoản người dùng thành công!");
 

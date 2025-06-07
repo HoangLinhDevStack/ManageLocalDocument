@@ -10,6 +10,7 @@ const getFormValues = () => ({
     nickName: document.getElementById("nickName").value,
     nation: document.getElementById("nation").value,
     sex: document.getElementById("genderSelect").value,
+    DOB:document.getElementById("DOB").value,
     username: document.getElementById("Street").value,
     roleId: document.getElementById("roleSelect").value,
 

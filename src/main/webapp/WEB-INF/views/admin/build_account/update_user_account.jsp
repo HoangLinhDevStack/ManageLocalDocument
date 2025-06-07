@@ -125,10 +125,15 @@
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                             <div class="form-group">
-                                                <label for="fullName">Họ và tên</label>
+                                                <label for="fullName">Họ và tên <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" id="fullName" name="name"
                                                        placeholder="Enter full name"
-                                                       value="${user.name}">
+                                                       value="${user.name}"
+                                                       required
+                                                       onchange="validateFullName(this)">
+                                                <div class="invalid-feedback" id="fullNameError">
+                                                    Trường này cần giá trị đầu vào
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -189,19 +194,23 @@
                                         </div>
 
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-<%--                                            <div class="form-group">--%>
-<%--                                                <label for="newPassword">Mật khẩu</label>--%>
-<%--                                                <div class="input-group">--%>
-<%--                                                    <input type="password" class="form-control" id="newPassword"--%>
-<%--                                                           placeholder="Nhập mật khẩu mới" disabled>--%>
-<%--                                                    <div class="input-group-append">--%>
-<%--                                                        <button class="btn btn-outline-secondary" type="button"--%>
-<%--                                                                id="togglePasswordBtn">--%>
-<%--                                                            Tạo mới--%>
-<%--                                                        </button>--%>
-<%--                                                    </div>--%>
-<%--                                                </div>--%>
-<%--                                            </div>--%>
+                                            <div class="form-group">
+                                                <label for="DOB">Ngày tháng năm sinh <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <input type="date" class="form-control" id="DOB" name="dateOfBirth"
+                                                           placeholder="Ngày sinh"
+                                                           value="<fmt:formatDate value='${user.dateOfBirth}' pattern='yyyy-MM-dd'/>"
+                                                           required
+                                                           max="<fmt:formatDate value='${now}' pattern='yyyy-MM-dd'/>"
+                                                           onchange="validateDateOfBirth(this)">
+                                                </div>
+                                                <div class="invalid-feedback" id="dobError">
+                                                    Vui lòng nhập ngày sinh và không được vượt quá ngày hiện tại
+                                                </div>
+                                                <div class="invalid-feedback" id="dobErrorFill">
+                                                    Trường ngày sinh không được để trống.
+                                                </div>
+                                            </div>
                                         </div>
 
 
@@ -538,6 +547,8 @@
         </c:forEach>
     ];
 
+
+
 </script>
 
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/read_user/form.js"></script>
@@ -546,6 +557,8 @@
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/read_user/education.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/read_user/address.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/read_user/skill.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/read_user/date_of_birth.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/read_user/full_name.js"></script>
 
 </body>
 </html>
