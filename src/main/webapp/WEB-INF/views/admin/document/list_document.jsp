@@ -167,6 +167,13 @@
                                                         </span>
                                                     </button>
                                                 </form>
+
+                                                <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/document/download/${document.id}" class="table-link" title="Tải xuống">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                        <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
                                             </td>
                                         </tr>
                                     </c:forEach>

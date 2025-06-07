@@ -352,6 +352,17 @@ public class AdminUpdateUserAccountService {
         JsonNode addresses = changes.get("addresses");
         JsonNode skills = changes.get("skills");
 
+        // Get existing data
+        List<AdminEducation> existingEducations = updateAdminAccountDao.getAllAdminEducationById(adminId);
+        List<AdminAddress> existingAddresses = updateAdminAccountDao.getAllAdminAddressById(adminId);
+        List<AdminSkill> existingSkills = updateAdminAccountDao.getAllAdminSkillById(adminId);
+
+        // Process educations
+        Set<Integer> existingEducationIds = existingEducations.stream()
+                .map(AdminEducation::getId)
+                .collect(Collectors.toSet());
+        Set<Integer> newEducationIds = new HashSet<>();
+
         for (JsonNode edu : educations) {
             JsonNode idNode = edu.get("id");
             JsonNode valueNode = edu.get("value");
@@ -377,6 +388,7 @@ public class AdminUpdateUserAccountService {
             } else {
                 // * CASE: POSSIBLE UPDATE
                 int educationId = idNode.asInt();
+                newEducationIds.add(educationId);
                 AdminEducation existingEducation = updateAdminAccountDao.findAdminEducationById(adminId, educationId);
 
                 boolean changed = !Helper.safeEquals(existingEducation.getSchool(), school);
@@ -390,6 +402,17 @@ public class AdminUpdateUserAccountService {
             }
         }
 
+        // Delete removed educations
+        existingEducationIds.removeAll(newEducationIds);
+        for (Integer educationId : existingEducationIds) {
+            updateAdminAccountDao.deleteAdminEducation(adminId, educationId);
+        }
+
+        // Process addresses
+        Set<Integer> existingAddressIds = existingAddresses.stream()
+                .map(AdminAddress::getId)
+                .collect(Collectors.toSet());
+        Set<Integer> newAddressIds = new HashSet<>();
 
         for (JsonNode addrNode : addresses) {
             // Read id and value
@@ -419,6 +442,7 @@ public class AdminUpdateUserAccountService {
             } else {
                 // * CASE: POSSIBLE UPDATE
                 int addressId = idNode.asInt();
+                newAddressIds.add(addressId);
                 AdminAddress existing = updateAdminAccountDao.findAdminAddressById(adminId, addressId);
 
                 boolean changed = !Helper.safeEquals(existing.getStreetName(), street) ||
@@ -437,12 +461,23 @@ public class AdminUpdateUserAccountService {
             }
         }
 
+        // Delete removed addresses
+        existingAddressIds.removeAll(newAddressIds);
+        for (Integer addressId : existingAddressIds) {
+            updateAdminAccountDao.deleteAdminAddress(adminId, addressId);
+        }
+
+        // Process skills
+        Set<Integer> existingSkillIds = existingSkills.stream()
+                .map(AdminSkill::getId)
+                .collect(Collectors.toSet());
+        Set<Integer> newSkillIds = new HashSet<>();
+
         for (JsonNode skill : skills) {
             JsonNode idNode = skill.get("id");
             JsonNode valueNode = skill.get("value");
 
             System.out.println("Dcm đây là giá trị của  address: " + valueNode);
-
 
             // Kiểm tra valueNode có null hoặc không có ít nhất 1 giá trị hợp lệ
             if (valueNode == null || valueNode.size() < 1) continue;
@@ -458,6 +493,7 @@ public class AdminUpdateUserAccountService {
             } else {
                 // CASE: POSSIBLE UPDATE
                 int skillId = idNode.asInt();
+                newSkillIds.add(skillId);
                 AdminSkill existingSkill = updateAdminAccountDao.findAdminSkillById(adminId, skillId);
 
                 boolean changed = !Helper.safeEquals(existingSkill.getDescription(), skillName);
@@ -471,6 +507,11 @@ public class AdminUpdateUserAccountService {
             }
         }
 
+        // Delete removed skills
+        existingSkillIds.removeAll(newSkillIds);
+        for (Integer skillId : existingSkillIds) {
+            updateAdminAccountDao.deleteAdminSkill(adminId, skillId);
+        }
 
         // Optionally, handle the user role update as well
         updateUserAccountRole(admin.getAdminAccount().getRole().getId(), adminId);

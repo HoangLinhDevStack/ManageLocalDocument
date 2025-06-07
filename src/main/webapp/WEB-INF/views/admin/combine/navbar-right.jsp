@@ -19,10 +19,10 @@
                 <i class="bi bi-trash-fill"></i>
                 Thùng rác
             </a>
-            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">
-                <i class="bi bi-bookmark-star-fill"></i>
-                Báo cáo
-            </a>
+<%--            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">--%>
+<%--                <i class="bi bi-bookmark-star-fill"></i>--%>
+<%--                Báo cáo--%>
+<%--            </a>--%>
             <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-account" class="list-sidebar-item list-group-item bg-body-secondary">
                 <i class="bi bi-person-lines-fill"></i>
                 Danh sách người dùng

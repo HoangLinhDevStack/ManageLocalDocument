@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>Update user</title>
+    <title>Update admin</title>
 
 </head>
 <body>
@@ -79,15 +79,21 @@
 
             <div class="container">
 
-                <h3 class="text-center mt-3">Cập nhập thông tin người dùng</h3>
+                <h3 class="text-center mt-3">Cập nhập thông tin</h3>
 
-                <form:form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/update-user" method="post" id="userForm">
+                <form:form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/update-admin-yourself" method="post" id="userForm">
 
                     <!-- User ID is critical for the update operation -->
-                    <input type="hidden" name="id" value="${user.id}">
+                    <input type="hidden" name="id" value="${admin.id}">
                     <!-- Add a visible debug field for the ID -->
                     <div class="alert alert-info mb-3">
-                        User ID: ${user.id} (This ID will be used for the update operation)
+                        <c:if test="${not empty errorMessage}">
+                            <div class="alert alert-danger">${errorMessage}</div>
+                        </c:if>
+
+                        <c:if test="${not empty successMessage}">
+                            <div class="alert alert-success">${successMessage}</div>
+                        </c:if>
                     </div>
 
                     <!-- Hidden div for collection fields -->
@@ -103,7 +109,7 @@
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
                                                      alt="picture avatar">
                                             </div>
-                                            <h5 class="user-name">${user.name}</h5>
+                                            <h5 class="user-name">${admin.name}</h5>
                                             <h6 class="user-email">yuki@Maxwell.com</h6>
                                         </div>
                                         <div class="about">
@@ -128,7 +134,8 @@
                                                 <label for="fullName">Họ và tên</label>
                                                 <input type="text" class="form-control" id="fullName" name="name"
                                                        placeholder="Enter full name"
-                                                       value="${user.name}">
+                                                       value="${admin.name}"
+                                                >
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -137,7 +144,7 @@
                                                 <label for="nickName"></label>
                                                 <input type="text" class="form-control" id="nickName" name="nickName"
                                                        placeholder="Enter nickname"
-                                                       value="${user.nickName}">
+                                                       value="${admin.nickname}">
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -145,7 +152,7 @@
                                                 <label for="phone">Quốc gia</label>
                                                 <input type="text" class="form-control" id="nation" name="nation"
                                                        placeholder="Enter nation"
-                                                       value="${user.nation}">
+                                                       value="${admin.nation}">
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -155,17 +162,17 @@
                                                 <label for="genderDisplay">Giới tính</label>
                                                 <!-- Text input field displaying the gender name -->
                                                 <input type="text" class="form-control" id="genderDisplay"
-                                                       placeholder="Chọn giới tính" value="${user.sex != null ? user.sex.sex : ''}" disabled>
+                                                       placeholder="Chọn giới tính" value="${admin.sex != null ? admin.sex.sex : ''}" disabled>
                                                 <!-- We're now using the select element for genderId -->
                                                 <!-- Dropdown for selecting gender -->
                                                 <select class="form-select mt-2" id="genderSelect" name="genderId"
                                                         aria-label="Chọn giới tính">
-                                                    <c:if test="${user.sex != null}">
-                                                        <option value="${user.sex.id}" selected>${user.sex.sex}</option>
+                                                    <c:if test="${admin.sex != null}">
+                                                        <option value="${admin.sex.id}" selected>${admin.sex.sex}</option>
                                                     </c:if>
                                                     <c:forEach items="${sexData}" var="entry">
-                                                        <c:if test="${user.sex == null || entry.key != user.sex.id}">
-                                                            <option value="${entry.key}" ${user.sex == null && entry.key == 1 ? 'selected' : ''}>${entry.value}</option>
+                                                        <c:if test="${admin.sex == null || entry.key != admin.sex.id}">
+                                                            <option value="${entry.key}" ${admin.sex == null && entry.key == 1 ? 'selected' : ''}>${entry.value}</option>
                                                         </c:if>
                                                     </c:forEach>
                                                 </select>
@@ -182,26 +189,26 @@
                                                 <label for="Street">Tên tài khoản</label>
                                                 <input type="text" class="form-control" id="Street"
                                                        placeholder="Enter Street"
-                                                       value="${user.userAccount.username}"
+                                                       value="${admin.adminAccount.username}"
                                                        readonly
                                                        disabled>
                                             </div>
                                         </div>
 
                                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-<%--                                            <div class="form-group">--%>
-<%--                                                <label for="newPassword">Mật khẩu</label>--%>
-<%--                                                <div class="input-group">--%>
-<%--                                                    <input type="password" class="form-control" id="newPassword"--%>
-<%--                                                           placeholder="Nhập mật khẩu mới" disabled>--%>
-<%--                                                    <div class="input-group-append">--%>
-<%--                                                        <button class="btn btn-outline-secondary" type="button"--%>
-<%--                                                                id="togglePasswordBtn">--%>
-<%--                                                            Tạo mới--%>
-<%--                                                        </button>--%>
-<%--                                                    </div>--%>
-<%--                                                </div>--%>
-<%--                                            </div>--%>
+                                                <%--                                            <div class="form-group">--%>
+                                                <%--                                                <label for="newPassword">Mật khẩu</label>--%>
+                                                <%--                                                <div class="input-group">--%>
+                                                <%--                                                    <input type="password" class="form-control" id="newPassword"--%>
+                                                <%--                                                           placeholder="Nhập mật khẩu mới" disabled>--%>
+                                                <%--                                                    <div class="input-group-append">--%>
+                                                <%--                                                        <button class="btn btn-outline-secondary" type="button"--%>
+                                                <%--                                                                id="togglePasswordBtn">--%>
+                                                <%--                                                            Tạo mới--%>
+                                                <%--                                                        </button>--%>
+                                                <%--                                                    </div>--%>
+                                                <%--                                                </div>--%>
+                                                <%--                                            </div>--%>
                                         </div>
 
 
@@ -211,18 +218,18 @@
                                                 <!-- Text input field displaying the role name -->
                                                 <input type="text" class="form-control" id="roleDisplay"
                                                        placeholder="Chọn vai trò"
-                                                       value="${user.userAccount.role.keyRoles}" disabled>
+                                                       value="${admin.adminAccount.role.keyRoles}" disabled>
                                                 <!-- We're now using the select element for roleId -->
                                                 <!-- Dropdown for selecting role -->
                                                 <select class="form-select mt-2" id="roleSelect" name="roleId"
                                                         aria-label="Chọn vai trò">
                                                     <!-- The current role is set as default -->
-                                                    <option value="${user.userAccount.role.id}"
-                                                            selected>${user.userAccount.role.keyRoles}</option>
+                                                    <option value="${admin.adminAccount.role.id}"
+                                                            selected>${admin.adminAccount.role.keyRoles}</option>
                                                     <!-- Loop through the available roles passed from the controller -->
-                                                    <c:forEach items="${roleUser}" var="entry">
+                                                    <c:forEach items="${roleAdmin}" var="entry">
                                                         <!-- Exclude the current role to avoid duplicate options -->
-                                                        <c:if test="${entry.key != user.userAccount.role.id}">
+                                                        <c:if test="${entry.key != admin.adminAccount.role.id}">
                                                             <option value="${entry.key}">${entry.value}</option>
                                                         </c:if>
                                                     </c:forEach>
@@ -240,7 +247,7 @@
                                             <div class="form-group">
                                                 <label>Education</label>
                                                 <div id="educationContainer">
-                                                    <c:forEach items="${user.educations}" var="edu" varStatus="status">
+                                                    <c:forEach items="${admin.educations}" var="edu" varStatus="status">
                                                         <div class="input-group mb-2" id-user-educations="${edu.id}">
 
                                                             <div class="education-group">
@@ -262,7 +269,7 @@
                                                     </button>
 
                                                     <button type="button" id="restoreBtn" class="btn btn-secondary"
-                                                            style="${empty user.educations ? 'display:none;' : ''}">
+                                                            style="${empty admin.educations ? 'display:none;' : ''}">
                                                         <i class="bi bi-arrow-counterclockwise"></i>
                                                         Restore educations
                                                     </button>
@@ -299,7 +306,7 @@
                                             <div class="form-group">
                                                 <label>Addresses</label>
                                                 <div id="addressContainer">
-                                                    <c:forEach items="${user.addresses}" var="address" varStatus="status">
+                                                    <c:forEach items="${admin.addresses}" var="address" varStatus="status">
                                                         <div class="input-group mb-2" id-user-addresses="${address.id}">
                                                             <div class="address-group">
                                                                 <input type="text" class="form-control mb-1"
@@ -322,7 +329,7 @@
                                                         Add Address
                                                     </button>
 
-                                                    <button type="button" id="restoreAddressBtn" class="btn btn-secondary" style="${empty user.addresses ? 'display:none;' : ''}">
+                                                    <button type="button" id="restoreAddressBtn" class="btn btn-secondary" style="${empty admin.addresses ? 'display:none;' : ''}">
                                                         <i class="bi bi-arrow-counterclockwise"></i>
                                                         Restore Addresses
                                                     </button>
@@ -352,14 +359,14 @@
                                             <div class="form-group">
                                                 <label>Skills</label>
                                                 <div id="skillsContainer">
-                                                    <c:forEach items="${user.skills}" var="skill" varStatus="status">
+                                                    <c:forEach items="${admin.skills}" var="skill" varStatus="status">
                                                         <div class="input-group mb-2" id-user-skills="${skill.id}">
 
-<%--                                                            * group of skill --%>
+                                                                <%--                                                            * group of skill --%>
                                                             <div class="skill-group">
                                                                 <input type="text" class="form-control"
                                                                        name="skills"
-                                                                       value="${skill.descriptions}" placeholder="Skill">
+                                                                       value="${skill.description}" placeholder="Skill">
                                                             </div>
 
                                                             <button type="button" class="btn btn-danger remove-skill">
@@ -377,7 +384,7 @@
                                                         Add Skill
                                                     </button>
 
-                                                    <button type="button" id="restoreSkillBtn" class="btn btn-secondary" style="${empty user.skills ? 'display:none;' : ''}">
+                                                    <button type="button" id="restoreSkillBtn" class="btn btn-secondary" style="${empty admin.skills ? 'display:none;' : ''}">
                                                         <i class="bi bi-arrow-counterclockwise"></i>
                                                         Restore Skills
                                                     </button>
@@ -404,7 +411,7 @@
                                                 </button>
                                                 <button type="button" id="back" name="submit"
                                                         class="btn btn-secondary float-end">
-                                                    <a href="${pageContext.request.contextPath}/ManagerBook/read"
+                                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-account-admin"
                                                        style="color: white; text-decoration: none;">
                                                         <i class="bi bi-arrow-left"></i>
                                                         Back to Read
@@ -420,23 +427,23 @@
                     </div>
 
                     <!-- * Bootstrap Modal for update confirmation -->
-<%--                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">--%>
-<%--                        <div class="modal-dialog">--%>
-<%--                            <div class="modal-content">--%>
-<%--                                <div class="modal-header">--%>
-<%--                                    <h5 class="modal-title" id="confirmModalLabel">Xác nhận cập nhật</h5>--%>
-<%--                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>--%>
-<%--                                </div>--%>
-<%--                                <div class="modal-body">--%>
-<%--                                    Bạn có muốn cập nhật người dùng?--%>
-<%--                                </div>--%>
-<%--                                <div class="modal-footer">--%>
-<%--                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>--%>
-<%--                                    <button type="submit" class="btn btn-primary" id="confirmYes">Đồng ý</button>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
+                    <%--                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">--%>
+                    <%--                        <div class="modal-dialog">--%>
+                    <%--                            <div class="modal-content">--%>
+                    <%--                                <div class="modal-header">--%>
+                    <%--                                    <h5 class="modal-title" id="confirmModalLabel">Xác nhận cập nhật</h5>--%>
+                    <%--                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="modal-body">--%>
+                    <%--                                    Bạn có muốn cập nhật người dùng?--%>
+                    <%--                                </div>--%>
+                    <%--                                <div class="modal-footer">--%>
+                    <%--                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>--%>
+                    <%--                                    <button type="submit" class="btn btn-primary" id="confirmYes">Đồng ý</button>--%>
+                    <%--                                </div>--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
 
                     <!-- Bootstrap Modal for update confirmation -->
                     <div class="modal fade" id="updateConfirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -513,7 +520,7 @@
 <script>
 
     const educations = [ // * constants of educations file js
-        <c:forEach items="${user.educations}" var="edu" varStatus="status">
+        <c:forEach items="${admin.educations}" var="edu" varStatus="status">
         {index: ${status.index},
             id: ${edu.id},
             school: "${edu.school}"},
@@ -521,7 +528,7 @@
     ];
 
     const addresses = [
-        <c:forEach items="${user.addresses}" var="address" varStatus="status">
+        <c:forEach items="${admin.addresses}" var="address" varStatus="status">
         {index: ${status.index},
             streetName: "${address.streetName}",
             city: "${address.city}",
@@ -532,9 +539,9 @@
     console.log(addresses)
 
     const skills = [
-        <c:forEach items="${user.skills}" var="skill" varStatus="status">
+        <c:forEach items="${admin.skills}" var="skill" varStatus="status">
         {index: ${status.index},
-            descriptions: "${skill.descriptions}"},
+            descriptions: "${skill.description}"},
         </c:forEach>
     ];
 

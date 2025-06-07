@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -263,5 +264,65 @@ public class FetchFullAdminDaoImpl implements FetchFullAdminDao {
         return jdbcTemplate.query(sql, new Object[]{IDAdmin}, adminAccountExtractor);
     }
 
+    @Override
+    public AdminAccount getAdminAccountByUsername(String username) {
+        String sql = "SELECT IDAdminAcc, Username, Password, Enabled, IDAdminRole, IDAdmin FROM admin_account WHERE Username = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{username}, (rs, rowNum) -> {
+                AdminAccount adminAccount = new AdminAccount();
+                adminAccount.setId(rs.getInt("IDAdminAcc"));
+                adminAccount.setUsername(rs.getString("Username"));
+                adminAccount.setEnable((byte) (rs.getBoolean("Enabled") ? 1 : 0));
+                
+                AdminRoles role = new AdminRoles();
+                int roleId = rs.getInt("IDAdminRole");
+                role.setId(roleId);
+                
+                // Map role ID to enum value
+                switch (roleId) {
+                    case 1:
+                        role.setKeyRoles(RolesAdmin.Super);
+                        break;
+                    case 2:
+                        role.setKeyRoles(RolesAdmin.Manager);
+                        break;
+                    case 3:
+                        role.setKeyRoles(RolesAdmin.Dev);
+                        break;
+                }
+                
+                adminAccount.setRole(role);
+                
+                return adminAccount;
+            });
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Admin getAdminInformationById(Integer id) {
+        String sql = "SELECT * FROM admin WHERE IDAdmin = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
+                Admin admin = new Admin();
+                admin.setId(rs.getInt("IDAdmin"));
+                admin.setName(rs.getString("Name"));
+                admin.setNickname(rs.getString("NickName"));
+                admin.setDateOfBirth(rs.getDate("DOB"));
+                admin.setNation(rs.getString("Nation"));
+                admin.setPicture(rs.getBytes("Picture"));
+                admin.setDescription(rs.getString("Description"));
+                
+                Sex sex = new Sex();
+                sex.setId(rs.getInt("IDSex"));
+                admin.setSex(sex);
+                
+                return admin;
+            });
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 
 }

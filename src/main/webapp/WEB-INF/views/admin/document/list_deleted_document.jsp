@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <head>
@@ -132,18 +133,22 @@
                                                 <span class="label label-default">${documentService.formatFileSize(document.fileSize)}</span>
                                             </td>
                                             <td style="width: 20%;">
-                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/permanent-delete/${document.id}" 
-                                                      method="POST" 
-                                                      style="display: inline;"
-                                                      onsubmit="return confirm('Bạn có chắc chắn muốn xóa vĩnh viễn tài liệu này? Hành động này không thể hoàn tác!');">
-                                                    <button type="submit" class="table-link danger" style="background: none; border: none; padding: 0;">
+
+                                                <sec:authorize access="hasAuthority('Super')">
+                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/permanent-delete/${document.id}"
+                                                          method="POST"
+                                                          style="display: inline;"
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa vĩnh viễn tài liệu này? Hành động này không thể hoàn tác!');">
+                                                        <button type="submit" class="table-link danger" style="background: none; border: none; padding: 0;">
                                                         <span class="fa-stack">
                                                             <i class="fa fa-square fa-stack-2x"></i>
                                                             <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
                                                         </span>
-                                                    </button>
-                                                </form>
-                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/restore/${document.id}" 
+                                                        </button>
+                                                    </form>
+                                                </sec:authorize>
+
+                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/restore/${document.id}"
                                                       method="POST" 
                                                       style="display: inline;"
                                                       onsubmit="return confirm('Bạn có chắc chắn muốn khôi phục tài liệu này?');">
@@ -154,6 +159,7 @@
                                                         </span>
                                                     </button>
                                                 </form>
+
                                             </td>
                                         </tr>
                                     </c:forEach>

@@ -32,8 +32,18 @@
 
                         <ul class="dropdown-menu">
 
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ManagerBook/admin/super/setting">
+                                <i class="bi bi-person-badge-fill"></i>
+                                Cài đặt
+                            </a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/admin-yourself">
+                                <i class="bi bi-brush-fill"></i>
+                                Cập nhập
+                            </a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-account/read-yourself">
+                                <i class="bi bi-info-circle-fill"></i>
+                                Thông tin
+                            </a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

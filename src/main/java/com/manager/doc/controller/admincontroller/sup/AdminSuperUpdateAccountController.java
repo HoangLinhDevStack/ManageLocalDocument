@@ -12,6 +12,7 @@ import com.manager.doc.service.admin.account.AdminReadUserAccountService;
 import com.manager.doc.service.admin.account.AdminUpdateUserAccountService;
 import com.manager.doc.service.admin.inf.AdminInformationService;
 import com.manager.doc.service.department.FetchDepartment;
+import com.manager.doc.service.document.DocumentService;
 import com.manager.doc.service.helper.Helper;
 import com.manager.doc.service.office.FetchOffice;
 import com.manager.doc.service.sex.FetchSex;
@@ -20,6 +21,7 @@ import net.sf.jsqlparser.JSQLParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,6 +60,9 @@ public class AdminSuperUpdateAccountController {
 
     @Autowired
     private PasswordEncoder encoder;
+
+    @Autowired
+    private DocumentService documentService;
 
 
 //   * ----------------- update account user -------------------
@@ -173,6 +178,69 @@ public class AdminSuperUpdateAccountController {
         model.addAttribute("admin", adminUpdateUserAccountService.findAdminAccountFullInformation(id));
 
         return "admin/build_account/update_admin_account";
+    }
+
+    @GetMapping("/admin-yourself")
+    public String adminUpdateYourSelfAccountForm(Model model) throws JSQLParserException {
+
+        // Lấy thông tin người dùng từ Spring Security
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+
+        // Kiểm tra kiểu dữ liệu của principal
+        if (principal instanceof org.springframework.security.core.userdetails.User) {
+            // Đây là đối tượng User của Spring Security
+            username = ((org.springframework.security.core.userdetails.User) principal).getUsername();
+        } else {
+            // Nếu không phải User, có thể là String hoặc kiểu khác
+            username = principal.toString();
+        }
+
+        // Lấy IDAdmin từ username
+        Integer adminId = documentService.getAdminIdByUsername(username);
+
+        Map<Integer, String> sexData = fetchSex.choiceSex();
+        Map<Integer, String> roleAdmins = adminInformationService.fetchAdminRole();
+
+        model.addAttribute("sexData", sexData);
+//        model.addAttribute("roleAdmin", roleAdmins);
+        model.addAttribute("admin", adminUpdateUserAccountService.findAdminAccountFullInformation(adminId));
+
+        return "admin/build_information/update-yourself";
+    }
+
+    @PostMapping("/update-admin-yourself")
+    public String adminUpdateYourSelfAccount(@ModelAttribute("admin") Admin admin,
+                                     @RequestParam(value = "roleId", required = false) Integer roleId,
+                                     @RequestParam(value = "genderId", required = false) Integer genderId,
+                                     @RequestParam("changeSetJson") String changeSetJson,
+                                     Model model,
+                                     RedirectAttributes redirectAttributes) throws JSQLParserException, SQLException, JsonProcessingException {
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode changes = mapper.readTree(changeSetJson);
+            System.out.println(changes.toString());
+
+            AdminRoles adminRoles = new AdminRoles();
+            adminRoles.setId(roleId);
+            Sex sex = new Sex();
+            sex.setId(genderId);
+
+            admin.getAdminAccount().setRole(adminRoles);
+            admin.setSex(sex);
+
+            adminUpdateUserAccountService.processAdminChangeSet(changes, admin);
+            redirectAttributes.addFlashAttribute("successMessage", "Cập nhật thông tin tài khoản thành công!");
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+
+
+        return "redirect:/ManagerBook/admin/super/update-account/admin-yourself";
     }
 
     @GetMapping("/admin-account-password/{id}")

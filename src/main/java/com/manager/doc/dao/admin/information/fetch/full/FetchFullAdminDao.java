@@ -13,5 +13,7 @@ public interface FetchFullAdminDao {
     List<AdminSkill> getAdminSkills(Integer IDAdmin);
     List<AdminEducation> getAdminEducations(Integer IDAdmin);
     AdminAccount getAdminAccountByID(Integer IDAdmin);
+    AdminAccount getAdminAccountByUsername(String username);
+    Admin getAdminInformationById(Integer id);
 
 }

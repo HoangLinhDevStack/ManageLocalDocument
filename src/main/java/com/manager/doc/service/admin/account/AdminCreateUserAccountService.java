@@ -64,6 +64,8 @@ public class AdminCreateUserAccountService {
 
         user.setSex(createUserAccountDTO.getSex());
 
+        user.setDateOfBirth(createUserAccountDTO.getUser().getDateOfBirth());
+
         // * set value for user account
         user.getUserAccount().setUsername(createUserAccountDTO.getUsername());
         user.getUserAccount().setPassword(encoder.encode(createUserAccountDTO.getPassword()));

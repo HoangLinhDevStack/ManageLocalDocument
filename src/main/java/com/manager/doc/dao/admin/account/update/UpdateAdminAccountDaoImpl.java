@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class UpdateAdminAccountDaoImpl implements UpdateAdminAccountDao {
@@ -259,6 +260,50 @@ public class UpdateAdminAccountDaoImpl implements UpdateAdminAccountDao {
         }
     }
 
+    @Override
+    public boolean deleteAdminEducation(Integer adminId, Integer educationId) throws SQLException {
+        String sql = "DELETE FROM admin_education WHERE IDAdmin = ? AND IDEducation = ?";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, adminId, educationId);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("==== DAO LAYER - deleteAdminEducation - ERROR ====");
+            System.err.println("Error deleting admin education: " + e.getMessage());
+            e.printStackTrace();
+            System.err.println("==== DAO LAYER - deleteAdminEducation - ERROR END ====");
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean deleteAdminAddress(Integer adminId, Integer addressId) throws SQLException {
+        String sql = "DELETE FROM admin_address WHERE IDAdmin = ? AND IDAddress = ?";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, adminId, addressId);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("==== DAO LAYER - deleteAdminAddress - ERROR ====");
+            System.err.println("Error deleting admin address: " + e.getMessage());
+            e.printStackTrace();
+            System.err.println("==== DAO LAYER - deleteAdminAddress - ERROR END ====");
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean deleteAdminSkill(Integer adminId, Integer skillId) throws SQLException {
+        String sql = "DELETE FROM admin_skill WHERE IDAdmin = ? AND IDSkill = ?";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, adminId, skillId);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            System.err.println("==== DAO LAYER - deleteAdminSkill - ERROR ====");
+            System.err.println("Error deleting admin skill: " + e.getMessage());
+            e.printStackTrace();
+            System.err.println("==== DAO LAYER - deleteAdminSkill - ERROR END ====");
+            throw e;
+        }
+    }
 
     @Override
     public boolean updatePassword(Integer IDAdmin, String newPassword) throws SQLException {
@@ -295,6 +340,24 @@ public class UpdateAdminAccountDaoImpl implements UpdateAdminAccountDao {
     public AdminSkill findAdminSkillById(Integer adminId, Integer skillId) throws SQLException {
         String sql = "SELECT IDSkill, Description FROM admin_skill WHERE IDAdmin = ? AND IDSkill = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{adminId, skillId}, findAdminSkillByIDRowMapper);
+    }
+
+    @Override
+    public List<AdminAddress> getAllAdminAddressById(Integer adminId) throws SQLException {
+        String sql = "SELECT IDAddress, StreetName, City, Province FROM admin_address WHERE IDAdmin = ?";
+        return jdbcTemplate.query(sql, findAdminAddressByIDRowMapper, adminId);
+    }
+
+    @Override
+    public List<AdminEducation> getAllAdminEducationById(Integer adminId) throws SQLException {
+        String sql = "SELECT IDEducation, School FROM admin_education WHERE IDAdmin = ?";
+        return jdbcTemplate.query(sql, findAdminEducationByIDRowMapper, adminId);
+    }
+
+    @Override
+    public List<AdminSkill> getAllAdminSkillById(Integer adminId) throws SQLException {
+        String sql = "SELECT IDSkill, Description FROM admin_skill WHERE IDAdmin = ?";
+        return jdbcTemplate.query(sql, findAdminSkillByIDRowMapper, adminId);
     }
 
     @Override

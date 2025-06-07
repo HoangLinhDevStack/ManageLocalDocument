@@ -14,6 +14,8 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/read_user_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/update_admin_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account/update_user_account.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_account" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_information/read-yourself.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_information" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_information/update-yourself.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/build_information" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/combine/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/combine" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/document/list_deleted_document.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/document" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/document/list_document.jsp" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/document" />

@@ -173,6 +173,46 @@ public class AdminInformationService {
         return newAdmins;
     }
 
+    public Admin getCurrentAdminInformation(String username) {
+        // Get admin account by username
+        AdminAccount adminAccount = fetchFullAdminDao.getAdminAccountByUsername(username);
+        if (adminAccount == null) {
+            return null;
+        }
 
+        // Get admin information
+        Admin admin = fetchFullAdminDao.getAdminInformationById(adminAccount.getId());
+        if (admin == null) {
+            return null;
+        }
+
+        // Set admin account information
+        admin.getAdminAccount().setId(adminAccount.getId());
+        admin.getAdminAccount().setUsername(adminAccount.getUsername());
+        admin.getAdminAccount().setEnable(adminAccount.getEnable());
+        admin.getAdminAccount().setRole(adminAccount.getRole());
+
+        System.out.println(adminAccount.getRole().getId());
+
+        // Get and set educations
+        List<AdminEducation> educationList = new ArrayList<>(fetchFullAdminDao.getAdminEducations(admin.getId()));
+        for (AdminEducation education : educationList) {
+            admin.getEducations().add(education);
+        }
+
+        // Get and set addresses
+        List<AdminAddress> addressList = new ArrayList<>(fetchFullAdminDao.getAdminAddresses(admin.getId()));
+        for (AdminAddress address : addressList) {
+            admin.getAddresses().add(address);
+        }
+
+        // Get and set skills
+        List<AdminSkill> skillList = new ArrayList<>(fetchFullAdminDao.getAdminSkills(admin.getId()));
+        for (AdminSkill skill : skillList) {
+            admin.getSkills().add(skill);
+        }
+
+        return admin;
+    }
 
 }

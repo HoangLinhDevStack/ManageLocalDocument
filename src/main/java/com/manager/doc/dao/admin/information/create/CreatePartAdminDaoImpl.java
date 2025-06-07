@@ -25,7 +25,7 @@ public class CreatePartAdminDaoImpl implements CreateAdminDao {
 
         System.out.println("Dao layer: " + admin.getName());
 
-        final String sql = "insert into `admin` (Name, IDSex) value(?,?)";
+        final String sql = "insert into `admin` (Name, IDSex, DOB) value(?,?,?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -37,6 +37,10 @@ public class CreatePartAdminDaoImpl implements CreateAdminDao {
                         PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                         preparedStatement.setString(1, admin.getName());
                         preparedStatement.setInt(2, admin.getSex().getId());
+
+                        // Chuyển từ java.util.Date sang java.sql.Date
+                        java.sql.Date sqlDob = new java.sql.Date(admin.getDateOfBirth().getTime());
+                        preparedStatement.setDate(3, sqlDob);
                         return preparedStatement;
                     }
                 },

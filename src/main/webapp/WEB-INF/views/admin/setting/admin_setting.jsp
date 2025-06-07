@@ -136,7 +136,7 @@
                 <!-- Danh sách cài đặt -->
                 <ul class="settings-list">
                     <li onclick="showSetting('password-settings')">Đổi mật khẩu</li>
-                    <li onclick="showSetting('theme-settings')">Chế độ sáng tối</li>
+<%--                    <li onclick="showSetting('theme-settings')">Chế độ sáng tối</li>--%>
                 </ul>
 
             </div>

@@ -2,6 +2,7 @@ package com.manager.doc.controller.admincontroller.sup;
 
 import com.manager.doc.dto.admin.CreateAdminAccountDTO;
 import com.manager.doc.dto.user.CreateUserAccountDTO;
+import com.manager.doc.model.admin.Admin;
 import com.manager.doc.model.admin.AdminAccount;
 import com.manager.doc.model.user.UserAccount;
 import com.manager.doc.service.admin.account.AdminReadUserAccountService;
@@ -10,6 +11,7 @@ import com.manager.doc.service.department.FetchDepartment;
 import com.manager.doc.service.office.FetchOffice;
 import com.manager.doc.service.user.inf.UserInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,6 +67,14 @@ public class AdminSuperReadAccountController {
         return "redirect:/ManagerBook/admin/super/list-account";
     }
 
-
+    @GetMapping("/read-yourself")
+    public String readYourself(Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Admin admin = adminInformationService.getCurrentAdminInformation(username);
+        if (admin != null) {
+            model.addAttribute("admin", admin);
+        }
+        return "admin/build_information/read-yourself";
+    }
 
 }

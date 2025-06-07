@@ -10,6 +10,7 @@ import com.manager.doc.model.user.UserEducation;
 import com.manager.doc.model.user.UserSkill;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface UpdateAdminAccountDao {
 
@@ -31,10 +32,32 @@ public interface UpdateAdminAccountDao {
     boolean insertAdminSkill(AdminSkill skill, Integer IDAdmin) throws SQLException;
 
     //    * insert ind admin end --------------------
+
+
+    //    * delete inf admin begin --------------------
+    boolean deleteAdminEducation(Integer adminId, Integer educationId) throws SQLException;
+    boolean deleteAdminAddress(Integer adminId, Integer addressId) throws SQLException;
+    boolean deleteAdminSkill(Integer adminId, Integer skillId) throws SQLException;
+    //    * delete inf admin end --------------------
+
+
     boolean updatePassword(Integer IDAdmin, String newPassword) throws SQLException;
+
+    // * find inf admin begin --------------------
+
     AdminAddress findAdminAddressById(Integer adminId, Integer addressId) throws SQLException;
     AdminEducation findAdminEducationById(Integer adminId, Integer educationId) throws SQLException;
     AdminSkill findAdminSkillById(Integer adminId, Integer skillId) throws SQLException;
+
+    // * find inf admin end --------------------
+
+    // * get all inf admin begin --------------------
+    List<AdminAddress> getAllAdminAddressById(Integer adminId) throws SQLException;
+    List<AdminEducation> getAllAdminEducationById(Integer adminId) throws SQLException;
+    List<AdminSkill> getAllAdminSkillById(Integer adminId) throws SQLException;
+
+    // * get all inf admin end --------------------
+
     Admin findAdminByID(Integer id);
     boolean toggleAdminAccountStatus(int adminId) throws SQLException;
 

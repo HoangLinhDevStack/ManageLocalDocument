@@ -25,7 +25,7 @@ public class CreatePartUserDaoImpl implements CreateUserDao {
 
         System.out.println("Dao layer: " + user.getName());
 
-        final String sql = "insert into `user` (Name, IDSex) value(?,?)";
+        final String sql = "insert into `user` (Name, IDSex, DOB) value(?,?,?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -37,6 +37,10 @@ public class CreatePartUserDaoImpl implements CreateUserDao {
                         PreparedStatement preparedStatement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                         preparedStatement.setString(1, user.getName());
                         preparedStatement.setInt(2, user.getSex().getId());
+
+                        // Chuyển từ java.util.Date sang java.sql.Date
+                        java.sql.Date sqlDob = new java.sql.Date(user.getDateOfBirth().getTime());
+                        preparedStatement.setDate(3, sqlDob);
                         return preparedStatement;
                     }
                 },

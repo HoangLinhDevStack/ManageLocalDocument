@@ -182,7 +182,9 @@
                                                 <label for="Street">Tên tài khoản</label>
                                                 <input type="text" class="form-control" id="Street"
                                                        placeholder="Enter Street"
-                                                       value="${admin.adminAccount.username}">
+                                                       value="${admin.adminAccount.username}"
+                                                       readonly
+                                                       disabled>
                                             </div>
                                         </div>
 
