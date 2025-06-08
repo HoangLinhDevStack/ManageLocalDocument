@@ -117,11 +117,34 @@
                     <div class="col-md-6">
                         <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm tài liệu theo tên...">
                     </div>
+
+                    <div class="btn-group col-md-6" role="group" aria-label="Filter by status">
+                        <button type="button" class="btn btn-outline-primary active" data-filter="All">Tất cả</button>
+                        <button type="button" class="btn btn-outline-primary" data-filter="Approved">Đã duyệt</button>
+                        <button type="button" class="btn btn-outline-primary" data-filter="Pending">Đang chờ</button>
+                        <button type="button" class="btn btn-outline-primary" data-filter="Rejected">Từ chối</button>
+                    </div>
+
                 </div>
+
+<%--                <div class="col-md-6 text-end">--%>
+<%--                    <div class="btn-group" role="group" aria-label="Filter by status">--%>
+<%--                        <button type="button" class="btn btn-outline-primary active" data-filter="All">Tất cả</button>--%>
+<%--                        <button type="button" class="btn btn-outline-primary" data-filter="Approved">Đã duyệt</button>--%>
+<%--                        <button type="button" class="btn btn-outline-primary" data-filter="Pending">Đang chờ</button>--%>
+<%--                        <button type="button" class="btn btn-outline-primary" data-filter="Rejected">Từ chối</button>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
                 <div class="row g-3">
                     <c:forEach var="doc" items="${documents}">
                         <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12">
-                            <div class="file-card p-2 h-100" data-doc-id="${doc.id}" data-doc-title="${doc.title}" data-title="${doc.title}" data-file-path="${doc.filePath}">
+                            <div class="file-card p-2 h-100" 
+                                data-doc-id="${doc.id}" 
+                                data-doc-title="${doc.title}" 
+                                data-title="${doc.title}" 
+                                data-file-path="${doc.filePath}" 
+                                data-status="${doc.status}">
+                                
                                 <c:choose>
                                     <c:when test="${fn:endsWith(fn:toLowerCase(doc.filePath), '.pdf')}">
                                         <img src="${pageContext.request.contextPath}/resources/static/images/PDF.png"
@@ -231,103 +254,13 @@
       </div>
     </div>
 
-    <script>
-    let currentDocId = null;
-    let currentDocTitle = null;
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // DEBUG: Log tất cả data-doc-id trên trang khi DOM tải xong
-        document.querySelectorAll('.file-card').forEach(card => {
-            console.log("DOM Loaded - Card data-doc-id:", card.getAttribute('data-doc-id'));
-        });
+<script>
+    var contextPath = "${pageContext.request.contextPath}";
+</script>
 
-        // Gán sự kiện chuột phải cho từng file-card
-        document.querySelectorAll('.file-card').forEach(card => {
-            card.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                currentDocId = this.getAttribute('data-doc-id');
-                currentDocTitle = this.getAttribute('data-doc-title');
-                console.log("Context menu triggered. currentDocId (from clicked card):", currentDocId); // DEBUG
-                const menu = document.getElementById('fileContextMenu');
-                menu.style.display = 'block';
-                menu.style.left = e.pageX + 'px';
-                menu.style.top = e.pageY + 'px';
-            });
-        });
-
-        // Ẩn menu khi click ngoài
-        document.addEventListener('click', function() {
-            document.getElementById('fileContextMenu').style.display = 'none';
-        });
-
-        // Đọc tài liệu
-        document.getElementById('viewDocBtn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (currentDocId && currentDocTitle) {
-                showDocViewer(currentDocId, currentDocTitle);
-            }
-            document.getElementById('fileContextMenu').style.display = 'none';
-        });
-
-        // Cập nhật tài liệu
-        document.getElementById('updateDocBtn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (currentDocId) {
-                window.location.href = '${pageContext.request.contextPath}/ManagerBook/admin/super/update-document/' + currentDocId;
-            }
-            document.getElementById('fileContextMenu').style.display = 'none';
-        });
-    });
-
-    // Hàm hiển thị modal đọc tài liệu
-    function showDocViewer(docId, docTitle) {
-        console.log("showDocViewer called with docId:", docId, "docTitle:", docTitle);
-        const modal = document.getElementById('docViewerModal');
-        const iframe = document.getElementById('docViewerIframe');
-        const messageDiv = document.getElementById('docViewerMessage');
-
-        modal.querySelector('.modal-title').textContent = 'Đọc tài liệu: ' + docTitle;
-        messageDiv.style.display = 'none';
-        iframe.style.display = 'block';
-        iframe.src = ''; // Clear previous src
-
-        // Lấy đường dẫn file từ thuộc tính data-file-path của card đang được click
-        let clickedCard = null;
-        document.querySelectorAll('.file-card').forEach(card => {
-            const cardDocId = card.getAttribute('data-doc-id');
-            if (cardDocId && parseInt(cardDocId.trim()) === parseInt(docId)) {
-                clickedCard = card;
-            }
-        });
-
-        let filePath = clickedCard ? clickedCard.getAttribute('data-file-path') : '';
-        
-        if (filePath.toLowerCase().endsWith('.pdf')) {
-            iframe.src = '${pageContext.request.contextPath}/ManagerBook/admin/super/document/view/' + docId;
-            console.log("Setting iframe src to:", iframe.src);
-        } else {
-            iframe.style.display = 'none';
-            messageDiv.innerHTML = 'Tính năng đọc tài liệu cho loại file này sẽ được phát triển sau. ' +
-                '<br><a href="${pageContext.request.contextPath}/ManagerBook/admin/super/document/view/' + docId +
-                '" target="_blank" class="btn btn-primary btn-sm mt-2">Tải xuống file hoặc mở trong tab mới</a>';
-            messageDiv.style.display = 'block';
-        }
-
-        var modalInstance = new bootstrap.Modal(modal);
-        modalInstance.show();
-    }
-
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const keyword = this.value.trim().toLowerCase();
-        document.querySelectorAll('.file-card').forEach(card => {
-            const title = card.getAttribute('data-title').toLowerCase();
-            if (title.includes(keyword)) {
-                card.parentElement.style.display = '';
-            } else {
-                card.parentElement.style.display = 'none';
-            }
-        });
-    });
-    </script>
+<script src="${pageContext.request.contextPath}/resources/static/js/document/homepage/document_viewer.js" ></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/document/homepage/document_search.js" ></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/document/homepage/document_filter.js" ></script>
 </body>
 </html>
