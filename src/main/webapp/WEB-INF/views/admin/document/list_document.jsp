@@ -111,7 +111,7 @@
                                                              alt="Word" class="file-icon">
                                                     </c:when>
                                                     <c:when test="${fn:endsWith(fn:toLowerCase(filePath), '.xlsx') || fn:endsWith(fn:toLowerCase(filePath), '.xls')}">
-                                                        <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png"
+                                                        <img src="${pageContext.request.contextPath}/resources/static/images/excel_732220.png"
                                                              alt="Excel" class="file-icon">
                                                     </c:when>
                                                     <c:otherwise>

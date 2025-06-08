@@ -84,9 +84,8 @@
                         </c:if>
 
 
-                        <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/up-document/upload"
-                              method="POST" enctype="multipart/form-data"
-                              onsubmit="return confirm('Bạn có muốn đăng tải tài liệu này?');">
+                        <form id="uploadForm" action="${pageContext.request.contextPath}/ManagerBook/admin/super/up-document/upload"
+                              method="POST" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="title" class="form-label">File Title</label>
                                 <input type="text" name="title" class="form-control" id="title" readonly />
@@ -122,16 +121,6 @@
                                 <div class="error-message btn-secondary" id="fileError"></div>
                             </div>
 
-<%--                            <div class="mb-3">--%>
-<%--                                <label for="status" class="form-label">Trạng thái</label>--%>
-<%--                                <select name="status" class="form-select" id="status">--%>
-<%--                                    <option value="" disabled selected>Chọn trạng thái</option>--%>
-<%--                                    <c:forEach var="status" items="${statusList}">--%>
-<%--                                        <option value="${status}">${status}</option>--%>
-<%--                                    </c:forEach>--%>
-<%--                                </select>--%>
-<%--                            </div>--%>
-
                             <div class="mb-3">
                                 <label for="status" class="form-label">Trạng thái</label>
                                 <select name="status" class="form-select" id="status">
@@ -149,6 +138,11 @@
                                 <label for="author" class="form-label">Author</label>
                                 <input type="text" name="author" class="form-control" id="author"/>
                             </div>
+
+                            <div class="progress mt-3" style="display: none;">
+                                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                            </div>
+                            <div id="uploadMessage" class="mt-2"></div>
 
                             <button type="submit" class="btn btn-primary btn-submit w-100">Upload Document</button>
                         </form>
@@ -234,7 +228,88 @@
         }
     });
 
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Ngăn chặn submit form mặc định
+
+        const form = e.target;
+        const formData = new FormData(form);
+        const progressBar = document.querySelector('.progress');
+        const progressBarFill = document.querySelector('.progress-bar');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        // Reset trạng thái
+        progressBar.style.display = 'none';
+        progressBarFill.style.width = '0%';
+        progressBarFill.setAttribute('aria-valuenow', 0);
+        progressBarFill.textContent = '0%';
+        submitButton.disabled = true; // Vô hiệu hóa nút submit
+
+        // Xác nhận trước khi upload
+        if (!confirm('Bạn có muốn đăng tải tài liệu này?')) {
+            submitButton.disabled = false; // Kích hoạt lại nút nếu hủy
+            return;
+        }
+
+        progressBar.style.display = 'block'; // Hiển thị thanh tiến trình
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', form.action, true);
+
+        // Theo dõi tiến trình tải lên
+        xhr.upload.onprogress = function(event) {
+            if (event.lengthComputable) {
+                const percentComplete = (event.loaded / event.total) * 100;
+                progressBarFill.style.width = percentComplete.toFixed(0) + '%';
+                progressBarFill.setAttribute('aria-valuenow', percentComplete.toFixed(0));
+                progressBarFill.textContent = percentComplete.toFixed(0) + '%';
+            }
+        };
+
+        // Xử lý khi tải lên hoàn tất
+        xhr.onload = function() {
+            submitButton.disabled = false; // Kích hoạt lại nút
+            progressBar.style.display = 'none'; // Ẩn thanh tiến trình
+
+            // Kiểm tra response từ server
+            if (xhr.status === 200) {
+                // Nếu response chứa HTML của trang (bao gồm cả validate messages)
+                document.open();
+                document.write(xhr.responseText);
+                document.close();
+            } else {
+                // Nếu có lỗi, submit form để hiển thị thông báo lỗi
+                form.submit();
+            }
+        };
+
+        // Xử lý lỗi mạng
+        xhr.onerror = function() {
+            submitButton.disabled = false; // Kích hoạt lại nút
+            progressBar.style.display = 'none'; // Ẩn thanh tiến trình
+            form.submit(); // Submit form để xử lý lỗi
+        };
+
+        xhr.send(formData);
+    });
+
 </script>
+
+<style>
+    .progress {
+        height: 25px;
+        background-color: #e9ecef;
+        border-radius: .25rem;
+        overflow: hidden;
+        margin-bottom: 1rem;
+    }
+
+    .progress-bar {
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        transition: width .6s ease;
+    }
+</style>
 
 <script  src="${pageContext.request.contextPath}/resources/static/js/document/up_document/genres.js"></script>
 <script  src="${pageContext.request.contextPath}/resources/static/js/document/up_document/auto_fill_title.js"></script>

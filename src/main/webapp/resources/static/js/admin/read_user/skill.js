@@ -3,13 +3,35 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('addSkillBtn').addEventListener('click', addSkill);
     document.getElementById('restoreSkillBtn').addEventListener('click', restoreSkills);
 
+    // Add validation to form submission
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+        const skillInputs = document.querySelectorAll('input[name="skills"]');
+        let isValid = true;
+        
+        skillInputs.forEach(input => {
+            if (!input.value.trim()) {
+                input.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+        
+        if (!isValid) {
+            event.preventDefault();
+            document.getElementById('submit').disabled = true;
+            return false;
+        }
+        
+        document.getElementById('submit').disabled = false;
+    });
+
     document.getElementById('skillsContainer').addEventListener('click', function(event) {
         if (event.target.closest('.remove-skill')) {
             removeSkill(event.target.closest('.remove-skill'));
         }
     });
 });
-
 
 function addSkill() {
     const container = document.getElementById('skillsContainer');
@@ -20,7 +42,8 @@ function addSkill() {
 
     inputGroup.innerHTML = ` 
         <div class="skill-group">
-            <input type="text" class="form-control" name="skills" placeholder="Skill" >
+            <input type="text" class="form-control" name="skills" placeholder="Skill" required>
+            <div class="invalid-feedback">Trường này cần giá trị đầu vào</div>
         </div>
         
         <button type="button" class="btn btn-danger remove-skill">

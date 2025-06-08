@@ -82,6 +82,10 @@ public class DocumentDaoImpl implements DocumentDao {
             document.setAuthor(rs.getString("Author"));
             document.setFileSize(rs.getInt("FileSize"));
             document.setFilePath(rs.getString("FilePath"));
+            
+            // THÊM DÒNG NÀY ĐỂ DEBUG:
+            System.out.println("Debug DAO - Document ID: " + document.getId() + ", Raw FilePath from DB: '" + rs.getString("FilePath") + "'");
+            
             document.setStatus(StatusDocument.valueOf(rs.getString("Status")));
             return document;
         });
@@ -102,6 +106,9 @@ public class DocumentDaoImpl implements DocumentDao {
                 document.setStatus(StatusDocument.valueOf(rs.getString("Status")));
                 document.setFileSize(rs.getInt("FileSize"));
                 document.setFilePath(rs.getString("FilePath"));
+                
+                // THÊM DÒNG NÀY ĐỂ DEBUG:
+                System.out.println("Debug DAO - Document ID: " + document.getId() + ", Raw FilePath from DB (ById): '" + rs.getString("FilePath") + "'");
                 
                 // Set DocumentStore with proper relationship
                 DocumentStore documentStore = new DocumentStore();

@@ -121,6 +121,21 @@
                     </div>
                 </c:if>
 
+                <c:if test="${not empty uploadSuccess}">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            ${uploadSuccess}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </c:if>
+
+                <!-- Error message alert -->
+                <c:if test="${not empty uploadError}">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            ${uploadError}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </c:if>
+
                 <h1 class=""> Các tài khoản admin </h1>
 
                 <link rel="stylesheet"

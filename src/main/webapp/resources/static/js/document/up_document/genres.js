@@ -1,3 +1,12 @@
+// Add style for pink background
+const style = document.createElement('style');
+style.textContent = `
+    .bg-pink {
+        background-color: #ffb6c1 !important;
+    }
+`;
+document.head.appendChild(style);
+
 document.addEventListener("DOMContentLoaded", function () {
     const genreSelect = document.getElementById("genreSelect");
     const selectedGenresContainer = document.getElementById("selectedGenres");
@@ -18,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePlaceholder();
 
         const tag = document.createElement("span");
-        tag.className = "badge-genre position-relative me-2 mb-2";
+        tag.className = "badge-genre position-relative me-2 mb-2 bg-pink";
         tag.innerHTML = `
             ${name}
             <button type="button" class="btn-close ms-2 position-absolute end-0 me-2" aria-label="Remove"></button>

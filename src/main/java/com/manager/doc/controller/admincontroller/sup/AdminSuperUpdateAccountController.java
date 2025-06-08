@@ -126,21 +126,18 @@ public class AdminSuperUpdateAccountController {
     @PostMapping("/update-password-user")
     public String adminUpdateUserPasswordAccount(@RequestParam("IDUser") Integer IDUser,
                                                  @RequestParam("password") String password,
-                                                 Model model) throws JSQLParserException, SQLException {
+                                                 Model model,
+                                                 RedirectAttributes redirectAttributes) throws JSQLParserException, SQLException {
 
         boolean result = adminUpdateUserAccountService.updateUserPassword(IDUser, password);
 
         if (!result) {
-            System.out.println("Error updated password");
+            redirectAttributes.addFlashAttribute("uploadError", "Cập nhật mật khẩu thất bại!");
         } else {
-            System.out.println("Success updated password");
+            redirectAttributes.addFlashAttribute("uploadSuccess", "Cập nhật mật khẩu thành công!");
         }
 
-
         List<UserAccount> accounts = adminReadUserAccountService.getUsersAccount();
-        System.out.println("Fetched Users: " + accounts);
-
-
         model.addAttribute("roleUser", userInformationService.fetchUserRole());
         model.addAttribute("DepartmentKeyAndValue", fetchDepartment.choiceDepartment());
         model.addAttribute("OfficeKeyAndValue", fetchOffice.choiceOffices());
@@ -148,7 +145,7 @@ public class AdminSuperUpdateAccountController {
         model.addAttribute("allUserInformation", adminInformationService.getAllUserInformation());
         model.addAttribute("departmentWork", fetchDepartment.fetchFullDepartmentWork());
 
-        return "admin/build_account/read_user_account";
+        return "redirect:/ManagerBook/admin/super/list-account";
     }
 
     @RequestMapping(value = "/toggle-account-status/{id}", method = {RequestMethod.GET, RequestMethod.POST})
@@ -274,6 +271,8 @@ public class AdminSuperUpdateAccountController {
             admin.getAdminAccount().setRole(adminRoles);
             admin.setSex(sex);
 
+            System.out.println("debug nick name admin: " + admin.getNickname());
+
             adminUpdateUserAccountService.processAdminChangeSet(changes, admin);
             redirectAttributes.addFlashAttribute("successMessage", "Cập nhật thông tin tài khoản admin thành công!");
 
@@ -289,21 +288,18 @@ public class AdminSuperUpdateAccountController {
     @PostMapping("/update-password-admin")
     public String adminUpdateAdminPasswordAccount(@RequestParam("IDAdmin") Integer IDAdmin,
                                                  @RequestParam("password") String password,
-                                                 Model model) throws JSQLParserException, SQLException {
+                                                 Model model,
+                                                 RedirectAttributes redirectAttributes) throws JSQLParserException, SQLException {
 
         boolean result = adminUpdateUserAccountService.updateAdminPassword(IDAdmin, password);
 
         if (!result) {
-            System.out.println("Error updated password");
+            redirectAttributes.addFlashAttribute("uploadError", "Cập nhật mật khẩu thất bại!");
         } else {
-            System.out.println("Success updated password");
+            redirectAttributes.addFlashAttribute("uploadSuccess", "Cập nhật mật khẩu thành công!");
         }
 
-
         List<AdminAccount> accounts = adminReadUserAccountService.getAdminsAccount();
-        System.out.println("Fetched Users: " + accounts);
-
-
         model.addAttribute("roleAdmin", adminInformationService.fetchAdminRole());
         model.addAttribute("DepartmentKeyAndValue", fetchDepartment.choiceDepartment());
         model.addAttribute("OfficeKeyAndValue", fetchOffice.choiceOffices());
@@ -311,7 +307,7 @@ public class AdminSuperUpdateAccountController {
         model.addAttribute("allAdminInformation", adminInformationService.getAllAdminInformation());
         model.addAttribute("departmentWork", fetchDepartment.fetchFullDepartmentWork());
 
-        return "admin/build_account/read_admin_account";
+        return "redirect:/ManagerBook/admin/super/list-account-admin";
     }
 
     @RequestMapping(value = "/toggle-admin-account-status/{id}", method = {RequestMethod.GET, RequestMethod.POST})

@@ -49,6 +49,12 @@ public class MgDocSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+
+                .headers()
+                .frameOptions().sameOrigin() // Cho phép iframe từ cùng một origin
+                .and()
+
+
                 .csrf().disable() // Tạm thời vô hiệu hóa CSRF để kiểm tra vấn đề upload file
                 .authorizeRequests()
                 // Allow access to the login page and login processing without authentication
@@ -56,6 +62,9 @@ public class MgDocSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Restrict access to specific sections based on roles
                 .antMatchers("/ManagerBook/admin/super/**").hasAuthority("Super")
+                .antMatchers("/ManagerBook/admin/super/document/view/**").authenticated()
+
+
                 .antMatchers("/ManagerBook/admin/manager/**").hasAuthority("Manager")
                 .antMatchers("/ManagerBook/admin/dev/**").hasAuthority("Dev")
 

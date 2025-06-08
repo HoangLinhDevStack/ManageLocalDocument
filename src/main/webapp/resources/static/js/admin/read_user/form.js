@@ -108,32 +108,29 @@ function detectChanges() {
     return changedFields;
 }
 
-function hasArrayFieldChanged(initArr, currArr, fieldName) { // * check for update value
-    if (!Array.isArray(initArr) || !Array.isArray(currArr)) { // * check type of array
-        // console.warn(`⚠️ ${fieldName} is not an array`);
+function hasArrayFieldChanged(initArr, currArr, fieldName) {
+    if (!Array.isArray(initArr) || !Array.isArray(currArr)) {
         return true;
     }
 
-    if (initArr.length !== currArr.length) { // * check length of array
-        // console.log(`🔁 [${fieldName}] Length changed: ${initArr.length} → ${currArr.length}`);
-        return true;
-    }
+    // Check if any existing fields were deleted
+    const deletedFields = initArr.filter(init => {
+        const initId = init?.id;
+        return initId && !currArr.some(curr => curr?.id === initId);
+    });
 
-    for (let i = 0; i < initArr.length; i++) { // * compare each element of array by ID and check value init has equal with current value
-        const initArrElement = initArr[i];
-        const currArrElement = currArr[i];
+    // Check if any new fields were added
+    const newFields = currArr.filter(curr => !curr?.id);
 
-        const initArrElementId = initArrElement?.id ?? null;
-        const currArrElementId = currArrElement?.id ?? null;
-        const initArrElementVal = JSON.stringify(initArrElement?.value ?? null);
-        const currArrElementVal = JSON.stringify(currArrElement?.value ?? null);
+    // Check if any existing fields were modified
+    const modifiedFields = currArr.filter(curr => {
+        const initField = initArr.find(init => init?.id === curr?.id);
+        if (!initField) return false;
+        return JSON.stringify(initField?.value) !== JSON.stringify(curr?.value);
+    });
 
-        if (initArrElementId === currArrElementId && initArrElementVal !== currArrElementVal) {
-            return true; // * return true when find different value
-        }
-    }
-
-    return false; // * return false when all elements have same value
+    // Return true if there are any changes
+    return deletedFields.length > 0 || newFields.length > 0 || modifiedFields.length > 0;
 }
 
 

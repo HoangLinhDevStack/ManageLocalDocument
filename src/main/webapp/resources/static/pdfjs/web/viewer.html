@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html dir="ltr" mozdisallowselectionprint>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>PDF.js Viewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf_viewer.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #viewerContainer {
+            position: absolute;
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+        }
+        #pdfViewer {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="viewerContainer">
+        <div id="pdfViewer"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js"></script>
+    <script>
+        // Set worker path
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+
+        // Get PDF URL from query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const pdfUrl = urlParams.get('file');
+
+        if (pdfUrl) {
+            // Load the PDF
+            pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+                // Create viewer container
+                const container = document.getElementById('pdfViewer');
+                
+                // Load first page
+                pdf.getPage(1).then(function(page) {
+                    const scale = 1.5;
+                    const viewport = page.getViewport({scale: scale});
+
+                    // Prepare canvas
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    // Render PDF page
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    page.render(renderContext).promise.then(function() {
+                        container.appendChild(canvas);
+                    });
+                });
+            }).catch(function(error) {
+                console.error('Error loading PDF:', error);
+                document.getElementById('pdfViewer').innerHTML = 'Error loading PDF. Please try again.';
+            });
+        } else {
+            document.getElementById('pdfViewer').innerHTML = 'No PDF URL provided.';
+        }
+    </script>
+</body>
+</html> 

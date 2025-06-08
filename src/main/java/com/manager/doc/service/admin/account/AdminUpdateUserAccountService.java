@@ -514,7 +514,7 @@ public class AdminUpdateUserAccountService {
         }
 
         // Optionally, handle the user role update as well
-        updateUserAccountRole(admin.getAdminAccount().getRole().getId(), adminId);
+        updateAdminAccountRole(admin.getAdminAccount().getRole().getId(), adminId);
     }
 
     @Transactional

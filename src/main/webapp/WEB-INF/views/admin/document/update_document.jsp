@@ -69,8 +69,11 @@
                                 <h4 class="mb-0 ms-3">${document.title}</h4>
 
                                 <div class="d-flex ms-auto">
-                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document" class="btn btn-secondary">
+                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document" class="btn btn-secondary me-2">
                                         <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                                    </a>
+                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin" class="btn btn-primary">
+                                        <i class="bi bi-house"></i> Home
                                     </a>
                                 </div>
 

@@ -3,6 +3,52 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('addAddressBtn').addEventListener('click', addAddress);
     document.getElementById('restoreAddressBtn').addEventListener('click', restoreAddresses);
 
+    // Add validation to form submission
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+        const streetInputs = document.querySelectorAll('input[name="streets"]');
+        const cityInputs = document.querySelectorAll('input[name="cities"]');
+        const provinceInputs = document.querySelectorAll('input[name="provinces"]');
+        let isValid = true;
+        
+        // Validate street names
+        streetInputs.forEach(input => {
+            if (!input.value.trim()) {
+                input.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+        
+        // Validate cities
+        cityInputs.forEach(input => {
+            if (!input.value.trim()) {
+                input.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+        
+        // Validate provinces
+        provinceInputs.forEach(input => {
+            if (!input.value.trim()) {
+                input.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+        
+        if (!isValid) {
+            event.preventDefault();
+            document.getElementById('submit').disabled = true;
+            return false;
+        }
+        
+        document.getElementById('submit').disabled = false;
+    });
+
     document.getElementById('addressContainer').addEventListener('click', function(event) {
         if (event.target.closest('.remove-address')) {
             removeAddress(event.target.closest('.remove-address'));
@@ -22,9 +68,12 @@ function addAddress() {
 
     inputGroup.innerHTML = `
         <div class="address-group">
-            <input type="text" class="form-control mb-1" name="streets" placeholder="Street Name">
-            <input type="text" class="form-control mb-1" name="cities" placeholder="City">
-            <input type="text" class="form-control" name="provinces" placeholder="Province">
+            <input type="text" class="form-control mb-1" name="streets" placeholder="Street Name" required>
+            <div class="invalid-feedback">Trường này cần giá trị đầu vào</div>
+            <input type="text" class="form-control mb-1" name="cities" placeholder="City" required>
+            <div class="invalid-feedback">Trường này cần giá trị đầu vào</div>
+            <input type="text" class="form-control" name="provinces" placeholder="Province" required>
+            <div class="invalid-feedback">Trường này cần giá trị đầu vào</div>
         </div>
         <button type="button" class="btn btn-danger remove-address">
             <i class="bi bi-x"></i>

@@ -559,6 +559,7 @@
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/read_user/skill.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/read_user/date_of_birth.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/read_user/full_name.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/read_user/validate_fields.js"></script>
 
 </body>
 </html>

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -45,6 +46,7 @@ public class ManagerDocAppConfig implements WebMvcConfigurer {
         StringHttpMessageConverter stringConverter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
         converters.add(stringConverter);
         // Add other converters if necessary
+        converters.add(new ResourceHttpMessageConverter());
     }
 
     @Override
@@ -60,8 +62,6 @@ public class ManagerDocAppConfig implements WebMvcConfigurer {
         resolver.setDefaultEncoding("utf-8");
         return resolver;
     }
-
-
 
 
 }

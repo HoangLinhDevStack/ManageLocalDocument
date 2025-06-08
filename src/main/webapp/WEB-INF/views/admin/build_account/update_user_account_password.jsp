@@ -163,5 +163,6 @@
 
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/update_password_user/announce.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/js/admin/update_password_user/validate.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/admin/update_password_user/toggle_password.js"></script>
 </body>
 </html>

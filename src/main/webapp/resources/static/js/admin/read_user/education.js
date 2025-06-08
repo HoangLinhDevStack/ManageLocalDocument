@@ -5,18 +5,35 @@ document.addEventListener('DOMContentLoaded', function() { // # Handle with educ
     // Restore Education button listener
     document.getElementById('restoreBtn').addEventListener('click', restoreEducation);
 
+    // Add validation to form submission
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+        const educationInputs = document.querySelectorAll('.educations-input');
+        let isValid = true;
+        
+        educationInputs.forEach(input => {
+            if (!input.value.trim()) {
+                input.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+        
+        if (!isValid) {
+            event.preventDefault();
+            document.getElementById('submit').disabled = true;
+            return false;
+        }
+        
+        document.getElementById('submit').disabled = false;
+    });
+
     // Event delegation for removing education
-    // document.querySelectorAll(".education-inputs").forEach(input => {
-    //     input.addEventListener("input", detectAddEducation(input));
-    // });
-
-
     document.getElementById('educationContainer').addEventListener('click', function(event) {
         if (event.target.closest('.remove-education')) {
             removeEducation(event.target.closest('.remove-education'));
         }
     });
-
 });
 
 let educationIndex = document.querySelectorAll("[name^='educations']").length;
@@ -25,23 +42,15 @@ function addEducation() {
     const container = document.getElementById('educationContainer');
     const newIndex = container.children.length;
 
-
-
     educationIndex++;
 
     const inputGroup = document.createElement('div');
     inputGroup.className = 'input-group mb-2';
 
-    // inputGroup.innerHTML = `
-    //     <input type="text" class="form-control" name="educationList" placeholder="Education">
-    //     <button type="button" class="btn btn-danger remove-education">
-    //         <i class="bi bi-x"></i>
-    //     </button>
-    // `;
-
     inputGroup.innerHTML = `
         <div class="education-group" style="display: flex; align-items: center;">
-            <input name="educations" class="form-control educations-input" placeholder="School" style="margin-right: 10px;" >
+            <input name="educations" class="form-control educations-input" placeholder="School" style="margin-right: 10px;" required>
+            <div class="invalid-feedback">Trường này cần giá trị đầu vào</div>
             <button 
                 type="button" 
                 class="btn btn-danger remove-education">
