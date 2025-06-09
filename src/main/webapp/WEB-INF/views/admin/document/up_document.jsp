@@ -84,68 +84,136 @@
                         </c:if>
 
 
-                        <form id="uploadForm" action="${pageContext.request.contextPath}/ManagerBook/admin/super/up-document/upload"
-                              method="POST" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="title" class="form-label">File Title</label>
-                                <input type="text" name="title" class="form-control" id="title" readonly />
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="documentStore" class="form-label">Select Document Store</label>
-                                <select name="documentStoreId" class="form-select" id="documentStore" >
-                                    <option value="" disabled selected>Chọn kho tài liệu</option>
-                                    <c:forEach var="documentStore" items="${documentStores}">
-                                        <option value="${documentStore.key}">${documentStore.value}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Select Genres</label>
-                                <div class="d-flex flex-wrap gap-2 p-2 border rounded bg-light shadow-sm" id="selectedGenres" style="min-height: 45px;">
-                                    <span class="text-muted" id="genrePlaceholder">Chọn thể loại từ danh sách bên dưới</span>
+                        <sec:authorize access="hasAuthority('Super')">
+                            <form id="uploadForm" action="${pageContext.request.contextPath}/ManagerBook/admin/super/up-document/upload"
+                                  method="POST" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">File Title</label>
+                                    <input type="text" name="title" class="form-control" id="title" readonly />
                                 </div>
-                                <select class="form-select" id="genreSelect">
-                                    <option value="" disabled selected>Chọn thể loại</option>
-                                    <c:forEach var="genre" items="${genres}">
-                                        <option value="${genre.key}">${genre.value}</option>
-                                    </c:forEach>
-                                </select>
-                                <input type="hidden" name="genreIdsStr" id="genreIdsStr"/>
-                            </div>
 
-                            <div class="mb-3">
-                                <label for="file" class="form-label">Upload Document</label>
-                                <input type="file" name="fileData" class="form-control file-input" id="file" accept=".pdf,.docx,.xlsx" required />
-                                <div class="error-message btn-secondary" id="fileError"></div>
-                            </div>
+                                <div class="mb-3">
+                                    <label for="documentStore" class="form-label">Select Document Store</label>
+                                    <select name="documentStoreId" class="form-select" id="documentStore" >
+                                        <option value="" disabled selected>Chọn kho tài liệu</option>
+                                        <c:forEach var="documentStore" items="${documentStores}">
+                                            <option value="${documentStore.key}">${documentStore.value}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
 
-                            <div class="mb-3">
-                                <label for="status" class="form-label">Trạng thái</label>
-                                <select name="status" class="form-select" id="status">
-                                    <option value="" disabled selected>Chọn trạng thái</option>
-                                    <c:forEach var="status" items="${statusList}" varStatus="loop">
-                                        <c:if test="${!loop.last}">
-                                            <option value="${status}">${status}</option>
-                                        </c:if>
-                                    </c:forEach>
-                                </select>
-                            </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Select Genres</label>
+                                    <div class="d-flex flex-wrap gap-2 p-2 border rounded bg-light shadow-sm" id="selectedGenres" style="min-height: 45px;">
+                                        <span class="text-muted" id="genrePlaceholder">Chọn thể loại từ danh sách bên dưới</span>
+                                    </div>
+                                    <select class="form-select" id="genreSelect">
+                                        <option value="" disabled selected>Chọn thể loại</option>
+                                        <c:forEach var="genre" items="${genres}">
+                                            <option value="${genre.key}">${genre.value}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <input type="hidden" name="genreIdsStr" id="genreIdsStr"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="file" class="form-label">Upload Document</label>
+                                    <input type="file" name="fileData" class="form-control file-input" id="file" accept=".pdf,.docx,.xlsx" required />
+                                    <div class="error-message btn-secondary" id="fileError"></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Trạng thái</label>
+                                    <select name="status" class="form-select" id="status">
+                                        <option value="" disabled selected>Chọn trạng thái</option>
+                                        <c:forEach var="status" items="${statusList}" varStatus="loop">
+                                            <c:if test="${!loop.last}">
+                                                <option value="${status}">${status}</option>
+                                            </c:if>
+                                        </c:forEach>
+                                    </select>
+                                </div>
 
 
-                            <div class="mb-3">
-                                <label for="author" class="form-label">Author</label>
-                                <input type="text" name="author" class="form-control" id="author"/>
-                            </div>
+                                <div class="mb-3">
+                                    <label for="author" class="form-label">Author</label>
+                                    <input type="text" name="author" class="form-control" id="author"/>
+                                </div>
 
-                            <div class="progress mt-3" style="display: none;">
-                                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                            </div>
-                            <div id="uploadMessage" class="mt-2"></div>
+                                <div class="progress mt-3" style="display: none;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                                <div id="uploadMessage" class="mt-2"></div>
 
-                            <button type="submit" class="btn btn-primary btn-submit w-100">Upload Document</button>
-                        </form>
+                                <button type="submit" class="btn btn-primary btn-submit w-100">Upload Document</button>
+                            </form>
+                        </sec:authorize>
+
+
+                        <sec:authorize access="hasAuthority('Manager')">
+                            <form id="uploadForm" action="${pageContext.request.contextPath}/ManagerBook/admin/manager/up-document/upload"
+                                  method="POST" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">File Title</label>
+                                    <input type="text" name="title" class="form-control" id="title" readonly />
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="documentStore" class="form-label">Select Document Store</label>
+                                    <select name="documentStoreId" class="form-select" id="documentStore" >
+                                        <option value="" disabled selected>Chọn kho tài liệu</option>
+                                        <c:forEach var="documentStore" items="${documentStores}">
+                                            <option value="${documentStore.key}">${documentStore.value}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Select Genres</label>
+                                    <div class="d-flex flex-wrap gap-2 p-2 border rounded bg-light shadow-sm" id="selectedGenres" style="min-height: 45px;">
+                                        <span class="text-muted" id="genrePlaceholder">Chọn thể loại từ danh sách bên dưới</span>
+                                    </div>
+                                    <select class="form-select" id="genreSelect">
+                                        <option value="" disabled selected>Chọn thể loại</option>
+                                        <c:forEach var="genre" items="${genres}">
+                                            <option value="${genre.key}">${genre.value}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <input type="hidden" name="genreIdsStr" id="genreIdsStr"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="file" class="form-label">Upload Document</label>
+                                    <input type="file" name="fileData" class="form-control file-input" id="file" accept=".pdf,.docx,.xlsx" required />
+                                    <div class="error-message btn-secondary" id="fileError"></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Trạng thái</label>
+                                    <select name="status" class="form-select" id="status">
+                                        <option value="" disabled selected>Chọn trạng thái</option>
+                                        <c:forEach var="status" items="${statusList}" varStatus="loop">
+                                            <c:if test="${!loop.last}">
+                                                <option value="${status}">${status}</option>
+                                            </c:if>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="author" class="form-label">Author</label>
+                                    <input type="text" name="author" class="form-control" id="author"/>
+                                </div>
+
+                                <div class="progress mt-3" style="display: none;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                                <div id="uploadMessage" class="mt-2"></div>
+
+                                <button type="submit" class="btn btn-primary btn-submit w-100">Upload Document</button>
+                            </form>
+                        </sec:authorize>
 
                     </div>
                 </div>

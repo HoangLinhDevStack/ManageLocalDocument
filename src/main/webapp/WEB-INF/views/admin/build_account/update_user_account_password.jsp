@@ -85,38 +85,73 @@
                                 <small class="text-muted">@${user.userAccount.username}</small>
                             </div>
 
-                            <form:form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/update-password-user" method="post" class="form-signin" modelAttribute="user">
-                            <input type="hidden" name="IDUser" value="${user.id}"/>
-                                <div class="form-group mb-3">
-                                    <label for="newPassword">Mật khẩu mới</label>
-                                    <input type="password" name="password" class="form-control form-control-lg" id="newPassword" placeholder="Nhập mật khẩu mới của bạn">
-                                </div>
+                            <sec:authorize access="hasAuthority('Super')">
+                                <form:form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/update-password-user" method="post" class="form-signin" modelAttribute="user">
+                                    <input type="hidden" name="IDUser" value="${user.id}"/>
+                                    <div class="form-group mb-3">
+                                        <label for="newPassword">Mật khẩu mới</label>
+                                        <input type="password" name="password" class="form-control form-control-lg" id="newPassword" placeholder="Nhập mật khẩu mới của bạn">
+                                    </div>
 
-                                <!-- Submit Button with enhanced style -->
-                                <div class="text-center">
-                                    <input type="button" id="submitButton" value="Thay đổi mật khẩu" class="btn btn-primary btn-lg w-100 p-2 shadow-lg" style="background-color: #007bff; border-color: #007bff; transition: all 0.3s ease;">
-                                </div>
+                                    <!-- Submit Button with enhanced style -->
+                                    <div class="text-center">
+                                        <input type="button" id="submitButton" value="Thay đổi mật khẩu" class="btn btn-primary btn-lg w-100 p-2 shadow-lg" style="background-color: #007bff; border-color: #007bff; transition: all 0.3s ease;">
+                                    </div>
 
-                                <!-- * Bootstrap Modal for update password confirmation -->
-                                <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="confirmModalLabel">Xác nhận cập nhật</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Bạn có muốn thay đổi mật khẩu không?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                                                <button type="submit" class="btn btn-primary" id="confirmYes">Đồng ý</button>
+                                    <!-- * Bootstrap Modal for update password confirmation -->
+                                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="confirmModalLabel">Xác nhận cập nhật</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Bạn có muốn thay đổi mật khẩu không?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                    <button type="submit" class="btn btn-primary" id="confirmYes">Đồng ý</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form:form>
+                            </sec:authorize>
 
-                            </form:form>
+                            <sec:authorize access="hasAuthority('Manager')">
+                                <form:form action="${pageContext.request.contextPath}/ManagerBook/admin/manager/update-account/update-password-user" method="post" class="form-signin" modelAttribute="user">
+                                    <input type="hidden" name="IDUser" value="${user.id}"/>
+                                    <div class="form-group mb-3">
+                                        <label for="newPassword">Mật khẩu mới</label>
+                                        <input type="password" name="password" class="form-control form-control-lg" id="newPassword" placeholder="Nhập mật khẩu mới của bạn">
+                                    </div>
+
+                                    <!-- Submit Button with enhanced style -->
+                                    <div class="text-center">
+                                        <input type="button" id="submitButton" value="Thay đổi mật khẩu" class="btn btn-primary btn-lg w-100 p-2 shadow-lg" style="background-color: #007bff; border-color: #007bff; transition: all 0.3s ease;">
+                                    </div>
+
+                                    <!-- * Bootstrap Modal for update password confirmation -->
+                                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="confirmModalLabel">Xác nhận cập nhật</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Bạn có muốn thay đổi mật khẩu không?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                    <button type="submit" class="btn btn-primary" id="confirmYes">Đồng ý</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form:form>
+                            </sec:authorize>
 
                         </div>
                     </div>

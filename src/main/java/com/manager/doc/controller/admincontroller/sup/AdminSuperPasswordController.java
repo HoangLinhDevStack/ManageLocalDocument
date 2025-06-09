@@ -1,4 +1,4 @@
-package com.manager.doc.controller.admincontroller;
+package com.manager.doc.controller.admincontroller.sup;
 
 import com.manager.doc.service.admin.account.AdminPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/admin/password")
-public class AdminPasswordController {
+@RequestMapping("/admin/super/password")
+public class AdminSuperPasswordController {
 
     @Autowired
     private AdminPasswordService adminPasswordService;

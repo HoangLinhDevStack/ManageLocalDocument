@@ -60,7 +60,7 @@
                                         <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png" alt="Word" class="file-icon">
                                     </c:when>
                                     <c:when test="${fn:endsWith(fn:toLowerCase(filePath), '.xlsx') || fn:endsWith(fn:toLowerCase(filePath), '.xls')}">
-                                        <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png" alt="Excel" class="file-icon">
+                                        <img src="${pageContext.request.contextPath}/resources/static/images/excel_732220.png" alt="Excel" class="file-icon">
                                     </c:when>
                                     <c:otherwise>
                                         <img src="${pageContext.request.contextPath}/resources/static/images/dots_16178698.png" alt="File" class="file-icon">
@@ -68,14 +68,29 @@
                                 </c:choose>
                                 <h4 class="mb-0 ms-3">${document.title}</h4>
 
-                                <div class="d-flex ms-auto">
-                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document" class="btn btn-secondary me-2">
-                                        <i class="bi bi-arrow-left"></i> Quay lại danh sách
-                                    </a>
-                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin" class="btn btn-primary">
-                                        <i class="bi bi-house"></i> Home
-                                    </a>
-                                </div>
+
+                                <sec:authorize access="hasAuthority('Super')">
+                                    <div class="d-flex ms-auto">
+                                        <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document" class="btn btn-secondary me-2">
+                                            <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                                        </a>
+                                        <a href="${pageContext.request.contextPath}/ManagerBook/admin" class="btn btn-primary">
+                                            <i class="bi bi-house"></i> Home
+                                        </a>
+                                    </div>
+                                </sec:authorize>
+
+                                <sec:authorize access="hasAuthority('Manager')">
+                                    <div class="d-flex ms-auto">
+                                        <a href="${pageContext.request.contextPath}/ManagerBook/admin/manager/list-document" class="btn btn-secondary me-2">
+                                            <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                                        </a>
+                                        <a href="${pageContext.request.contextPath}/ManagerBook/admin" class="btn btn-primary">
+                                            <i class="bi bi-house"></i> Home
+                                        </a>
+                                    </div>
+                                </sec:authorize>
+
 
                             </div>
                             <div class="mt-2">
@@ -88,74 +103,151 @@
                             </div>
                         </div>
 
-                        <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-document/${document.id}"
-                              method="POST"
-                              onsubmit="return confirm('Bạn có chắc chắn muốn cập nhật tài liệu này?');">
-                            <div class="mb-3">
-                                <label for="documentStore" class="form-label">Select Document Store</label>
-                                <select name="documentStoreId" class="form-select" id="documentStore">
-                                    <option value="" disabled>Chọn kho tài liệu</option>
-                                    <c:forEach var="documentStore" items="${documentStores}">
-                                        <option value="${documentStore.key}"
-                                                <c:if test="${idDocumentStoreOfIDDocument != null && idDocumentStoreOfIDDocument == documentStore.key}">
-                                                    selected
-                                                </c:if>>
-                                                ${documentStore.value}
-                                        </option>
-                                    </c:forEach>
-                                </select>
+                        <sec:authorize access="hasAuthority('Super')">
+                            <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-document/${document.id}"
+                                  method="POST"
+                                  onsubmit="return confirm('Bạn có chắc chắn muốn cập nhật tài liệu này?');">
+                                <div class="mb-3">
+                                    <label for="documentStore" class="form-label">Select Document Store</label>
+                                    <select name="documentStoreId" class="form-select" id="documentStore">
+                                        <option value="" disabled>Chọn kho tài liệu</option>
+                                        <c:forEach var="documentStore" items="${documentStores}">
+                                            <option value="${documentStore.key}"
+                                                    <c:if test="${idDocumentStoreOfIDDocument != null && idDocumentStoreOfIDDocument == documentStore.key}">
+                                                        selected
+                                                    </c:if>>
+                                                    ${documentStore.value}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
 
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Select Genres</label>
-                                <div class="d-flex flex-wrap gap-2 p-2 border rounded bg-light shadow-sm" id="selectedGenres" style="min-height: 45px;">
-                                    <c:forEach var="genre" items="${document.genres}">
-<%--                                        <span class="badge-genre position-relative me-2 mb-2">--%>
-                                            <input type="hidden" name="currentGenreIds" value="${genre.id}">
-<%--                                        </span>--%>
-                                    </c:forEach>
-                                    <span class="text-muted" id="genrePlaceholder" style="display: ${empty document.genres ? 'inline' : 'none'}">Chọn thể loại từ danh sách bên dưới</span>
                                 </div>
-                                <select class="form-select" id="genreSelect">
-                                    <option value="" disabled selected>Chọn thể loại</option>
-                                    <c:forEach var="genre" items="${genres}">
-                                        <c:set var="isSelected" value="false" />
-                                        <c:forEach var="docGenre" items="${document.genres}">
-                                            <c:if test="${genre.key == docGenre.id}">
-                                                <c:set var="isSelected" value="true" />
+
+                                <div class="mb-3">
+                                    <label class="form-label">Select Genres</label>
+                                    <div class="d-flex flex-wrap gap-2 p-2 border rounded bg-light shadow-sm" id="selectedGenres" style="min-height: 45px;">
+                                        <c:forEach var="genre" items="${document.genres}">
+    <%--                                        <span class="badge-genre position-relative me-2 mb-2">--%>
+                                                <input type="hidden" name="currentGenreIds" value="${genre.id}">
+    <%--                                        </span>--%>
+                                        </c:forEach>
+                                        <span class="text-muted" id="genrePlaceholder" style="display: ${empty document.genres ? 'inline' : 'none'}">Chọn thể loại từ danh sách bên dưới</span>
+                                    </div>
+                                    <select class="form-select" id="genreSelect">
+                                        <option value="" disabled selected>Chọn thể loại</option>
+                                        <c:forEach var="genre" items="${genres}">
+                                            <c:set var="isSelected" value="false" />
+                                            <c:forEach var="docGenre" items="${document.genres}">
+                                                <c:if test="${genre.key == docGenre.id}">
+                                                    <c:set var="isSelected" value="true" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <option value="${genre.key}" ${isSelected ? 'disabled' : ''}>${genre.value}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <input type="hidden" name="genreIdsStr" id="genreIdsStr"/>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Trạng thái</label>
+                                    <select name="status" class="form-select" id="status">
+                                        <!-- Tùy chọn mặc định từ document -->
+                                        <option value="${document.status}" selected>${document.status}</option>
+
+                                        <!-- Các trạng thái khác, trừ 'Rejected' và trạng thái hiện tại -->
+                                        <c:forEach var="status" items="${statusList}">
+                                            <c:if test="${status != 'Rejected' && status != document.status}">
+                                                <option value="${status}">${status}</option>
                                             </c:if>
                                         </c:forEach>
-                                        <option value="${genre.key}" ${isSelected ? 'disabled' : ''}>${genre.value}</option>
-                                    </c:forEach>
-                                </select>
-                                <input type="hidden" name="genreIdsStr" id="genreIdsStr"/>
-                            </div>
+                                    </select>
+                                </div>
 
 
-                            <div class="mb-3">
-                                <label for="status" class="form-label">Trạng thái</label>
-                                <select name="status" class="form-select" id="status">
-                                    <!-- Tùy chọn mặc định từ document -->
-                                    <option value="${document.status}" selected>${document.status}</option>
+                                <div class="mb-3">
+                                    <label for="author" class="form-label">Author</label>
+                                    <input type="text" name="author" class="form-control" id="author" value="${document.author}"/>
+                                </div>
 
-                                    <!-- Các trạng thái khác, trừ 'Rejected' và trạng thái hiện tại -->
-                                    <c:forEach var="status" items="${statusList}">
-                                        <c:if test="${status != 'Rejected' && status != document.status}">
-                                            <option value="${status}">${status}</option>
-                                        </c:if>
-                                    </c:forEach>
-                                </select>
-                            </div>
+                                <button type="submit" class="btn btn-primary btn-submit w-100">Update Document</button>
+                            </form>
+                        </sec:authorize>
 
 
-                            <div class="mb-3">
-                                <label for="author" class="form-label">Author</label>
-                                <input type="text" name="author" class="form-control" id="author" value="${document.author}"/>
-                            </div>
+                        <sec:authorize access="hasAuthority('Manager')">
+                            <form action="${pageContext.request.contextPath}/ManagerBook/admin/manager/update-document/${document.id}"
+                                  method="POST"
+                                  onsubmit="return confirm('Bạn có chắc chắn muốn cập nhật tài liệu này?');">
+                                <div class="mb-3">
+                                    <label for="documentStore" class="form-label">Select Document Store</label>
+                                    <select name="documentStoreId" class="form-select" id="documentStore">
+                                        <option value="" disabled>Chọn kho tài liệu</option>
+                                        <c:forEach var="documentStore" items="${documentStores}">
+                                            <option value="${documentStore.key}"
+                                                    <c:if test="${idDocumentStoreOfIDDocument != null && idDocumentStoreOfIDDocument == documentStore.key}">
+                                                        selected
+                                                    </c:if>>
+                                                    ${documentStore.value}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
 
-                            <button type="submit" class="btn btn-primary btn-submit w-100">Update Document</button>
-                        </form>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Select Genres</label>
+                                    <div class="d-flex flex-wrap gap-2 p-2 border rounded bg-light shadow-sm" id="selectedGenres" style="min-height: 45px;">
+                                        <c:forEach var="genre" items="${document.genres}">
+                                            <%--                                        <span class="badge-genre position-relative me-2 mb-2">--%>
+                                            <input type="hidden" name="currentGenreIds" value="${genre.id}">
+                                            <%--                                        </span>--%>
+                                        </c:forEach>
+                                        <span class="text-muted" id="genrePlaceholder" style="display: ${empty document.genres ? 'inline' : 'none'}">Chọn thể loại từ danh sách bên dưới</span>
+                                    </div>
+                                    <select class="form-select" id="genreSelect">
+                                        <option value="" disabled selected>Chọn thể loại</option>
+                                        <c:forEach var="genre" items="${genres}">
+                                            <c:set var="isSelected" value="false" />
+                                            <c:forEach var="docGenre" items="${document.genres}">
+                                                <c:if test="${genre.key == docGenre.id}">
+                                                    <c:set var="isSelected" value="true" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <option value="${genre.key}" ${isSelected ? 'disabled' : ''}>${genre.value}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <input type="hidden" name="genreIdsStr" id="genreIdsStr"/>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Trạng thái</label>
+                                    <select name="status" class="form-select" id="status">
+                                        <!-- Tùy chọn mặc định từ document -->
+                                        <option value="${document.status}" selected>${document.status}</option>
+
+                                        <!-- Các trạng thái khác, trừ 'Rejected' và trạng thái hiện tại -->
+                                        <c:forEach var="status" items="${statusList}">
+                                            <c:if test="${status != 'Rejected' && status != document.status}">
+                                                <option value="${status}">${status}</option>
+                                            </c:if>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="author" class="form-label">Author</label>
+                                    <input type="text" name="author" class="form-control" id="author" value="${document.author}"/>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-submit w-100">Update Document</button>
+                            </form>
+                        </sec:authorize>
+
+
+
                     </div>
                 </div>
             </div>

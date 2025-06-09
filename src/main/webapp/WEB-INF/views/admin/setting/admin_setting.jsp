@@ -161,26 +161,53 @@
                                 <c:if test="${not empty passwordSuccess}">
                                     <div class="alert alert-success">${passwordSuccess}</div>
                                 </c:if>
-                                
-                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/password/change" method="post">
-                                    <div class="form-group mb-3">
-                                        <label for="currentPassword">Mật khẩu hiện tại</label>
-                                        <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="newPassword">Mật khẩu mới</label>
-                                        <input type="password" class="form-control" id="newPassword" name="newPassword" required 
-                                               minlength="6" oninput="checkPasswordMatch()">
-                                        <small class="form-text text-muted">Mật khẩu phải có ít nhất 6 ký tự</small>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="confirmPassword">Xác nhận mật khẩu mới</label>
-                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
-                                               oninput="checkPasswordMatch()">
-                                        <div id="passwordMatchMessage" class="form-text"></div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary w-100" id="changePasswordBtn">Đổi mật khẩu</button>
-                                </form>
+
+                                <sec:authorize access="hasAuthority('Super')">
+
+                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/password/change" method="post">
+                                        <div class="form-group mb-3">
+                                            <label for="currentPassword">Mật khẩu hiện tại</label>
+                                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="newPassword">Mật khẩu mới</label>
+                                            <input type="password" class="form-control" id="newPassword" name="newPassword" required
+                                                   minlength="6" oninput="checkPasswordMatch()">
+                                            <small class="form-text text-muted">Mật khẩu phải có ít nhất 6 ký tự</small>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="confirmPassword">Xác nhận mật khẩu mới</label>
+                                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
+                                                   oninput="checkPasswordMatch()">
+                                            <div id="passwordMatchMessage" class="form-text"></div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100" id="changePasswordBtn">Đổi mật khẩu</button>
+                                    </form>
+                                </sec:authorize>
+
+                                <sec:authorize access="hasAuthority('Manager')">
+
+                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/manager/password/change" method="post">
+                                        <div class="form-group mb-3">
+                                            <label for="currentPassword">Mật khẩu hiện tại</label>
+                                            <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="newPassword">Mật khẩu mới</label>
+                                            <input type="password" class="form-control" id="newPassword" name="newPassword" required
+                                                   minlength="6" oninput="checkPasswordMatch()">
+                                            <small class="form-text text-muted">Mật khẩu phải có ít nhất 6 ký tự</small>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="confirmPassword">Xác nhận mật khẩu mới</label>
+                                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
+                                                   oninput="checkPasswordMatch()">
+                                            <div id="passwordMatchMessage" class="form-text"></div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100" id="changePasswordBtn">Đổi mật khẩu</button>
+                                    </form>
+                                </sec:authorize>
+
                             </div>
 
                             <!-- Phần cài đặt Chế độ sáng tối -->

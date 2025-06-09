@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <nav class="header navbar navbar-expand-lg bg-body-tertiary d-flex">
     <div class="container-fluid flex-fill">
@@ -14,9 +15,16 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/ManagerBook/admin">Home</a>
                 </li>
+                <sec:authorize access="hasAuthority('Super')">
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/ManagerBook/admin/super/create-account">Tạo tài khoản</a>
                 </li>
+                </sec:authorize>
+                <sec:authorize access="hasAuthority('Manager')">
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/ManagerBook/admin/manager/create-account">Tạo tài khoản</a>
+                </li>
+                </sec:authorize>
 
             </ul>
             <form class="d-flex" role="search">
@@ -31,7 +39,7 @@
                         </a>
 
                         <ul class="dropdown-menu">
-
+                            <sec:authorize access="hasAuthority('Super')">
                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ManagerBook/admin/super/setting">
                                 <i class="bi bi-person-badge-fill"></i>
                                 Cài đặt
@@ -44,6 +52,23 @@
                                 <i class="bi bi-info-circle-fill"></i>
                                 Thông tin
                             </a></li>
+                            </sec:authorize>
+                            
+                            <sec:authorize access="hasAuthority('Manager')">
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ManagerBook/admin/manager/setting">
+                                <i class="bi bi-person-badge-fill"></i>
+                                Cài đặt
+                            </a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ManagerBook/admin/manager/update-account/admin-yourself">
+                                <i class="bi bi-brush-fill"></i>
+                                Cập nhập
+                            </a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/ManagerBook/admin/manager/list-account/read-yourself">
+                                <i class="bi bi-info-circle-fill"></i>
+                                Thông tin
+                            </a></li>
+                            </sec:authorize>
+                            
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

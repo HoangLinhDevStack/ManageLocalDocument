@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" pageEncoding="utf-8" %>
 <html>
 
@@ -259,8 +260,14 @@
                                                              class="avatar-md img-thumbnail rounded-circle me-2"/>
                                                         <div>
                                                             <c:if test="${not empty item.name}">
+                                                                <sec:authorize access="hasAuthority('Super')">
                                                                 <a class="primary-link"
                                                                    href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/user/${item.id}">${item.name}</a>
+                                                                </sec:authorize>
+                                                                <sec:authorize access="hasAuthority('Manager')">
+                                                                <a class="primary-link"
+                                                                   href="${pageContext.request.contextPath}/ManagerBook/admin/manager/update-account/user/${item.id}">${item.name}</a>
+                                                                </sec:authorize>
                                                             </c:if>
                                                             <c:if test="${empty item.name}">
                                                                 <a class="primary-link" href="#">(Chưa cập nhật)</a>
@@ -302,21 +309,42 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex gap-2">
+                                                        <sec:authorize access="hasAuthority('Super')">
                                                         <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/user/${item.id}"
                                                            class="btn btn-sm btn-primary">
                                                             <i class="bi bi-wrench"></i>
                                                         </a>
+                                                        </sec:authorize>
+                                                        <sec:authorize access="hasAuthority('Manager')">
+                                                        <a href="${pageContext.request.contextPath}/ManagerBook/admin/manager/update-account/user/${item.id}"
+                                                           class="btn btn-sm btn-primary">
+                                                            <i class="bi bi-wrench"></i>
+                                                        </a>
+                                                        </sec:authorize>
                                                         <c:choose>
                                                             <c:when test="${item.userAccount.enable == 0}">
-                                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/delete-account/user/${item.id}"
-                                                                      method="get"
-                                                                      style="display: inline;"
-                                                                      onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài khoản này?');">
-                                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                                                    <button type="submit" class="btn btn-sm btn-danger">
-                                                                        <i class="bi bi-trash"></i>
-                                                                    </button>
-                                                                </form>
+                                                                <sec:authorize access="hasAuthority('Super')">
+                                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/delete-account/user/${item.id}"
+                                                                          method="get"
+                                                                          style="display: inline;"
+                                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài khoản này?');">
+                                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                                        <button type="submit" class="btn btn-sm btn-danger">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </sec:authorize>
+<%--                                                                <sec:authorize access="hasAuthority('Manager')">--%>
+<%--                                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/manager/delete-account/user/${item.id}"--%>
+<%--                                                                          method="get"--%>
+<%--                                                                          style="display: inline;"--%>
+<%--                                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài khoản này?');">--%>
+<%--                                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
+<%--                                                                        <button type="submit" class="btn btn-sm btn-danger">--%>
+<%--                                                                            <i class="bi bi-trash"></i>--%>
+<%--                                                                        </button>--%>
+<%--                                                                    </form>--%>
+<%--                                                                </sec:authorize>--%>
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <button type="button" class="btn btn-sm btn-danger" disabled title="Không thể xóa tài khoản đã kích hoạt">
@@ -332,6 +360,7 @@
                                                             </button>
                                                             <ul class="dropdown-menu">
                                                                 <li>
+                                                                    <sec:authorize access="hasAuthority('Super')">
                                                                     <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/toggle-account-status/${item.id}"
                                                                           method="post"
                                                                           style="margin: 0;"
@@ -341,12 +370,32 @@
                                                                             <span>${item.userAccount.enable == 1 ? 'Vô hiệu hóa tài khoản' : 'Kích hoạt tài khoản'}</span>
                                                                         </button>
                                                                     </form>
+                                                                    </sec:authorize>
+                                                                    <sec:authorize access="hasAuthority('Manager')">
+                                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/manager/update-account/toggle-account-status/${item.id}"
+                                                                          method="post"
+                                                                          style="margin: 0;"
+                                                                          onsubmit="return confirm('Bạn có chắc chắn muốn ${item.userAccount.enable == 1 ? ' vô hiệu hóa' : ' kích hoạt'} tài khoản này không?');">
+                                                                        <button type="submit" class="dropdown-item">
+                                                                            <i class="bi ${item.userAccount.enable == 1 ? 'bi-x-circle-fill text-danger' : 'bi-check-circle-fill text-primary'}"></i>
+                                                                            <span>${item.userAccount.enable == 1 ? 'Vô hiệu hóa tài khoản' : 'Kích hoạt tài khoản'}</span>
+                                                                        </button>
+                                                                    </form>
+                                                                    </sec:authorize>
                                                                 </li>
                                                                 <li>
+                                                                    <sec:authorize access="hasAuthority('Super')">
                                                                     <a class="dropdown-item"
                                                                        href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-account/user-account-password/${item.id}">
                                                                         <i class="bi bi-key"></i> Đặt lại mật khẩu
                                                                     </a>
+                                                                    </sec:authorize>
+                                                                    <sec:authorize access="hasAuthority('Manager')">
+                                                                    <a class="dropdown-item"
+                                                                       href="${pageContext.request.contextPath}/ManagerBook/admin/manager/update-account/user-account-password/${item.id}">
+                                                                        <i class="bi bi-key"></i> Đặt lại mật khẩu
+                                                                    </a>
+                                                                    </sec:authorize>
                                                                 </li>
                                                             </ul>
                                                         </div>

@@ -5,13 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("admin/manager")
-public class AdminManagerController {
+@RequestMapping("/admin/manager/setting")
+public class AdminManagerSettingController {
 
-    @GetMapping // space working admin page
-    public String adminRedirect() {
-
-        return "admin/homepage";
+    @GetMapping
+    public String adminSetting() {
+        return "admin/setting/admin_setting";
     }
 
 }

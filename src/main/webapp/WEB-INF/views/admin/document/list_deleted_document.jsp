@@ -99,7 +99,7 @@
                                                         <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png" alt="Word" class="file-icon">
                                                     </c:when>
                                                     <c:when test="${fn:endsWith(fn:toLowerCase(filePath), '.xlsx') || fn:endsWith(fn:toLowerCase(filePath), '.xls')}">
-                                                        <img src="${pageContext.request.contextPath}/resources/static/images/docx-file_10260348.png" alt="Excel" class="file-icon">
+                                                        <img src="${pageContext.request.contextPath}/resources/static/images/excel_732220.png" alt="Excel" class="file-icon">
                                                     </c:when>
                                                     <c:otherwise>
                                                         <img src="${pageContext.request.contextPath}/resources/static/images/dots_16178698.png" alt="File" class="file-icon">
@@ -148,17 +148,48 @@
                                                     </form>
                                                 </sec:authorize>
 
-                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/restore/${document.id}"
-                                                      method="POST" 
-                                                      style="display: inline;"
-                                                      onsubmit="return confirm('Bạn có chắc chắn muốn khôi phục tài liệu này?');">
-                                                    <button type="submit" class="table-link success" style="background: none; border: none; padding: 0;">
-                                                        <span class="fa-stack">
-                                                            <i class="fa fa-square fa-stack-2x"></i>
-                                                            <i class="fa fa-undo fa-stack-1x fa-inverse"></i>
-                                                        </span>
-                                                    </button>
-                                                </form>
+
+                                                <sec:authorize access="hasAuthority('Super')">
+                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/restore/${document.id}"
+                                                          method="POST"
+                                                          style="display: inline;"
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn khôi phục tài liệu này?');">
+                                                        <button type="submit" class="table-link success" style="background: none; border: none; padding: 0;">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-undo fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </button>
+                                                    </form>
+                                                </sec:authorize>
+
+                                                <sec:authorize access="hasAuthority('Super')">
+                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/Super/list-document/restore/${document.id}"
+                                                          method="POST"
+                                                          style="display: inline;"
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn khôi phục tài liệu này?');">
+                                                        <button type="submit" class="table-link success" style="background: none; border: none; padding: 0;">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-undo fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </button>
+                                                    </form>
+                                                </sec:authorize>
+
+                                                <sec:authorize access="hasAuthority('Manager')">
+                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/manager/list-document/restore/${document.id}"
+                                                          method="POST"
+                                                          style="display: inline;"
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn khôi phục tài liệu này?');">
+                                                        <button type="submit" class="table-link success" style="background: none; border: none; padding: 0;">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-undo fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </button>
+                                                    </form>
+                                                </sec:authorize>
 
                                             </td>
                                         </tr>

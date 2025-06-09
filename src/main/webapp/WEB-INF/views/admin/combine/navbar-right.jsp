@@ -48,6 +48,7 @@
         </h4>
 
         <div class="list-group list-group-flush list-sidebar">
+            <sec:authorize access="hasAuthority('Super')">
             <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/up-document" class="list-sidebar-item list-group-item bg-body-secondary">
                 <i class="bi bi-cloud-arrow-up-fill"></i>
                 Đăng tải tài liệu
@@ -60,10 +61,6 @@
                 <i class="bi bi-trash-fill"></i>
                 Thùng rác
             </a>
-<%--            <a href="#" class="list-sidebar-item list-group-item bg-body-secondary">--%>
-<%--                <i class="bi bi-bookmark-star-fill"></i>--%>
-<%--                Báo cáo--%>
-<%--            </a>--%>
             <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/list-account" class="list-sidebar-item list-group-item bg-body-secondary">
                 <i class="bi bi-person-lines-fill"></i>
                 Danh sách người dùng
@@ -76,6 +73,30 @@
                 <i class="bi bi-gear-fill"></i>
                 Cài đặt
             </a>
+            </sec:authorize>
+
+            <sec:authorize access="hasAuthority('Manager')">
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/manager/up-document" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-cloud-arrow-up-fill"></i>
+                Đăng tải tài liệu
+            </a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/manager/list-document" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-list-columns-reverse"></i>
+                Danh sách tài liệu
+            </a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/manager/list-document/deleted" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-trash-fill"></i>
+                Thùng rác
+            </a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/manager/list-account" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-person-lines-fill"></i>
+                Danh sách người dùng
+            </a>
+            <a href="${pageContext.request.contextPath}/ManagerBook/admin/manager/setting" class="list-sidebar-item list-group-item bg-body-secondary">
+                <i class="bi bi-gear-fill"></i>
+                Cài đặt
+            </a>
+            </sec:authorize>
         </div>
 
         <div class="text-center mb-3 mt-3">

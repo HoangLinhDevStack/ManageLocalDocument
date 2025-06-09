@@ -148,32 +148,81 @@
                                                 <span class="label label-default">${documentService.formatFileSize(document.fileSize)}</span>
                                             </td>
                                             <td style="width: 20%;">
-                                                <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-document/${document.id}"
-                                                   class="table-link">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
-                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/delete/${document.id}"
-                                                      method="POST"
-                                                      style="display: inline;"
-                                                      onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?');">
-                                                    <button type="submit" class="table-link danger"
-                                                            style="background: none; border: none; padding: 0;">
+
+                                                <sec:authorize access="hasAuthority('Super')">
+                                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/update-document/${document.id}"
+                                                       class="table-link">
                                                         <span class="fa-stack">
                                                             <i class="fa fa-square fa-stack-2x"></i>
-                                                            <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                                         </span>
-                                                    </button>
-                                                </form>
+                                                    </a>
+                                                </sec:authorize>
 
-                                                <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/document/download/${document.id}" class="table-link" title="Tải xuống">
-                                                    <span class="fa-stack">
-                                                        <i class="fa fa-square fa-stack-2x"></i>
-                                                        <i class="fa fa-download fa-stack-1x fa-inverse"></i>
-                                                    </span>
-                                                </a>
+                                                <sec:authorize access="hasAuthority('Super')">
+                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/list-document/delete/${document.id}"
+                                                          method="POST"
+                                                          style="display: inline;"
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?');">
+                                                        <button type="submit" class="table-link danger"
+                                                                style="background: none; border: none; padding: 0;">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </button>
+                                                    </form>
+                                                </sec:authorize>
+
+
+                                                <sec:authorize access="hasAuthority('Super')">
+                                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin/super/document/download/${document.id}" class="table-link" title="Tải xuống">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </sec:authorize>
+
+
+
+
+                                                <sec:authorize access="hasAuthority('Manager')">
+                                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin/manager/update-document/${document.id}"
+                                                       class="table-link">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </sec:authorize>
+
+                                                <sec:authorize access="hasAuthority('Manager')">
+                                                    <form action="${pageContext.request.contextPath}/ManagerBook/admin/manager/list-document/delete/${document.id}"
+                                                          method="POST"
+                                                          style="display: inline;"
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?');">
+                                                        <button type="submit" class="table-link danger"
+                                                                style="background: none; border: none; padding: 0;">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </button>
+                                                    </form>
+                                                </sec:authorize>
+
+
+                                                <sec:authorize access="hasAuthority('Manager')">
+                                                    <a href="${pageContext.request.contextPath}/ManagerBook/admin/manager/document/download/${document.id}" class="table-link" title="Tải xuống">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </sec:authorize>
+
+
                                             </td>
                                         </tr>
                                     </c:forEach>

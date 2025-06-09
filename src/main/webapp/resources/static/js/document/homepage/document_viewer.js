@@ -1,6 +1,12 @@
 let currentDocId = null;
 let currentDocTitle = null;
 
+// Function to get the correct path based on user role
+function getRoleBasedPath() {
+    const userRole = document.querySelector('meta[name="user-role"]').getAttribute('content');
+    return userRole === 'Super' ? 'super' : 'manager';
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // DEBUG: Log tất cả data-doc-id trên trang khi DOM tải xong
     document.querySelectorAll('.file-card').forEach(card => {
@@ -63,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('updateDocBtn').addEventListener('click', function(e) {
         e.stopPropagation();
         if (currentDocId) {
-            window.location.href = contextPath + '/ManagerBook/admin/super/update-document/' + currentDocId;
+            window.location.href = contextPath + '/ManagerBook/admin/' + getRoleBasedPath() + '/update-document/' + currentDocId;
         }
         document.getElementById('fileContextMenu').style.display = 'none';
     });
@@ -93,12 +99,12 @@ function showDocViewer(docId, docTitle) {
     let filePath = clickedCard ? clickedCard.getAttribute('data-file-path') : '';
     
     if (filePath.toLowerCase().endsWith('.pdf')) {
-        iframe.src = contextPath + '/ManagerBook/admin/super/document/view/' + docId;
+        iframe.src = contextPath + '/ManagerBook/admin/' + getRoleBasedPath() + '/document/view/' + docId;
         console.log("Setting iframe src to:", iframe.src);
     } else {
         iframe.style.display = 'none';
         messageDiv.innerHTML = 'Tính năng đọc tài liệu cho loại file này sẽ được phát triển sau. ' +
-            '<br><a href="' + contextPath + '/ManagerBook/admin/super/document/view/' + docId +
+            '<br><a href="' + contextPath + '/ManagerBook/admin/' + getRoleBasedPath() + '/document/view/' + docId +
             '" target="_blank" class="btn btn-primary btn-sm mt-2">Tải xuống file hoặc mở trong tab mới</a>';
         messageDiv.style.display = 'block';
     }
