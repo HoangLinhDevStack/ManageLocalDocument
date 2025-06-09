@@ -306,10 +306,24 @@
                                                            class="btn btn-sm btn-primary">
                                                             <i class="bi bi-wrench"></i>
                                                         </a>
-                                                        <button class="btn btn-sm btn-danger"
-                                                                onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản này?')">
-                                                            <i class="bi bi-trash"></i>
-                                                        </button>
+                                                        <c:choose>
+                                                            <c:when test="${item.userAccount.enable == 0}">
+                                                                <form action="${pageContext.request.contextPath}/ManagerBook/admin/super/delete-account/user/${item.id}"
+                                                                      method="get"
+                                                                      style="display: inline;"
+                                                                      onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài khoản này?');">
+                                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <button type="button" class="btn btn-sm btn-danger" disabled title="Không thể xóa tài khoản đã kích hoạt">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </button>
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                         <div class="dropdown">
                                                             <button class="btn btn-sm btn-secondary dropdown-toggle"
                                                                     type="button"
